@@ -46,7 +46,7 @@ class Admin::TestersController < ApplicationController
       if @tester.save
         flash[:notice] = 'Tester was successfully created.'
         format.html { redirect_to([:admin, @tester]) }
-        format.xml  { render :xml => @tester, :status => :created, :location => @tester }
+        format.xml  { render :xml => @tester, :status => :created, :location => [:admin, @tester] }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @tester.errors, :status => :unprocessable_entity }

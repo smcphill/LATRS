@@ -46,7 +46,7 @@ class Admin::DepartmentsController < ApplicationController
       if @department.save
         flash[:notice] = 'Department was successfully created.'
         format.html { redirect_to([:admin, @department]) }
-        format.xml  { render :xml => @department, :status => :created, :location => @department }
+        format.xml  { render :xml => @department, :status => :created, :location => [:admin, @department] }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @department.errors, :status => :unprocessable_entity }

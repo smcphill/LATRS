@@ -46,7 +46,7 @@ class Admin::SourcesController < ApplicationController
       if @source.save
         flash[:notice] = 'Source was successfully created.'
         format.html { redirect_to([:admin, @source]) }
-        format.xml  { render :xml => @source, :status => :created, :location => @source }
+        format.xml  { render :xml => @source, :status => :created, :location => [:admin, @source] }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @source.errors, :status => :unprocessable_entity }
