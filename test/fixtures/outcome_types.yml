@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  is_required: false
+  is_general: false
+  is_limited: false
+
+two:
+  name: MyString
+  is_required: false
+  is_general: false
+  is_limited: false

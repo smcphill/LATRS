@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  code: MyString
+  time_in: 
+  time_out: 
+
+two:
+  code: MyString
+  time_in: 
+  time_out: 
