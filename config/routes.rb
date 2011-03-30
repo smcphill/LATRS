@@ -1,4 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
+
+  # admin routes
+  map.namespace :admin do |admin|
+    admin.resources :departments
+    admin.resources :sources
+    admin.resources :testers
+  end
+
+  map.resources :departments
+
+  map.resources :sources
+
+  map.resources :testers
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

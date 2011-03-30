@@ -1,0 +1,16 @@
+<h1>Editing tester</h1>
+
+<% form_for([:admin, @tester]) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', [:admin, @tester] %> |
+<%= link_to 'Back', admin_testers_path %>

@@ -1,0 +1,20 @@
+<h1>Listing sources</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+
+<% for source in @sources %>
+  <tr>
+    <td><%=h source.name %></td>
+    <td><%= link_to 'Show', [:admin, source] %></td>
+    <td><%= link_to 'Edit', edit_admin_source_path(source) %></td>
+    <td><%= link_to 'Destroy', [:admin, source], :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New source', new_admin_source_path %>
