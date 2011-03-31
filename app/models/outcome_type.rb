@@ -1,8 +1,8 @@
 class OutcomeType < ActiveRecord::Base
-  has_many :outcome_limits
-  has_many :test_outcomes
+  belongs_to :outcome_limit
+  belongs_to :test_outcome
   has_many :children, :class_name => "OutcomeType",
   :foreign_key => "parent_id"
   belongs_to :parent, :class_name => "OutcomeType"
-  belongs_to :test_type
+  has_many :test_types
 end

@@ -1,3 +1,3 @@
 class OutcomeLimit < ActiveRecord::Base
-  belongs_to :outcome_type
+  has_many :outcome_types
 end
