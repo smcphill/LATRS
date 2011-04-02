@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  is_general: false
+  is_required: false
+  template_id: 9.99
+
+two:
+  name: MyString
+  is_general: false
+  is_required: false
+  template_id: 9.99

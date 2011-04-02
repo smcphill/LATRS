@@ -9,72 +9,29 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110330083942) do
+ActiveRecord::Schema.define(:version => 20110402061927) do
 
-  create_table "departments", :force => true do |t|
+  create_table "fields", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "outcome_limits", :force => true do |t|
-    t.string   "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.decimal  "outcome_type_id"
-  end
-
-  create_table "outcome_types", :force => true do |t|
-    t.string   "name"
-    t.boolean  "is_required"
     t.boolean  "is_general"
-    t.boolean  "is_limited"
+    t.boolean  "is_required"
+    t.decimal  "template_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "parent_id"
-    t.decimal  "test_type_id"
   end
 
-  create_table "sources", :force => true do |t|
+  create_table "limits", :force => true do |t|
     t.string   "name"
+    t.decimal  "field_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "test_outcomes", :force => true do |t|
-    t.string   "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.decimal  "test_id"
-    t.decimal  "outcome_type_id"
-  end
-
-  create_table "test_types", :force => true do |t|
+  create_table "templates", :force => true do |t|
     t.string   "name"
     t.boolean  "is_active"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "parent_id"
-  end
-
-  create_table "testers", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "tests", :force => true do |t|
-    t.string   "code"
-    t.datetime "time_in"
-    t.datetime "time_out"
-    t.string   "type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.decimal  "tester_id"
-    t.decimal  "patient_id"
-    t.decimal  "source_id"
-    t.decimal  "test_type_id"
-    t.decimal  "parent_id"
   end
 
 end
