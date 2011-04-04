@@ -1,5 +1,5 @@
 class Limit < ActiveRecord::Base
-  belongs_to :field, :class_name => "Field", :foreign_key => "field_id"
+  belongs_to :field
 
   def to_label
     "#{name}"

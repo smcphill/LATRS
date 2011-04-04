@@ -9,22 +9,29 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110402061927) do
+ActiveRecord::Schema.define(:version => 20110403115605) do
+
+  create_table "derivatives", :id => false, :force => true do |t|
+    t.integer "parent_id"
+    t.integer "child_id"
+  end
 
   create_table "fields", :force => true do |t|
     t.string   "name"
     t.boolean  "is_general"
     t.boolean  "is_required"
-    t.decimal  "template_id"
+    t.integer  "template_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parent_id"
   end
 
   create_table "limits", :force => true do |t|
     t.string   "name"
-    t.decimal  "field_id"
+    t.integer  "field_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_default"
   end
 
   create_table "templates", :force => true do |t|
