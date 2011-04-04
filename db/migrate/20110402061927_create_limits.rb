@@ -2,7 +2,7 @@ class CreateLimits < ActiveRecord::Migration
   def self.up
     create_table :limits do |t|
       t.string :name
-      t.decimal :field_id
+      t.integer :field_id
 
       t.timestamps
     end

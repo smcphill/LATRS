@@ -4,7 +4,7 @@ class CreateFields < ActiveRecord::Migration
       t.string :name
       t.boolean :is_general
       t.boolean :is_required
-      t.decimal :template_id
+      t.integer :template_id
 
       t.timestamps
     end
