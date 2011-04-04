@@ -3,8 +3,7 @@ module ActiveScaffold::Config
     self.crud_type = :read
 
     def initialize(core_config)
-      @core = core_config
-
+      super
       # inherit from global scope
       # full configuration path is: defaults => global table => local table
       @per_page = self.class.per_page
@@ -16,7 +15,10 @@ module ActiveScaffold::Config
 
       # inherit from global scope
       @empty_field_text = self.class.empty_field_text
+      @association_join_text = self.class.association_join_text
       @pagination = self.class.pagination
+      @show_search_reset = true
+      @mark_records = self.class.mark_records
     end
 
     # global level configuration
@@ -33,16 +35,19 @@ module ActiveScaffold::Config
     cattr_accessor :empty_field_text
     @@empty_field_text = '-'
 
+    # what string to use to join records from plural associations
+    cattr_accessor :association_join_text
+    @@association_join_text = ', '
+
     # What kind of pagination to use:
     # * true: The usual pagination
     # * :infinite: Treat the source as having an infinite number of pages (i.e. don't count the records; useful for large tables where counting is slow and we don't really care anyway)
     # * false: Disable pagination
     cattr_accessor :pagination
     @@pagination = true
-    def self.infinite_pagination=(value)
-      ::ActiveSupport::Deprecation.warn("infinite_pagination is deprecated, use pagination = :infinite instead", caller)
-      self.pagination = :infinite
-    end
+
+    # Add a checkbox in front of each record to mark them and use them with a batch action later
+    cattr_accessor :mark_records
 
     # instance-level configuration
     # ----------------------------
@@ -66,13 +71,18 @@ module ActiveScaffold::Config
     # * :infinite: Treat the source as having an infinite number of pages (i.e. don't count the records; useful for large tables where counting is slow and we don't really care anyway)
     # * false: Disable pagination
     attr_accessor :pagination
-    def infinite_pagination=(value)
-      ::ActiveSupport::Deprecation.warn("infinite_pagination is deprecated, use pagination = :infinite instead", caller)
-      self.pagination = :infinite
-    end
 
     # what string to use when a field is empty
     attr_accessor :empty_field_text
+
+    # what string to use to join records from plural associations
+    attr_accessor :association_join_text
+
+    # show a link to reset the search next to filtered message
+    attr_accessor :show_search_reset
+
+    # Add a checkbox in front of each record to mark them and use them with a batch action later
+    attr_accessor :mark_records
 
     # the default sorting. should be an array of hashes of {column_name => direction}, e.g. [{:a => 'desc'}, {:b => 'asc'}]. to just sort on one column, you can simply provide a hash, though, e.g. {:a => 'desc'}.
     def sorting=(val)
@@ -110,7 +120,6 @@ module ActiveScaffold::Config
     
     def search_partial
       return "search" if @core.actions.include?(:search)
-      return "live_search" if @core.actions.include?(:live_search)
       return "field_search" if @core.actions.include?(:field_search)
     end
     

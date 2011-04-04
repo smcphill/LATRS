@@ -9,8 +9,8 @@ module ActiveScaffold
       include ActiveScaffold::Helpers::ListColumnHelpers
       include ActiveScaffold::Helpers::ShowColumnHelpers
       include ActiveScaffold::Helpers::FormColumnHelpers
-      include ActiveScaffold::Helpers::CountryHelpers
       include ActiveScaffold::Helpers::SearchColumnHelpers
+      include ActiveScaffold::Helpers::CountryHelpers
 
       ##
       ## Delegates
@@ -70,9 +70,8 @@ module ActiveScaffold
         options[:target] = action_iframe_id(url_for_options)
         options[:multipart] = true
 
-        output=""
-        output << "<iframe id='#{action_iframe_id(url_for_options)}' name='#{action_iframe_id(url_for_options)}' style='display:none'></iframe>"
-        output << form_tag(url_for_options, options)
+        output = form_tag(url_for_options, options)
+        output << "<iframe id='#{action_iframe_id(url_for_options)}' name='#{action_iframe_id(url_for_options)}' style='display:none'></iframe>".html_safe
       end
 
       # Provides list of javascripts to include with +javascript_include_tag+
@@ -105,7 +104,7 @@ module ActiveScaffold
         options[:concat] += '_ie' if options[:concat].is_a? String
         ie_css = stylesheet_link_tag(*active_scaffold_ie_stylesheets(frontend).push(options))
 
-        "#{js}\n#{css}\n<!--[if IE]>#{ie_css}<![endif]-->\n"
+        "#{js}\n#{css}\n<!--[if IE]>#{ie_css}<![endif]-->\n".html_safe
       end
 
       # a general-use loading indicator (the "stuff is happening, please wait" feedback)
@@ -128,14 +127,14 @@ module ActiveScaffold
         (link.security_method_set? or controller.respond_to? link.security_method) and !controller.send(link.security_method)
       end
 
-      def render_action_link(link, url_options, record = nil)
+      def render_action_link(link, url_options, record = nil, html_options = {})
         url_options = url_options.clone
         url_options[:action] = link.action
         url_options[:controller] = link.controller if link.controller
         url_options.delete(:search) if link.controller and link.controller.to_s != params[:controller]
         url_options.merge! link.parameters if link.parameters
 
-        html_options = link.html_options.merge({:class => link.action})
+        html_options.reverse_merge! link.html_options.merge(:class => link.action)
         if link.inline?
           # NOTE this is in url_options instead of html_options on purpose. the reason is that the client-side
           # action link javascript needs to submit the proper method, but the normal html_options[:method]
@@ -184,14 +183,47 @@ module ActiveScaffold
 
       def column_empty?(column_value)
         empty = column_value.nil?
-        empty ||= column_value.empty? if column_value.respond_to? :empty?
-        empty ||= ['&nbsp;', active_scaffold_config.list.empty_field_text].include? column_value if String === column_value
+        empty ||= column_value.blank? if column_value.respond_to? :blank?
+        empty ||= ['&nbsp;'.html_safe, active_scaffold_config.list.empty_field_text].include? column_value if String === column_value
         return empty
       end
 
       def column_calculation(column)
-        calculation = active_scaffold_config.model.calculate(column.calculate, column.name, :conditions => controller.send(:all_conditions),
-         :joins => controller.send(:joins_for_collection), :include => controller.send(:active_scaffold_includes))
+        conditions = controller.send(:all_conditions)
+        includes = active_scaffold_config.list.count_includes
+        includes ||= controller.send(:active_scaffold_includes) unless conditions.nil?
+        calculation = active_scaffold_config.model.calculate(column.calculate, column.name, :conditions => conditions,
+         :joins => controller.send(:joins_for_collection), :include => includes)
+      end
+
+      def render_column_calculation(column)
+        calculation = column_calculation(column)
+        override_formatter = "render_#{column.name}_#{column.calculate}"
+        calculation = send(override_formatter, calculation) if respond_to? override_formatter
+
+        "#{as_(column.calculate)}: #{format_column_value nil, column, calculation}"
+      end
+
+      def column_show_add_existing(column)
+        (column.allow_add_existing and options_for_association_count(column.association) > 0)
+      end
+
+      def column_show_add_new(column, associated, record)
+        value = column.plural_association? or (column.singular_association? and not associated.empty?)
+        value = false unless record.class.authorized_for?(:crud_type => :create)
+        value
+      end
+
+      def controller_class
+        "#{h params[:controller]}-view"
+      end
+
+      def clean_column_name(name)
+        name.to_s.gsub('?', '')
+      end
+
+      def clean_class_name(name)
+        name.underscore.gsub('/', '_')
       end
     end
   end

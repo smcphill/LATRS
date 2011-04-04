@@ -15,8 +15,12 @@ module ActiveScaffold::Actions
       if params[:in_place_editing]
         render :inline => "<%= active_scaffold_input_for(active_scaffold_config.columns[params[:update_column].to_sym]) %>"
       elsif !column.nil?
-        value = column_value_from_param_value(@record, column, params[:value])
-        @record.send "#{column.name}=", value
+        if column.send_form_on_update_column
+          @record = update_record_from_params(@record, active_scaffold_config.update.columns, params[:record])
+        else
+          value = column_value_from_param_value(@record, column, params[:value])
+          @record.send "#{column.name}=", value
+        end
         @update_columns = Array(params[:update_column])
         after_render_field(@record, column)
       end
@@ -27,8 +31,8 @@ module ActiveScaffold::Actions
     # override this method if you want to do something after render_field
     def after_render_field(record, column); end
 
-    def authorized_for?(*args)
-      active_scaffold_config.model.authorized_for?(*args)
+    def authorized_for?(options = {})
+      active_scaffold_config.model.authorized_for?(options)
     end
 
     def clear_flashes
@@ -39,6 +43,10 @@ module ActiveScaffold::Actions
       end
     end
 
+    def marked_records
+      active_scaffold_session_storage[:marked_records] ||= Set.new
+    end
+    
     def default_formats
       [:html, :js, :json, :xml, :yaml]
     end
@@ -105,10 +113,6 @@ module ActiveScaffold::Actions
   
     #Overide this method on your controller to provide model with named scopes
     def beginning_of_chain
-      if respond_to? :named_scopes_for_collection
-        ::ActiveSupport::Deprecation.warn(":named_scope_for_collection is deprecated, override beginning_of_chain instead", caller)
-        return model_with_named_scope
-      end
       active_scaffold_config.model
     end
         

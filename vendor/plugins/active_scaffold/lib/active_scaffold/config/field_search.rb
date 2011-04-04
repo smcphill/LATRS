@@ -3,8 +3,7 @@ module ActiveScaffold::Config
     self.crud_type = :read
 
     def initialize(core_config)
-      @core = core_config
-
+      super
       @text_search = self.class.text_search
 
       # start with the ActionLink defined globally
@@ -18,14 +17,6 @@ module ActiveScaffold::Config
     cattr_reader :link
     @@link = ActiveScaffold::DataStructures::ActionLink.new('show_search', :label => :search, :type => :collection, :security_method => :search_authorized?)
 
-    def self.full_text_search=(value)
-      ::ActiveSupport::Deprecation.warn("full_text_search is deprecated, use text_search = :full instead", caller)
-      @@text_search = :full
-    end
-    def self.full_text_search?
-      ::ActiveSupport::Deprecation.warn("full_text_search? is deprecated, use text_search == :full instead", caller)
-      @@text_search == :full
-    end
     # A flag for how the search should do full-text searching in the database:
     # * :full: LIKE %?%
     # * :start: LIKE ?%
@@ -57,14 +48,6 @@ module ActiveScaffold::Config
     # * false: LIKE ?
     # Default is :full
     attr_accessor :text_search
-    def full_text_search=(value)
-      ::ActiveSupport::Deprecation.warn("full_text_search is deprecated, use text_search = :full instead", caller)
-      @text_search = :full
-    end
-    def full_text_search?
-      ::ActiveSupport::Deprecation.warn("full_text_search? is deprecated, use text_search == :full instead", caller)
-      @text_search == :full
-    end
 
     # the ActionLink for this action
     attr_accessor :link

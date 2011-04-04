@@ -33,13 +33,13 @@ class FinderTest < Test::Unit::TestCase
     ]
 
     expected_conditions = [
-			'(LOWER("model_stubs"."a") LIKE ? OR LOWER("model_stubs"."b") LIKE ?) AND (LOWER("model_stubs"."a") LIKE ? OR LOWER("model_stubs"."b") LIKE ?)',
+			'("model_stubs"."a" LIKE ? OR "model_stubs"."b" LIKE ?) AND ("model_stubs"."a" LIKE ? OR "model_stubs"."b" LIKE ?)',
 		  '%foo%', '%foo%', '%bar%', '%bar%'
 		]
     assert_equal expected_conditions, ClassWithFinder.create_conditions_for_columns(tokens, columns)
 
     expected_conditions = [
-      '(LOWER("model_stubs"."a") LIKE ? OR LOWER("model_stubs"."b") LIKE ?)',
+      '("model_stubs"."a" LIKE ? OR "model_stubs"."b" LIKE ?)',
       '%foo%', '%foo%'
     ]
     assert_equal expected_conditions, ClassWithFinder.create_conditions_for_columns('foo', columns)
@@ -80,7 +80,6 @@ class FinderTest < Test::Unit::TestCase
   end
 
   def test_disabled_pagination
-    ModelStub.expects(:count).returns(85)
     ModelStub.expects(:find).with(:all, Not(has_entries(:limit => 20, :offset => 0)))
     page = @klass.send :find_page, :per_page => 20, :pagination => false
     page.items

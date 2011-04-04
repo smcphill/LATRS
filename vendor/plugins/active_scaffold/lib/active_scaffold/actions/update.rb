@@ -37,11 +37,7 @@ module ActiveScaffold::Actions
     def update_respond_to_html  
       if params[:iframe]=='true' # was this an iframe post ?
         responds_to_parent do
-          if successful?
-            render :action => 'on_update.js'
-          else
-            render :action => 'form_messages_on_save.js'
-          end
+          render :action => 'on_update.js'
         end
       else # just a regular post
         if successful?
@@ -89,14 +85,14 @@ module ActiveScaffold::Actions
         @record.errors.add_to_base as_(:version_inconsistency)
         self.successful=false
       rescue ActiveRecord::RecordNotSaved
-        @record.errors.add_to_base as_("Failed to save record cause of an unknown error") if @record.errors.empty?
+        @record.errors.add_to_base as_(:failed_to_save_record) if @record.errors.empty?
         self.successful = false
       end
     end
 
     def do_update_column
       @record = active_scaffold_config.model.find(params[:id])
-      if @record.authorized_for?(:action => :update, :column => params[:column])
+      if @record.authorized_for?(:crud_type => :update, :column => params[:column])
         column = active_scaffold_config.columns[params[:column].to_sym]
         params[:value] ||= @record.column_for_attribute(params[:column]).default unless @record.column_for_attribute(params[:column]).nil? || @record.column_for_attribute(params[:column]).null
         params[:value] = column_value_from_param_value(@record, column, params[:value]) unless column.nil?
@@ -116,7 +112,7 @@ module ActiveScaffold::Actions
     # The default security delegates to ActiveRecordPermissions.
     # You may override the method to customize.
     def update_authorized?
-      authorized_for?(:action => :update)
+      authorized_for?(:crud_type => :update)
     end
     private
     def update_authorized_filter

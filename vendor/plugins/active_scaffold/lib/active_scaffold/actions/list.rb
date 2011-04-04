@@ -1,16 +1,12 @@
 module ActiveScaffold::Actions
   module List
     def self.included(base)
-      base.before_filter :list_authorized_filter, :only => [:index, :table, :row, :list]
+      base.before_filter :list_authorized_filter, :only => [:index, :row, :list]
+      base.send :include, ActiveScaffold::Actions::Mark if base.active_scaffold_config.list.mark_records
     end
 
     def index
       list
-    end
-
-    def table
-      do_list
-      render(:action => 'list.html', :layout => false)
     end
 
     # get just a single row
@@ -27,7 +23,7 @@ module ActiveScaffold::Actions
     
     protected
     def list_respond_to_html
-      render :action => 'list'
+      render :action => 'list', :layout => !respond_to?(:component_request?) || !component_request?
     end
     def list_respond_to_js
       render :action => 'list.js'
@@ -41,10 +37,15 @@ module ActiveScaffold::Actions
     def list_respond_to_yaml
       render :text => Hash.from_xml(response_object.to_xml(:only => active_scaffold_config.list.columns.names)).to_yaml, :content_type => Mime::YAML, :status => response_status
     end
-    # The actual algorithm to prepare for the list view
-    def do_list
+
+    def set_includes_for_list_columns
       includes_for_list_columns = active_scaffold_config.list.columns.collect{ |c| c.includes }.flatten.uniq.compact
       self.active_scaffold_includes.concat includes_for_list_columns
+    end
+
+    # The actual algorithm to prepare for the list view
+    def do_list
+      set_includes_for_list_columns
 
       options = { :sorting => active_scaffold_config.list.user.sorting,
                   :count_includes => active_scaffold_config.list.user.count_includes }
@@ -57,7 +58,7 @@ module ActiveScaffold::Actions
         })
       end
 
-      page = find_page(options);
+      page = find_page(options)
       if page.items.blank? && !page.pager.infinite?
         page = page.pager.last
         active_scaffold_config.list.user.page = page.number
@@ -68,7 +69,7 @@ module ActiveScaffold::Actions
     # The default security delegates to ActiveRecordPermissions.
     # You may override the method to customize.
     def list_authorized?
-      authorized_for?(:action => :read)
+      authorized_for?(:crud_type => :read)
     end
     private
     def list_authorized_filter

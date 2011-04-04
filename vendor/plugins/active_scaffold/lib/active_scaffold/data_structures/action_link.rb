@@ -13,6 +13,7 @@ module ActiveScaffold::DataStructures
       self.crud_type = :create if [:create, :new].include?(action.to_sym)
       self.crud_type = :update if [:edit, :update].include?(action.to_sym)
       self.crud_type ||= :read
+      self.parameters = {}
       self.html_options = {}
 
       # apply quick properties
@@ -41,28 +42,32 @@ module ActiveScaffold::DataStructures
     end
 
     # if the action requires confirmation
-    attr_writer :confirm
+    def confirm=(value)
+      @dhtml_confirm = nil if value
+      @confirm = value
+    end
     def confirm(label = '')
       @confirm.is_a?(String) ? @confirm : as_(@confirm, :label => label)
     end
     def confirm?
-      @confirm ? true : false
+      !!@confirm
     end
     
     # if the action uses a DHTML based (i.e. 2-phase) confirmation
-    attr_writer :dhtml_confirm
-    def dhtml_confirm
-      @dhtml_confirm
+    attr_accessor :dhtml_confirm
+    def dhtml_confirm=(value)
+      @confirm = nil if value
+      @dhtml_confirm = value
     end
     def dhtml_confirm?
-      @dhtml_confirm
+      !!@dhtml_confirm
     end
 
     # what method to call on the controller to see if this action_link should be visible
     # note that this is only the UI part of the security. to prevent URL hax0rz, you also need security on requests (e.g. don't execute update method unless authorized).
     attr_writer :security_method
     def security_method
-      @security_method || "#{self.label.underscore.downcase.gsub(/ /, '_')}_authorized?"
+      @security_method || "#{self.action}_authorized?"
     end
 
     def security_method_set?
@@ -70,7 +75,7 @@ module ActiveScaffold::DataStructures
     end
 
     # the crud type of the (eventual?) action. different than :method, because this crud action may not be imminent.
-    # this is used to determine record-level authorization (e.g. record.authorized_for?(:action => link.crud_type).
+    # this is used to determine record-level authorization (e.g. record.authorized_for?(:crud_type => link.crud_type).
     # options are :create, :read, :update, and :delete
     attr_accessor :crud_type
 
@@ -134,17 +139,6 @@ module ActiveScaffold::DataStructures
 
     # what type of link this is. currently supported values are :collection and :member.
     attr_accessor :type
-    # deprecated
-    def type=(value)
-      old_value = value
-      value = case value
-        when :table then :collection
-        when :record then :member
-        else value
-      end
-      ::ActiveSupport::Deprecation.warn(":#{old_value} is deprecated, use :#{value} instead", caller) if old_value != value
-      @type = value
-    end
 
     # html options for the link
     attr_accessor :html_options

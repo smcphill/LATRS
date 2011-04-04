@@ -49,6 +49,7 @@ module ActiveScaffold::Actions
       destroy_find_record
       begin
         self.successful = @record.destroy
+        marked_records.delete @record.id.to_s if successful?
       rescue
         flash[:warning] = as_(:cant_destroy_record, :record => @record.to_label)
         self.successful = false
@@ -58,7 +59,7 @@ module ActiveScaffold::Actions
     # The default security delegates to ActiveRecordPermissions.
     # You may override the method to customize.
     def delete_authorized?
-      authorized_for?(:action => :delete)
+      authorized_for?(:crud_type => :delete)
     end
     private
     def delete_authorized_filter
