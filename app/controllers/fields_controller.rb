@@ -14,6 +14,9 @@ class FieldsController < ApplicationController
     list.sorting = {:name => 'ASC'}
     config.nested.add_link("Field Limits", :limits)    
     config.nested.add_link("Child Fields", :children)    
+    config.create.columns = :name, :is_general, :is_required, :limits
+    config.update.columns = :name, :is_general, :is_required
+
   end
 
   # only want to filter out children when not nested or nested parent is not field

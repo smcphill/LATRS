@@ -14,5 +14,8 @@ class TemplatesController < ApplicationController
     list.sorting = {:name => 'ASC'}
     config.nested.add_link("Data Fields", :fields)    
     config.nested.add_link("Children", :descendants)    
+    config.create.columns = :name, :is_active
+    config.update.columns = :name, :is_active
+    
   end
 end
