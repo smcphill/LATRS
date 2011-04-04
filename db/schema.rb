@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110404044051) do
+ActiveRecord::Schema.define(:version => 20110404052459) do
 
   create_table "fields", :force => true do |t|
     t.string   "name"
@@ -27,6 +27,13 @@ ActiveRecord::Schema.define(:version => 20110404044051) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_default"
+  end
+
+  create_table "links", :force => true do |t|
+    t.integer  "ancestor_id"
+    t.integer  "descendant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "templates", :force => true do |t|

@@ -2,6 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :limits, :active_scaffold => true
   map.resources :fields, :active_scaffold => true
   map.resources :templates, :active_scaffold => true
+  map.resources :links, :active_scaffold => true
 
 
   # admin routes
