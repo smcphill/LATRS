@@ -9,12 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110403115605) do
-
-  create_table "derivatives", :id => false, :force => true do |t|
-    t.integer "parent_id"
-    t.integer "child_id"
-  end
+ActiveRecord::Schema.define(:version => 20110404044051) do
 
   create_table "fields", :force => true do |t|
     t.string   "name"
