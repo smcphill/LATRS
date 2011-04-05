@@ -1,5 +1,5 @@
 class Numericfield < Field
   def to_label
-    "Number"
+    "Numeric Form Field '#{name}'"
   end
 end
