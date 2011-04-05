@@ -7,3 +7,4 @@ class Field < ActiveRecord::Base
     "#{name}"
   end
 end
+

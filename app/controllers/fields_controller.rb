@@ -2,9 +2,11 @@ class FieldsController < ApplicationController
   active_scaffold :fields do | config |
     config.label = "Data Fields"
     config.list.always_show_search = false
-    config.actions.exclude  :search    
-    config.columns = :name, :is_general, :is_required, :limits, :children, :parent
-    config.list.columns = :name, :template, :children, :limits
+    config.actions.exclude  :search
+    config.columns[:type].form_ui = :select
+    config.sti_children = :numericfield
+    config.columns = :name, :is_general, :is_required, :limits, :children, :parent, :type
+    config.list.columns = :name, :template, :children, :limits, :type
     config.columns[:limits].clear_link
     config.columns[:limits].associated_limit = 10
     config.columns[:children].actions_for_association_links = [:show]
@@ -14,8 +16,8 @@ class FieldsController < ApplicationController
     list.sorting = {:name => 'ASC'}
     config.nested.add_link("Field Limits", :limits)    
     config.nested.add_link("Child Fields", :children)    
-    config.create.columns = :name, :is_general, :is_required, :limits
-    config.update.columns = :name, :is_general, :is_required
+    config.create.columns = :name, :is_general, :is_required, :limits, :type
+    config.update.columns = :name, :is_general, :is_required, :type
 
   end
 

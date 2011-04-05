@@ -1,4 +1,20 @@
 module FieldsHelper
+  FIELD_TYPES = [["Generic", nil],["Number", "Numericfield"]]
+
+  def type_form_column(record, input_name)
+    select_tag("type-input", 
+               options_for_select(FIELD_TYPES, record.type), :name => "record[type]" )
+  end
+
+  def type_column(record)
+    if (record.type == "Numericfield")
+      "Number"
+    else
+      "Generic"
+    end
+  end
+
+
   def field_limits_column(record)
     if record.limits.any?
       # should we bold the default option here?
