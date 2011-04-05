@@ -1,6 +1,8 @@
 class LimitsController < ApplicationController
   active_scaffold :limits do | config |
     config.list.always_show_search = false
+    config.columns[:name].label = "Value"
+    config.columns[:is_default].label = "Default option?"
     config.actions.exclude  :search    
     config.columns = :name, :is_default, :field
   end
