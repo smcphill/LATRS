@@ -14,7 +14,7 @@ class Template < ActiveRecord::Base
 
   def validate_active_status
     if (is_active and fields.count() == 0)
-      errors.add (:fields, ": active forms require at least one data field.")
+      errors.add(:fields, ": active forms require at least one data field.")
     end
   end
 
