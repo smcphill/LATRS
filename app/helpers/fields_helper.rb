@@ -14,6 +14,15 @@ module FieldsHelper
     end
   end
 
+  def is_general_form_column(record, input_name)
+    select_tag input_name, options_for_select({"True" => "true", "False" => "false"},
+                                              record.is_general || "false")
+  end
+
+  def is_required_form_column(record, input_name)
+    select_tag input_name, options_for_select({"True" => "true", "False" => "false"},
+                                              record.is_required || "false")
+  end
 
   def field_limits_column(record)
     if record.limits.any?
