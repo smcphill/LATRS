@@ -1,10 +1,16 @@
 class LimitsController < ApplicationController
   active_scaffold :limits do | config |
     config.list.always_show_search = false
-    config.columns[:name].label = "Value"
-    config.columns[:is_default].label = "Default option?"
     config.actions.exclude  :search    
     config.columns = :name, :is_default, :field
+    
+    #labels
+    config.columns[:name].label = "Value"
+    config.columns[:is_default].label = "Default option?"
+
+    #descriptions
+    config.columns[:name].description = "This will become a selectable option for the form field"
+    config.columns[:is_default].description = "This will make this option the default selection for the form field"
   end
 
   def after_update_save(record)
