@@ -13,13 +13,16 @@ class FieldsController < ApplicationController
 
     #associations
     config.nested.add_link("Limits", :limits)    
-    config.nested.add_link("Subfields", :children)    
+    config.nested.add_link("Subfields", :children)
     config.columns[:limits].clear_link
     config.columns[:limits].associated_limit = 10
     config.columns[:children].actions_for_association_links = [:show]
-    config.columns[:children].label = "Subfields"
-    config.columns[:template].actions_for_association_links = [:show]
+    config.columns[:children].clear_link
+    config.columns[:children].label = "Subfield"
     config.columns[:children].form_ui = :select
+    config.columns[:children].association.reverse = :parent 
+    config.columns[:children].includes = [] 
+    config.columns[:template].actions_for_association_links = [:show]
     config.columns[:type].form_ui = :select
     
     #labels
