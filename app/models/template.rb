@@ -1,4 +1,5 @@
 class Template < ActiveRecord::Base
+  after_initialize :init
   validate :validate_active_status
   validates_uniqueness_of :name, 
                           :message => "Form names must be unique", 
@@ -15,5 +16,10 @@ class Template < ActiveRecord::Base
     if (is_active and fields.count() == 0)
       errors.add (:fields, ": active forms require at least one data field.")
     end
+  end
+
+  private
+  def init
+    self.is_active ||= false
   end
 end
