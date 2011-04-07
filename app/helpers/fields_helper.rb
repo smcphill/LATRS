@@ -14,6 +14,11 @@ module FieldsHelper
     end
   end
 
+  def suffix_form_column(record, input_name)
+    text_field(input_name, record.suffix, :size => 10)
+
+  end
+
   def is_general_form_column(record, input_name)
     select_tag input_name, options_for_select({"True" => "true", "False" => "false"},
                                               record.is_general || "false")
