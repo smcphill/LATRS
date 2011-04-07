@@ -1,5 +1,5 @@
 module FieldsHelper
-  FIELD_TYPES = [["Generic", nil],["Number", "Numericfield"]]
+  FIELD_TYPES = [["Generic", "Stringfield"],["Number", "Numericfield"]]
 
   def type_form_column(record, input_name)
     select_tag("type-input", 
