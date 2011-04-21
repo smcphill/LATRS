@@ -6,11 +6,11 @@ class FieldsController < ApplicationController
     list.sorting = {:name => 'ASC'}
 
     #column definitions
-    config.columns = :name, :is_general, :is_required, :limits, :children, :parent, :type
+    config.columns = :name, :is_general, :is_required, :limits, :children, :parent, :type, :is_multi
     config.list.columns = :name, :children, :limits, :type
-    config.show.columns = :name, :suffix, :is_general, :is_required, :children, :limits, :type
-    config.create.columns = :name, :suffix, :is_general, :is_required, :limits, :type
-    config.update.columns = :name, :suffix, :is_general, :is_required, :type
+    config.show.columns = :name, :suffix, :is_general, :is_required, :children, :limits, :type, :is_multi
+    config.create.columns = :name, :suffix, :is_general, :is_required, :limits, :type, :is_multi
+    config.update.columns = :name, :suffix, :is_general, :is_required, :type, :is_multi
 
     #associations
     config.nested.add_link("Limits", :limits)    
@@ -30,6 +30,7 @@ class FieldsController < ApplicationController
     config.columns[:name].label = "Field"
     config.columns[:template].label = "Form"
     config.columns[:suffix].label = "Unit label"
+    config.columns[:is_multi].label = "Multiple selection?"
 
     #descriptions
     config.columns[:name].description = "The name of this form field"
@@ -39,6 +40,8 @@ class FieldsController < ApplicationController
     config.columns[:children].description = "If this field has additional structure (like a Malaria PV classifier of 's', 't', or 'g'), create a subfield"
     config.columns[:type].description = "If this field holds number data, use the 'Number' type. Otherwise, use the 'Generic' type. This influences reporting"
     config.columns[:suffix].description = "Some fields should have a unit of measurement label; this will be displayed after the field. Eg. HCT Value: 55% ('%' is the label)"
+    config.columns[:is_multi].description = "Can this field have multiple values? Note that this setting is ignored unless field limits are set"
+
 
 
   end

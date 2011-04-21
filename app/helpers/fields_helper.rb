@@ -24,6 +24,11 @@ module FieldsHelper
                                               record.is_general || "false")
   end
 
+  def is_multi_form_column(record, input_name)
+    select_tag input_name[:name], options_for_select({"True" => "true", "False" => "false"},
+                                              record.is_general || "false")
+  end
+
   def is_required_form_column(record, input_name)
     select_tag input_name[:name], options_for_select({"True" => "true", "False" => "false"},
                                               record.is_required || "false")

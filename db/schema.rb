@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110407115319) do
+ActiveRecord::Schema.define(:version => 20110421054007) do
 
   create_table "fields", :force => true do |t|
     t.string   "name"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20110407115319) do
     t.integer  "parent_id"
     t.string   "type"
     t.string   "suffix"
+    t.boolean  "is_multi"
   end
 
   create_table "limits", :force => true do |t|
