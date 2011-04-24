@@ -19,6 +19,17 @@ module FieldsHelper
 
   end
 
+  def par_hi_lim_form_column(record, input_name)
+    text_field(input_name[:name], record.par_hi_lim, :size => 10)
+
+  end
+
+  def par_lo_lim_form_column(record, input_name)
+    text_field(input_name[:name], record.par_lo_lim, :size => 10)
+
+  end
+
+
   def is_general_form_column(record, input_name)
     select_tag input_name[:name], options_for_select({"True" => "true", "False" => "false"},
                                               record.is_general || "false")
