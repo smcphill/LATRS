@@ -1,4 +1,6 @@
 class FieldsController < ApplicationController
+  before_filter :update_table_config
+
   active_scaffold :fields do | config |
     config.label = "Form Fields"
     config.list.always_show_search = false
@@ -46,8 +48,37 @@ class FieldsController < ApplicationController
     config.columns[:par_hi_lim].description = "Only display when the parent field value is lower than this"
     config.columns[:par_lo_lim].description = "Only display when the parent field value is higher than this"
 
+  end
 
-
+  def update_table_config
+    if params[:id]
+      @field = Field.find(params[:id])
+      if !@field.parent_id
+        active_scaffold_config.show.columns.exclude :par_hi_lim
+        active_scaffold_config.create.columns.exclude :par_hi_lim
+        active_scaffold_config.update.columns.exclude :par_hi_lim
+        active_scaffold_config.show.columns.exclude :par_lo_lim
+        active_scaffold_config.create.columns.exclude :par_lo_lim
+        active_scaffold_config.update.columns.exclude :par_lo_lim
+      else
+        active_scaffold_config.show.columns.add :par_hi_lim
+        active_scaffold_config.create.columns.add :par_hi_lim
+        active_scaffold_config.update.columns.add :par_hi_lim
+        active_scaffold_config.show.columns.add :par_lo_lim
+        active_scaffold_config.create.columns.add :par_lo_lim
+        active_scaffold_config.update.columns.add :par_lo_lim
+      end
+      
+      if @field.limits.count() == 0
+        active_scaffold_config.show.columns.exclude :is_multi
+        active_scaffold_config.create.columns.exclude :is_multi
+        active_scaffold_config.update.columns.exclude :is_multi
+      else
+        active_scaffold_config.show.columns.add :is_multi
+        active_scaffold_config.create.columns.add :is_multi
+        active_scaffold_config.update.columns.add :is_multi
+      end
+    end
   end
 
   # only want to filter out children when not nested or nested parent is not field

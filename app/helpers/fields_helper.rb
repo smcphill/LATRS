@@ -1,7 +1,7 @@
 module FieldsHelper
   FIELD_TYPES = [["Generic", "Stringfield"],["Number", "Numericfield"]]
 
-  def type_form_column(record, input_name)
+  def field_type_form_column(record, input_name)
     select_tag("type-input", 
                options_for_select(FIELD_TYPES, record.type), :name => "record[type]" )
   end
@@ -14,33 +14,33 @@ module FieldsHelper
     end
   end
 
-  def suffix_form_column(record, input_name)
+  def field_suffix_form_column(record, input_name)
     text_field(input_name[:name], record.suffix, :size => 10)
 
   end
 
-  def par_hi_lim_form_column(record, input_name)
+  def field_par_hi_lim_form_column(record, input_name)
     text_field(input_name[:name], record.par_hi_lim, :size => 10)
 
   end
 
-  def par_lo_lim_form_column(record, input_name)
+  def field_par_lo_lim_form_column(record, input_name)
     text_field(input_name[:name], record.par_lo_lim, :size => 10)
 
   end
 
 
-  def is_general_form_column(record, input_name)
+  def field_is_general_form_column(record, input_name)
     select_tag input_name[:name], options_for_select({"True" => "true", "False" => "false"},
                                               record.is_general || "false")
   end
 
-  def is_multi_form_column(record, input_name)
+  def field_is_multi_form_column(record, input_name)
     select_tag input_name[:name], options_for_select({"True" => "true", "False" => "false"},
                                               record.is_general || "false")
   end
 
-  def is_required_form_column(record, input_name)
+  def field_is_required_form_column(record, input_name)
     select_tag input_name[:name], options_for_select({"True" => "true", "False" => "false"},
                                               record.is_required || "false")
   end
