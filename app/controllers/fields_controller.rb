@@ -74,7 +74,7 @@ class FieldsController < ApplicationController
         active_scaffold_config.update.columns.add :par_lo_lim
       end
       
-      if @field.limits.count() == 0
+      if !@field.limits.any?
         active_scaffold_config.show.columns.exclude :is_multi
         active_scaffold_config.create.columns.exclude :is_multi
         active_scaffold_config.update.columns.exclude :is_multi

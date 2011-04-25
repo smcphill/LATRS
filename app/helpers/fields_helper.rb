@@ -6,7 +6,7 @@ module FieldsHelper
                options_for_select(FIELD_TYPES, record.type), :name => "record[type]" )
   end
 
-  def type_column(record)
+  def field_type_column(record)
     if (record.type == "Numericfield")
       "Number"
     else

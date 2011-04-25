@@ -5,6 +5,7 @@ class Field < ActiveRecord::Base
   has_many :children, :class_name => "Field", :foreign_key => "parent_id", :dependent => :destroy
   belongs_to :parent, :class_name => "Field", :foreign_key => "parent_id"
   belongs_to :template
+
   def to_label
     "#{name}"
   end
@@ -13,6 +14,7 @@ class Field < ActiveRecord::Base
   def init
     self.is_required ||= false
     self.is_general ||= false
+    self.is_multi ||= false
   end
 end
 
