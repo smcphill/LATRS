@@ -33,6 +33,11 @@ class FieldsController < ApplicationController
     config.columns[:is_required].form_ui = :checkbox
     config.columns[:is_multi].form_ui = :checkbox
 
+    # css
+    config.columns[:unit_label].css_class = "short"
+    config.columns[:par_hi_lim].css_class = "short"
+    config.columns[:par_lo_lim].css_class = "short"
+
     #labels
     config.columns[:name].label = "Field"
     config.columns[:template].label = "Form"
