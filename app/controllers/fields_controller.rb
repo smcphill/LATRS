@@ -10,9 +10,9 @@ class FieldsController < ApplicationController
     #column definitions
     config.columns = :name, :is_general, :is_required, :limits, :children, :parent, :type, :is_multi, :par_hi_lim, :par_lo_lim
     config.list.columns = :name, :children, :limits, :type
-    config.show.columns = :name, :suffix, :is_general, :is_required, :children, :limits, :type, :is_multi, :par_hi_lim, :par_lo_lim
-    config.create.columns = :name, :suffix, :is_general, :is_required, :limits, :type, :is_multi, :par_hi_lim, :par_lo_lim
-    config.update.columns = :name, :suffix, :is_general, :is_required, :type, :is_multi, :par_hi_lim, :par_lo_lim
+    config.show.columns = :name, :unit_label, :is_general, :is_required, :children, :limits, :type, :is_multi, :par_hi_lim, :par_lo_lim
+    config.create.columns = :name, :unit_label, :is_general, :is_required, :limits, :type, :is_multi, :par_hi_lim, :par_lo_lim
+    config.update.columns = :name, :unit_label, :is_general, :is_required, :type, :is_multi, :par_hi_lim, :par_lo_lim
 
     #associations
     config.nested.add_link("Limits", :limits)    
@@ -31,7 +31,7 @@ class FieldsController < ApplicationController
     #labels
     config.columns[:name].label = "Field"
     config.columns[:template].label = "Form"
-    config.columns[:suffix].label = "Unit label"
+    config.columns[:unit_label].label = "Unit label"
     config.columns[:is_multi].label = "Multiple selection?"
     config.columns[:par_hi_lim].label = "Parent limit (upper)"
     config.columns[:par_lo_lim].label = "Parent limit (lower)"
@@ -43,7 +43,7 @@ class FieldsController < ApplicationController
     config.columns[:limits].description = "If this field data should be limited to a list of options, provide a set of limits here"
     config.columns[:children].description = "If this field has additional structure (like a Malaria PV classifier of 's', 't', or 'g'), create a subfield"
     config.columns[:type].description = "If this field holds number data, use the 'Number' type. Otherwise, use the 'Generic' type. This influences reporting"
-    config.columns[:suffix].description = "Some fields should have a unit of measurement label; this will be displayed after the field. Eg. HCT Value: 55% ('%' is the label)"
+    config.columns[:unit_label].description = "Some fields should have a unit of measurement label; this will be displayed after the field. Eg. HCT Value: 55% ('%' is the label)"
     config.columns[:is_multi].description = "Can this field have multiple values? Note that this setting is ignored unless field limits are set"
     config.columns[:par_hi_lim].description = "Only display when the parent field value is lower than this"
     config.columns[:par_lo_lim].description = "Only display when the parent field value is higher than this"
