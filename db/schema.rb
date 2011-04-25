@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110424080931) do
+ActiveRecord::Schema.define(:version => 20110425022506) do
 
   create_table "fields", :force => true do |t|
     t.string   "name"
@@ -20,10 +20,10 @@ ActiveRecord::Schema.define(:version => 20110424080931) do
     t.datetime "updated_at"
     t.integer  "parent_id"
     t.string   "type"
-    t.string   "suffix"
     t.boolean  "is_multi"
     t.string   "par_hi_lim"
     t.string   "par_lo_lim"
+    t.string   "unit_label"
   end
 
   create_table "limits", :force => true do |t|
