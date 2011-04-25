@@ -14,37 +14,6 @@ module FieldsHelper
     end
   end
 
-  def field_suffix_form_column(record, input_name)
-    text_field(input_name[:name], record.suffix, :size => 10)
-
-  end
-
-  def field_par_hi_lim_form_column(record, input_name)
-    text_field(input_name[:name], record.par_hi_lim, :size => 10)
-
-  end
-
-  def field_par_lo_lim_form_column(record, input_name)
-    text_field(input_name[:name], record.par_lo_lim, :size => 10)
-
-  end
-
-
-  def field_is_general_form_column(record, input_name)
-    select_tag input_name[:name], options_for_select({"True" => "true", "False" => "false"},
-                                              record.is_general || "false")
-  end
-
-  def field_is_multi_form_column(record, input_name)
-    select_tag input_name[:name], options_for_select({"True" => "true", "False" => "false"},
-                                              record.is_general || "false")
-  end
-
-  def field_is_required_form_column(record, input_name)
-    select_tag input_name[:name], options_for_select({"True" => "true", "False" => "false"},
-                                              record.is_required || "false")
-  end
-
   def field_limits_column(record)
     if record.limits.any?
       # should we bold the default option here?

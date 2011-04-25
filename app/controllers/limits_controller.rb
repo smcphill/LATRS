@@ -8,6 +8,9 @@ class LimitsController < ApplicationController
     config.columns[:name].label = "Value"
     config.columns[:is_default].label = "Default option?"
 
+    # form overrides
+    config.columns[:is_default].form_ui = :checkbox
+
     #descriptions
     config.columns[:name].description = "This will become a selectable option for the form field"
     config.columns[:is_default].description = "This will make this option the default selection for the form field"

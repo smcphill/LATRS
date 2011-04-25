@@ -25,6 +25,9 @@ class TemplatesController < ApplicationController
     config.columns[:is_active].label = "Active?"
     config.columns[:fields].label = "Form Fields"
     config.columns[:descendants].label = "Sub-tests"
+    
+    #form overrides
+    config.columns[:is_active].form_ui = :checkbox
 
     #descriptions
     config.columns[:name].description = "The name of the form"

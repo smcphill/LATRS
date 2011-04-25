@@ -27,7 +27,12 @@ class FieldsController < ApplicationController
     config.columns[:children].includes = [] 
     config.columns[:template].actions_for_association_links = [:show]
     config.columns[:type].form_ui = :select
-    
+
+    # boolean overrides
+    config.columns[:is_general].form_ui = :checkbox
+    config.columns[:is_required].form_ui = :checkbox
+    config.columns[:is_multi].form_ui = :checkbox
+
     #labels
     config.columns[:name].label = "Field"
     config.columns[:template].label = "Form"
