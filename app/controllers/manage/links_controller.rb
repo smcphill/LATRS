@@ -7,8 +7,9 @@ class Manage::LinksController < ApplicationController
     config.columns[:ancestor].clear_link
     config.columns[:ancestor].form_ui = :select
     config.list.always_show_search = false
-    config.actions.exclude :update, :show, :search
+    config.actions.exclude :show, :search
     config.create.link.label = "Add Link"
+    config.update.link = false
 
 
   end

@@ -2,9 +2,9 @@ class Manage::LimitsController < ApplicationController
   layout "manage"
   active_scaffold :limits do | config |
     config.list.always_show_search = false
-    config.actions.exclude  :search, :show, :update
+    config.actions.exclude  :search, :show
     config.columns = :name, :is_default, :field
-    
+    config.update.link = false
     #labels
     config.columns[:name].label = "Value"
     config.columns[:is_default].label = "Default option?"

@@ -13,7 +13,6 @@ class Manage::FieldsController < ApplicationController
     #column definitions
     config.columns = :name, :is_general, :is_required, :limits, :children, :parent, :type, :is_multi, :par_hi_lim, :par_lo_lim
     config.list.columns = :name, :children, :limits
-    #config.show.columns = :name, :unit_label, :is_general, :is_required, :children, :limits, :type, :is_multi, :par_hi_lim, :par_lo_lim
     config.create.columns = :name, :unit_label, :is_general, :is_required, :type, :limits, :is_multi, :par_hi_lim, :par_lo_lim
     config.update.columns = :name, :unit_label, :is_general, :is_required, :type, :is_multi, :par_hi_lim, :par_lo_lim
 
@@ -67,27 +66,21 @@ class Manage::FieldsController < ApplicationController
     if params[:id]
       @field = Field.find(params[:id])
       if !@field.parent_id
-        #active_scaffold_config.show.columns.exclude :par_hi_lim
         active_scaffold_config.create.columns.exclude :par_hi_lim
         active_scaffold_config.update.columns.exclude :par_hi_lim
-        #active_scaffold_config.show.columns.exclude :par_lo_lim
         active_scaffold_config.create.columns.exclude :par_lo_lim
         active_scaffold_config.update.columns.exclude :par_lo_lim
       else
-        #active_scaffold_config.show.columns.add :par_hi_lim
         active_scaffold_config.create.columns.add :par_hi_lim
         active_scaffold_config.update.columns.add :par_hi_lim
-        #active_scaffold_config.show.columns.add :par_lo_lim
         active_scaffold_config.create.columns.add :par_lo_lim
         active_scaffold_config.update.columns.add :par_lo_lim
       end
       
       if !@field.limits.any?
-        #active_scaffold_config.show.columns.exclude :is_multi
         active_scaffold_config.create.columns.exclude :is_multi
         active_scaffold_config.update.columns.exclude :is_multi
       else
-        #active_scaffold_config.show.columns.add :is_multi
         active_scaffold_config.create.columns.add :is_multi
         active_scaffold_config.update.columns.add :is_multi
       end
