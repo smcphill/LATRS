@@ -1,0 +1,52 @@
+<div id="manage-menu">
+  <ul class="manage-menu">
+    <li class="forms">
+      <div class="manage-item">
+	<h3>Forms</h3>
+	<div class="content">
+	  <%= link_to "Create New Form", {:action => 'new', :controller => '/manage/templates'} %>
+	  <label>Manage Form: <%= select_tag "id", "<option></option>" + options_from_collection_for_select(@templates, "id", "name"), {:onchange => "jumpTo(this)"} %></label>
+	  <script type="text/javascript">
+	    function jumpTo (e) {
+	      if (e.value) {
+	        window.location = '<%= url_for({:action => 'show', :controller => 'manage/templates', :only_path => false}) %>/'+e.value;
+	      }
+	    }
+	  </script>
+	</div>
+      </div>
+    </li>
+    <li class="patients">
+      <div class="manage-item">
+	<h3>Patients</h3>
+	<div class="content">
+	  coming soon...
+	</div>
+      </div>
+    </li>
+    <li class="staff">
+      <div class="manage-item">
+	<h3>Staff</h3>
+	<div class="content">
+	  coming soon...
+	</div>
+      </div>
+    </li>
+    <li class="departments">
+      <div class="manage-item">
+	<h3>Departments</h3>
+	<div class="content">
+	  coming soon...
+	</div>
+      </div>
+    </li>
+    <li class="sources">
+      <div class="manage-item">
+	<h3>Sources</h3>
+	<div class="content">
+	  coming soon...
+	</div>
+      </div>
+    </li>
+  </ul>
+</div>

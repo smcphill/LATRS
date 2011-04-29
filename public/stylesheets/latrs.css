@@ -1,1 +1,40 @@
+/* global stuff */
+td { vertical-align: top; }
+* { font-family: sans }
+body { background-color: #ccc; }
+#content, #header, #footer { width:800px; margin: 0px auto; background-color:white; padding: 10px 20px;}
+#content, #footer {border-top: thin solid #ccc;}
+#header { overflow:auto;}
+#header h1,#header .subhead  {float:left;}
+#header .date { clear:both; float:right;}
+#footer { font-size: 0.8em; line-height:1.5em; overflow:auto;}
+#footer .about { width: 300px; float:right; border-left: thin solid #ccc; padding-left: 20px;}
+#footer .nav { float:left; display:inline;list-style-type:none;padding:0px;margin:0px;padding-right: 20px;border-right: thin solid #ccc; }
+
+
+/* management homepage */
+#manage-menu { overflow:auto; margin-bottom: 1em; }
+#manage-menu h3 { margin:0px; padding:0px; text-align:center;}
+.manage-menu { width:700px;list-style-type:none; margin: 0px auto;}
+.manage-menu li { width:190px; height: 180px; float:left;border: 2px solid #333; margin:10px;border-radius:20px; padding: 0px 5px;position:relative;}
+.manage-menu li .content { position:absolute; top:40px; text-align:center;}
+.vspace { height:2em; }
+.manage-menu li .content a, .manage-menu li .content a:hover
+{color:#06c;background-color:#fff;text-decoration:none; padding-bottom:0.5em;margin-bottom:0.5em;border-bottom: thin solid #ccc;display:block;}
+
+/* create view */
+ .description { display:block; max-width:400px; float:left; }
+
+/* actions */
+.form-footer a.delete { background-color: #F27785; color:black; }
+.form-footer a.delete:hover { color: #06C; }
+
+/* show stuff */
+#content .active-scaffold-header h2 { font-size: 1.5em; }
+.active-scaffold .show-view dt, .active-scaffold dt, .active-scaffold dt label { font-size: 12px; font-weight: bold; }
+.active-scaffold dd { margin-left: 0px;}
+/* form elements */
 .short input { width:10em; }
+
+/* overrides */
+.active-scaffold-header { min-width: 300px; }

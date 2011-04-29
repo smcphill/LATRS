@@ -1,13 +1,17 @@
-class TemplatesController < ApplicationController
+class Manage::TemplatesController < ApplicationController
+  layout "manage"
   active_scaffold :templates do | config |
     config.label = "Forms"
     config.list.always_show_search = false
     config.actions.exclude  :search    
     list.sorting = {:name => 'ASC'}
-    
+
+    config.create.action_after_create = 'show'
+
     #column definitions
     config.columns = :name, :is_active, :fields, :ancestors, :descendants
     config.list.columns = :name, :is_active, :fields, :descendants
+    config.show.columns = :name, :is_active, :fields, :descendants
     config.create.columns = :name
     config.update.columns = :name, :is_active    
 
@@ -27,7 +31,7 @@ class TemplatesController < ApplicationController
     config.columns[:descendants].label = "Sub-tests"
     
     #form overrides
-    config.columns[:is_active].form_ui = :checkbox
+    config.columns[:is_active].inplace_edit = true
 
     #descriptions
     config.columns[:name].description = "The name of the form"
@@ -35,6 +39,10 @@ class TemplatesController < ApplicationController
     config.columns[:fields].description = "Fields to be shown in the form"
     config.columns[:descendants].description = "These forms will be displayed upon completion of this form, pre-populated with patient, tester, department and source data"
     
+  end
+  
+  def index
+    redirect_to :controller => '/manage', :action => 'index'
   end
 
 end

@@ -1,15 +1,19 @@
-class LimitsController < ApplicationController
+class Manage::LimitsController < ApplicationController
+  layout "manage"
   active_scaffold :limits do | config |
     config.list.always_show_search = false
-    config.actions.exclude  :search    
+    config.actions.exclude  :search, :show, :update
     config.columns = :name, :is_default, :field
     
     #labels
     config.columns[:name].label = "Value"
     config.columns[:is_default].label = "Default option?"
+    config.columns[:is_default].send_form_on_update_column = true
 
     # form overrides
     config.columns[:is_default].form_ui = :checkbox
+    config.columns[:name].inplace_edit = true
+    config.columns[:is_default].inplace_edit = true
 
     #descriptions
     config.columns[:name].description = "This will become a selectable option for the form field"

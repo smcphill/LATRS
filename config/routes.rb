@@ -1,16 +1,12 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :limits, :active_scaffold => true
-  map.resources :fields, :active_scaffold => true
-  map.resources :templates, :active_scaffold => true
-  map.resources :links, :active_scaffold => true
-
-
   # admin routes
-#  map.namespace :admin do |admin|
-#    admin.resources :departments, :active_scaffold => true
-#    admin.resources :sources, :active_scaffold => true
-#    admin.resources :testers, :active_scaffold => true
-#  end
+  map.resources :manages
+  map.namespace :manage do |manage|
+    manage.resources :templates, :active_scaffold => true
+    manage.resources :fields, :active_scaffold => true
+    manage.resources :limits, :active_scaffold => true
+    manage.resources :links, :active_scaffold => true
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
 

@@ -1,10 +1,10 @@
-class LinksController < ApplicationController
+class Manage::LinksController < ApplicationController
+  layout "manage"
   active_scaffold :links do | config |
     config.label = "Sub-Test Links"
     config.columns = :descendant, :ancestor
     config.columns[:ancestor].label = "Sub-test"
     config.columns[:ancestor].clear_link
-    config.columns[:ancestor].actions_for_association_links = [:show]
     config.columns[:ancestor].form_ui = :select
     config.list.always_show_search = false
     config.actions.exclude :update, :show, :search

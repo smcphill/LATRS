@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>LATRS | <%= controller.controller_name %>: <%= controller.action_name %></title>
+  <%= javascript_include_tag :defaults %>
+  <%= active_scaffold_includes %>
+  <%= stylesheet_link_tag 'latrs', :media => 'all' %>  
+</head>
+<body>
+<div id="header">
+  <h1>LATRS: Management portal</h1>
+  <div class="subhead"><b>LA</b>boratory <b>T</b>est <b>R</b>esults <b>S</b>ystem</div>
+  <div class="date"><%= Time.now().strftime("%d %B %Y") %></div>
+</div>
+<div style="clear:both"></div>
+<div id="content">
+  <p style="color: green"><%= flash[:notice] %></p>
+  <%= yield  %>
+</div>
+<div id="footer">
+  <div class="about">
+    LATRS has been developed by <a href="http://www.bordermedia.org">Bordermedia</a> for the 
+    <a href="http://www.maetaoclinic.org/">Mae Tao Clinic</a>. 
+    <!--
+       This project was funded by 
+       <a href="http://www.australianvolunteers.com/">Australian Volunteers International</a>.
+    -->
+  </div>
+  <ul class="nav">
+    <li><a href="">Data Entry</a></li>
+    <li><a href="">Reporting</a></li>
+    <li><a href="">Data Export</a></li>
+    <li><a href="">Documentation</a></li>
+  </ul>
+</div>
+</body>
+</html>
