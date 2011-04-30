@@ -15,5 +15,8 @@
   <% elsif column.name.to_s == "descendants" %>
     <dd><%= render :active_scaffold => 'manage/links', :constraints => {:ancestor_id => @record.id} %></dd>
   <% end -%>
+  <dd class="description">
+    <%= column.description %>
+  </dd>
 <% end -%>
 </dl>

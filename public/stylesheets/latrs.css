@@ -31,8 +31,18 @@ body { background-color: #ccc; }
 
 /* show stuff */
 #content .active-scaffold-header h2 { font-size: 1.5em; }
-.active-scaffold .show-view dt, .active-scaffold dt, .active-scaffold dt label { font-size: 12px; font-weight: bold; }
+.active-scaffold .show-view .new-view dl dt, 
+.active-scaffold .show-view .edit-view dl dt
+{ margin-bottom:0px; }
+.active-scaffold .show-view .new-view dl dt label,
+.active-scaffold .show-view .edit-view dl dt label
+ { font-size: 12px; font-weight:bold; }
+.active-scaffold .show-view dl dt { font-size: 12px; font-weight: bold; margin-bottom:3em }
 .active-scaffold dd { margin-left: 0px;}
+.active-scaffold .show-view dd.description { background: #bbd0ff url('../images/information.png') 0px 0px no-repeat; float:right; width:180px; font-size:0.8em; font-weight: normal;display:block; margin-right:10px; min-height:20px;padding-left:20px;color:#000;border-left: solid 5px #6671ff;}
+tbody.records { width:500px;}
+.active-scaffold .show-view table { width:400px; }
+
 /* form elements */
 .short input { width:10em; }
 
