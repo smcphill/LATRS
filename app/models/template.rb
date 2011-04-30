@@ -1,5 +1,5 @@
 class Template < ActiveRecord::Base
-  after_initialize :init
+  after_create :set_defaults
   validate :validate_active_status
   validates_uniqueness_of :name, 
                           :message => "Form names must be unique", 
@@ -19,4 +19,11 @@ class Template < ActiveRecord::Base
     end
   end
 
+  private
+  def set_defaults
+    if self.is_active.nil?
+      self.is_active = false
+      self.save
+    end
+  end
 end
