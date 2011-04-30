@@ -19,8 +19,4 @@ class Template < ActiveRecord::Base
     end
   end
 
-  private
-  def init
-    self.is_active ||= false
-  end
 end
