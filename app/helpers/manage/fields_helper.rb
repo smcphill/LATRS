@@ -1,5 +1,5 @@
 module Manage::FieldsHelper
-  FIELD_TYPES = [["Generic", "Stringfield"],["Number", "Numericfield"]]
+  FIELD_TYPES = [["Text", "Stringfield"],["Number", "Numericfield"]]
 
   def field_type_form_column(record, input_name)
     select_tag("type-input", 
