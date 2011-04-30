@@ -26,12 +26,13 @@ class Manage::TemplatesController < ApplicationController
 
     #labels
     config.columns[:name].label = "Form Name"
-    config.columns[:is_active].label = "Active?"
+    config.columns[:is_active].label = "Status"
     config.columns[:fields].label = "Form Fields"
     config.columns[:descendants].label = "Sub-tests"
     
     #form overrides
     config.columns[:is_active].inplace_edit = true
+    config.columns[:is_active].form_ui = :true
 
     #descriptions
     config.columns[:name].description = "The name of the form"

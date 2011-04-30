@@ -5,10 +5,10 @@
     <dd><%= active_scaffold_inplace_edit(@record, column) %></dd>
   <% elsif column.name.to_s == "is_active" %>
     <dd id="as_manage__templates-is_active-column">
-      <%= active_scaffold_inplace_edit(@record, column) %>
+      <%= active_scaffold_inplace_edit(@record, column, :formatted_column => (@record.is_active ? "Active" : "Inactive")) %>
       <div class="as_inplace_pattern" style="display:none;"><select class="is_active-input" id="record_is_active_" name="record[is_active]"><option value="" selected="selected">- select -</option>
-	  <option value="true">Active</option>
-	  <option value="false">Inactive</option></select></div>
+	  <option value="t">Active</option>
+	  <option value="f">Inactive</option></select></div>
     </dd>
   <% elsif column.name.to_s == "fields" %>
     <dd><%= render :active_scaffold => 'manage/fields', :constraints => {:template_id => @record.id} %></dd>
