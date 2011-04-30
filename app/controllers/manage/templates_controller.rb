@@ -3,8 +3,10 @@ class Manage::TemplatesController < ApplicationController
   active_scaffold :templates do | config |
     config.label = "Forms"
     config.list.always_show_search = false
+    config.list.pagination = false
+    config.list.per_page = 1000
     config.actions.exclude  :search    
-    list.sorting = {:name => 'ASC'}
+    config.list.sorting = {:name => 'ASC'}
 
     config.create.action_after_create = 'show'
 

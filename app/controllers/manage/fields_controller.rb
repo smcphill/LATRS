@@ -5,6 +5,8 @@ class Manage::FieldsController < ApplicationController
   active_scaffold :fields do | config |
     config.label = "Form Fields"
     config.list.always_show_search = false
+    config.list.pagination = false
+    config.list.per_page = 1000
     config.actions.exclude  :search, :show
     list.sorting = {:name => 'ASC'}
     config.create.link.label = "Add Field"

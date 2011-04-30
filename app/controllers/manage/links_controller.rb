@@ -7,6 +7,8 @@ class Manage::LinksController < ApplicationController
     config.columns[:ancestor].clear_link
     config.columns[:ancestor].form_ui = :select
     config.list.always_show_search = false
+    config.list.pagination = false
+    config.list.per_page = 1000
     config.actions.exclude :show, :search
     config.create.link.label = "Add Sub-test"
     config.update.link = false

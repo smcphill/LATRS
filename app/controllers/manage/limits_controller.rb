@@ -2,6 +2,8 @@ class Manage::LimitsController < ApplicationController
   layout "manage"
   active_scaffold :limits do | config |
     config.list.always_show_search = false
+    config.list.pagination = false
+    config.list.per_page = 1000
     config.actions.exclude  :search, :show
     config.columns = :name, :is_default, :field
     config.update.link = false
