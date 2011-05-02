@@ -12,6 +12,9 @@ if column.inplace_edit
       val = "Inactive"
     end
     page.replace_html(column_span_id, val)
+  elsif column.name.to_s == "colour"
+    val = "<span class='colourLabel'>##{@record.colour}</span><span class='colourCube' style='background-color: ##{@record.colour}'></span>"
+    page.replace_html(column_span_id, val)  
   else
     page.replace_html(column_span_id, format_inplace_edit_column(@record, column))
   end

@@ -1,0 +1,4 @@
+#<input autocomplete="off" class="colour-input text-input" id="record_colour_<%= record.id %>" maxlength="255" name="record[colour]" size="7" type="text" value="<%= record.colour %>" /><button style="width: 1.5em; height: 1.5em; border: 1px outset #666;" id="colorbox" class="colorbox"></button>
+<script type="text/javascript">
+  new Control.ColorPicker("record_colour_<%= record.id %>", { "swatch" : "colorbox" });
+</script>

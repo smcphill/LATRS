@@ -14,6 +14,13 @@
     <dd><%= render :active_scaffold => 'manage/fields', :constraints => {:template_id => @record.id} %></dd>
   <% elsif column.name.to_s == "descendants" %>
     <dd><%= render :active_scaffold => 'manage/links', :constraints => {:ancestor_id => @record.id} %></dd>
+  <% elsif column.name.to_s == "colour" %>
+    <dd id="as_manage__templates-colour-column">
+      <%= javascript_include_tag "scriptaculous" %>
+      <%= javascript_include_tag "yahoo.color" %>
+      <%= javascript_include_tag "colorPicker" %>
+      <%= active_scaffold_inplace_edit(@record, column, :formatted_column => "<span class='colourLabel'>##{@record.colour}</span><span class='colourCube' style='background-color: ##{@record.colour}'></span>") %>
+    </dd>  
   <% end -%>
   <dd class="description">
     <%= column.description %>

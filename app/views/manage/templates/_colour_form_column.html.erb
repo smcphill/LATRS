@@ -1,0 +1,12 @@
+<%= javascript_include_tag "scriptaculous" %>
+<%= javascript_include_tag "yahoo.color" %>
+<%= javascript_include_tag "colorPicker" %>
+<dt><label  for="<%= "record_#{column.name}" %>"><%= column.label%></label></dt>
+<dd>
+  #<%= active_scaffold_input_for column, nil, {:size => 7} %><button style="width: 1.5em; height: 1.5em; border: 1px outset #666;" id="colorbox" class="colorbox"></button>
+  <span class="description"><%= column.description %></span>
+  <script type="text/javascript">
+    new Control.ColorPicker("record_colour_", { "swatch" : "colorbox" });
+  </script>
+</dd>
+
