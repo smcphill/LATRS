@@ -38,4 +38,11 @@ module Manage::FieldsHelper
     end
   end
 
+  def field_par_hi_lim_form_column(record, input_name)
+    select("record", "par_hi_lim", record.parent.limits.collect {|l| l.name }, {:include_blank => '--select--'})
+  end
+
+  def field_par_lo_lim_form_column(record, input_name)
+    select("record", "par_hi_lim", record.parent.limits.collect {|l| l.name }, {:include_blank => '--select--'})
+  end
 end
