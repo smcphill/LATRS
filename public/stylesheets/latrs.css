@@ -1,6 +1,6 @@
 /* global stuff */
 td { vertical-align: top; }
-* { font-family: sans }
+* { font-family:  "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Lucida, sans; }
 body { background-color: #ccc; }
 #content, #header, #footer { width:800px; margin: 0px auto; background-color:white; padding: 10px 20px;}
 #content, #footer {border-top: thin solid #ccc;}
@@ -30,8 +30,7 @@ body { background-color: #ccc; }
 .form-footer a.delete:hover { color: #06C; }
 
 /* show stuff */
-.colourLabel { display:block;float:left;margin-right:1em}
-.colourCube { display:block;width:1.5em;height:1.5em;float:left}
+.colourCube { display:block;width:1.5em;height:1.5em;float:left; margin-right: 1em;border: 1px solid black}
 #content .active-scaffold-header h2 { font-size: 1.5em; }
 .active-scaffold .show-view .new-view dl dt, 
 .active-scaffold .show-view .edit-view dl dt

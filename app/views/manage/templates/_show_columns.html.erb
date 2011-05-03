@@ -19,7 +19,7 @@
       <%= javascript_include_tag "scriptaculous" %>
       <%= javascript_include_tag "yahoo.color" %>
       <%= javascript_include_tag "colorPicker" %>
-      <%= active_scaffold_inplace_edit(@record, column, :formatted_column => "<span class='colourLabel'>##{@record.colour}</span><span class='colourCube' style='background-color: ##{@record.colour}'></span>") %>
+      <%= active_scaffold_inplace_edit(@record, column, :formatted_column => "##{@record.colour}&nbsp;<span class='colourCube' style='background-color: ##{@record.colour}'></span>") %>
     </dd>  
   <% end -%>
   <dd class="description">
