@@ -4,12 +4,15 @@ td { vertical-align: top; }
 body { background-color: #ccc; }
 #content, #header, #footer { width:800px; margin: 0px auto; background-color:white; padding: 10px 20px;}
 #content, #footer {border-top: thin solid #ccc;}
-#header { overflow:auto;}
+#content {min-height:10em;}
+#header { overflow:auto;background-color:#E165CE;}
 #header h1,#header .subhead  {float:left;}
 #header .date { clear:both; float:right;}
-#footer { font-size: 0.8em; line-height:1.5em; overflow:auto;}
+#footer { font-size: 0.8em; line-height:1.5em; overflow:auto;background-color:#E165CE;}
 #footer .about { width: 300px; float:right; border-left: thin solid #ccc; padding-left: 20px;}
 #footer .nav { float:left; display:inline;list-style-type:none;padding:0px;margin:0px;padding-right: 20px;border-right: thin solid #ccc; }
+#footer a, #footer a:visited, #footer a:hover {color: #000;}
+#footer a:hover {background-color: #eec; }
 
 
 /* management homepage */
@@ -20,7 +23,9 @@ body { background-color: #ccc; }
 .manage-menu li .content { position:absolute; top:40px; text-align:center;}
 .vspace { height:2em; }
 .manage-menu li .content a, .manage-menu li .content a:hover
-{color:#06c;background-color:#fff;text-decoration:none; padding-bottom:0.5em;margin-bottom:0.5em;border-bottom: thin solid #ccc;display:block;}
+{color:#06c;background-color:transparent;text-decoration:none; padding-bottom:0.5em;margin-bottom:0.5em;border-bottom: thin solid #ccc;display:block;}
+
+.manage-menu li.forms { background-color: #DAFFCD; }
 
 /* create view */
  .description { display:block; max-width:400px; float:left; }
