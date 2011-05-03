@@ -20,12 +20,23 @@ body { background-color: #ccc; }
 #manage-menu h3 { margin:0px; padding:0px; text-align:center;}
 .manage-menu { width:700px;list-style-type:none; margin: 0px auto;}
 .manage-menu li { width:190px; height: 180px; float:left;border: 2px solid #333; margin:10px;border-radius:20px; padding: 0px 5px;position:relative;}
-.manage-menu li .content { position:absolute; top:40px; text-align:center;}
+.manage-menu li .content { position:absolute; top:40px; text-align:center; width:95%; margin: 0px auto;}
 .vspace { height:2em; }
 .manage-menu li .content a, .manage-menu li .content a:hover
 {color:#06c;background-color:transparent;text-decoration:none; padding-bottom:0.5em;margin-bottom:0.5em;border-bottom: thin solid #ccc;display:block;}
 
+/* management homepage colours */
 .manage-menu li.forms { background-color: #DAFFCD; }
+.manage-menu li.staff { background-color: #FFFFCD; }
+.manage-menu li.patients { background-color: #CDDCFF;}
+.manage-menu li.departments { background-color: #FFE1CD;}
+.manage-menu li.sources { background-color: #CDFFF8;}
+
+/* management section colours */
+.active-scaffold .manage\/staff-view { background-color: #FFFFCD;}
+.active-scaffold .manage\/patients-view { background-color: #CDDCFF;}
+.active-scaffold .manage\/departments-view { background-color: #FFE1CD;}
+.active-scaffold .manage\/sources-view { background-color: #CDFFF8;}
 
 /* create view */
  .description { display:block; max-width:400px; float:left; }

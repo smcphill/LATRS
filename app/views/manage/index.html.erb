@@ -1,18 +1,18 @@
+<script type="text/javascript">
+  function jumpTo (e) {
+    if (e.value) {
+      window.location = '<%= url_for({:action => 'show', :controller => 'manage/templates', :only_path => false}) %>/'+e.value;
+    }
+  }
+</script>
 <div id="manage-menu">
   <ul class="manage-menu">
     <li class="forms">
       <div class="manage-item">
 	<h3>Forms</h3>
 	<div class="content">
-	  <%= link_to "Create New Form", {:action => 'new', :controller => '/manage/templates'} %>
+	  <%= link_to "Add New Form", {:action => 'new', :controller => '/manage/templates'} %>
 	  <label>Manage Form: <%= select_tag "id", "<option></option>" + options_from_collection_for_select(@templates, "id", "name"), {:onchange => "jumpTo(this)"} %></label>
-	  <script type="text/javascript">
-	    function jumpTo (e) {
-	      if (e.value) {
-	        window.location = '<%= url_for({:action => 'show', :controller => 'manage/templates', :only_path => false}) %>/'+e.value;
-	      }
-	    }
-	  </script>
 	</div>
       </div>
     </li>
@@ -20,7 +20,8 @@
       <div class="manage-item">
 	<h3>Patients</h3>
 	<div class="content">
-	  coming soon...
+	  <%= link_to "Add New Patient", {:action => 'new', :controller => '/manage/patients'} %><br/>
+	  <%= link_to "Manage Patients", {:action => 'list', :controller => '/manage/patients'} %>
 	</div>
       </div>
     </li>
@@ -28,7 +29,8 @@
       <div class="manage-item">
 	<h3>Staff</h3>
 	<div class="content">
-	  coming soon...
+	  <%= link_to "Add New Staff", {:action => 'new', :controller => '/manage/staff'} %><br/>
+	  <%= link_to "Manage Staff", {:action => 'list', :controller => '/manage/staff'} %>
 	</div>
       </div>
     </li>
@@ -36,7 +38,8 @@
       <div class="manage-item">
 	<h3>Departments</h3>
 	<div class="content">
-	  coming soon...
+	  <%= link_to "Add New Department", {:action => 'new', :controller => '/manage/departments'} %><br/>
+	  <%= link_to "Manage Departments", {:action => 'list', :controller => '/manage/departments'} %>
 	</div>
       </div>
     </li>
@@ -44,7 +47,8 @@
       <div class="manage-item">
 	<h3>Sources</h3>
 	<div class="content">
-	  coming soon...
+	  <%= link_to "Add New Source", {:action => 'new', :controller => '/manage/sources'} %><br/>
+	  <%= link_to "Manage Sources", {:action => 'list', :controller => '/manage/sources'} %>
 	</div>
       </div>
     </li>

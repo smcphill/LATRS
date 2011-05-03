@@ -1,0 +1,2 @@
+module Manage::DepartmentsHelper
+end

@@ -9,7 +9,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110430093635) do
+ActiveRecord::Schema.define(:version => 20110503060053) do
+
+  create_table "departments", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "fields", :force => true do |t|
     t.string   "name"
@@ -39,6 +45,23 @@ ActiveRecord::Schema.define(:version => 20110430093635) do
     t.integer  "descendant_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "patients", :force => true do |t|
+    t.string   "name"
+    t.string   "rn"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sources", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "staffs", :force => true do |t|
+    t.string "name"
   end
 
   create_table "templates", :force => true do |t|
