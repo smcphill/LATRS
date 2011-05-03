@@ -1,29 +1,31 @@
-<dl>
+<table class="show-template">
 <% columns.each :for => @record do |column| %>
-  <dt><%= column.label %></dt>
+<tr>
+  <th><%= column.label %></th>
   <% if column.name.to_s == "name" %>
-    <dd><%= active_scaffold_inplace_edit(@record, column) %></dd>
+    <td><%= active_scaffold_inplace_edit(@record, column) %></td>
   <% elsif column.name.to_s == "is_active" %>
-    <dd id="as_manage__templates-is_active-column">
+    <td id="as_manage__templates-is_active-column">
       <%= active_scaffold_inplace_edit(@record, column, :formatted_column => (@record.is_active ? "Active" : "Inactive")) %>
       <div class="as_inplace_pattern" style="display:none;"><select class="is_active-input" id="record_is_active_" name="record[is_active]"><option value="" selected="selected">- select -</option>
 	  <option value="t">Active</option>
 	  <option value="f">Inactive</option></select></div>
-    </dd>
+    </td>
   <% elsif column.name.to_s == "fields" %>
-    <dd><%= render :active_scaffold => 'manage/fields', :constraints => {:template_id => @record.id} %></dd>
+    <td><%= render :active_scaffold => 'manage/fields', :constraints => {:template_id => @record.id} %></td>
   <% elsif column.name.to_s == "descendants" %>
-    <dd><%= render :active_scaffold => 'manage/links', :constraints => {:ancestor_id => @record.id} %></dd>
+    <td><%= render :active_scaffold => 'manage/links', :constraints => {:ancestor_id => @record.id} %></td>
   <% elsif column.name.to_s == "colour" %>
-    <dd id="as_manage__templates-colour-column">
+    <td id="as_manage__templates-colour-column">
       <%= javascript_include_tag "scriptaculous" %>
       <%= javascript_include_tag "yahoo.color" %>
       <%= javascript_include_tag "colorPicker" %>
       <%= active_scaffold_inplace_edit(@record, column, :formatted_column => "##{@record.colour}&nbsp;<span class='colourCube' style='background-color: ##{@record.colour}'></span>") %>
-    </dd>  
+    </td>  
   <% end -%>
-  <dd class="description">
+  <td class="description">
     <%= column.description %>
-  </dd>
+  </td>
+</tr>
 <% end -%>
-</dl>
+</table>
