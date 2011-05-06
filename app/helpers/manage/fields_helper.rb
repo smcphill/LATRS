@@ -39,10 +39,18 @@ module Manage::FieldsHelper
   end
 
   def field_par_hi_lim_form_column(record, input_name)
-    select("record", "par_hi_lim", record.parent.limits.collect {|l| l.name }, {:include_blank => '--select--'})
+    if record.parent_id? && record.parent.limits.any?
+      select("record", "par_hi_lim", record.parent.limits.collect {|l| l.name }, {:include_blank => '--select--'})
+    else
+      active_scaffold_config.list.empty_field_text
+    end
   end
 
   def field_par_lo_lim_form_column(record, input_name)
-    select("record", "par_hi_lim", record.parent.limits.collect {|l| l.name }, {:include_blank => '--select--'})
+    if record.parent_id? && record.parent.limits.any?
+      select("record", "par_hi_lim", record.parent.limits.collect {|l| l.name }, {:include_blank => '--select--'})
+    else
+      active_scaffold_config.list.empty_field_text
+    end
   end
 end
