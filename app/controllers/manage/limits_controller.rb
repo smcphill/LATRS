@@ -7,6 +7,8 @@ class Manage::LimitsController < ApplicationController
     config.actions.exclude  :search, :show
     config.columns = :name, :is_default, :field
     config.update.link = false
+    config.create.link.label = "Add Limit"
+
     #labels
     config.columns[:name].label = "Value"
     config.columns[:is_default].label = "Default option?"
