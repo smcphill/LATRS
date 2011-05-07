@@ -31,7 +31,13 @@ module Manage::FieldsHelper
 
   def field_children_column(record)
     if record.children.any?
-      "<ul class='children'>" + record.children.collect{|kid| "<li>#{kid.name}</li>"}.join('') + "</ul>"
+      "<ul class='children'>" + record.children.collect{|kid| 
+        if kid.is_required?
+          "<li><font color='red'>#{kid.name}</font></li>"
+        else
+          "<li>#{kid.name}</li>"
+        end
+        }.join('') + "</ul>"
     else
       active_scaffold_config.list.empty_field_text
     end
