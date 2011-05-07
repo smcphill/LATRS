@@ -11,6 +11,9 @@ class Manage::FieldsController < ApplicationController
     list.sorting = {:name => 'ASC'}
     config.create.link.label = "Add Field"
     
+    #sorting
+    config.actions << :sortable
+    config.sortable.column = :position
 
     #column definitions
     config.columns = :name, :is_general, :is_required, :limits, :children, :parent, :type, :is_multi, :par_hi_lim, :par_lo_lim

@@ -9,6 +9,10 @@ class Manage::LimitsController < ApplicationController
     config.update.link = false
     config.create.link.label = "Add Limit"
 
+    #sorting
+    config.actions << :sortable
+    config.sortable.column = :position
+
     #labels
     config.columns[:name].label = "Value"
     config.columns[:is_default].label = "Default option?"
