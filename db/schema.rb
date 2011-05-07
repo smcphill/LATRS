@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110503060053) do
+ActiveRecord::Schema.define(:version => 20110507054408) do
 
   create_table "departments", :force => true do |t|
     t.string   "name"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20110503060053) do
     t.string   "par_hi_lim"
     t.string   "par_lo_lim"
     t.string   "unit_label"
+    t.integer  "position"
   end
 
   create_table "limits", :force => true do |t|
@@ -38,6 +39,7 @@ ActiveRecord::Schema.define(:version => 20110503060053) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_default"
+    t.integer  "position"
   end
 
   create_table "links", :force => true do |t|
