@@ -6,11 +6,11 @@ module Manage::FieldsHelper
                options_for_select(FIELD_TYPES, record.type), :name => "record[type]" )
   end
 
-  def field_type_column(record)
-    if (record.type == "Numericfield")
-      "Number"
+  def field_name_column(record)
+    if record.is_required?
+      "<font color='red'>#{record.name}</font>"
     else
-      "Generic"
+      "#{record.name}"
     end
   end
 
@@ -18,7 +18,7 @@ module Manage::FieldsHelper
     if record.limits.any?
       rec_limits = record.limits.first(10).collect {|lim|
         if lim.is_default?
-          {"key" => lim.name, "label" => "<u>#{lim.name}</u>"}
+          {"key" => lim.name, "label" => "<u><b>#{lim.name}</b></u>"}
         else
           {"key" => lim.name, "label" => lim.name}
         end
@@ -31,8 +31,7 @@ module Manage::FieldsHelper
 
   def field_children_column(record)
     if record.children.any?
-      # should we bold the default option here?
-      record.children.first(10).collect{|kid| kid.name}.sort().join('<br/> ')
+      "<ul class='children'>" + record.children.collect{|kid| "<li>#{kid.name}</li>"}.join('') + "</ul>"
     else
       active_scaffold_config.list.empty_field_text
     end

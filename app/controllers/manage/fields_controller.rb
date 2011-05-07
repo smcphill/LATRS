@@ -23,14 +23,8 @@ class Manage::FieldsController < ApplicationController
     config.nested.add_link("Subfields", :children)
     config.columns[:limits].clear_link
     config.columns[:limits].associated_limit = 10
-    config.columns[:children].actions_for_association_links = [:show]
     config.columns[:children].clear_link
-    config.columns[:children].label = "Subfield"
-    config.columns[:children].form_ui = :select
     config.columns[:children].association.reverse = :parent 
-    config.columns[:children].includes = [] 
-    config.columns[:template].actions_for_association_links = [:show]
-    config.columns[:type].form_ui = :select
 
     # boolean overrides
     config.columns[:is_general].form_ui = :checkbox
@@ -50,6 +44,7 @@ class Manage::FieldsController < ApplicationController
     config.columns[:is_multi].label = "Multiple selection?"
     config.columns[:par_hi_lim].label = "Parent display limit (upper)"
     config.columns[:par_lo_lim].label = "Parent display limit (lower)"
+    config.columns[:children].label = "Subfield"
 
     #descriptions
     config.columns[:name].description = "The name of this form field"
