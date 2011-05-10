@@ -19,9 +19,9 @@ class Manage::TemplatesController < ApplicationController
 
     #associations
     config.columns[:fields].clear_link
-    config.columns[:fields].associated_limit = 10
+    config.columns[:fields].associated_limit = 100
     config.columns[:descendants].clear_link
-    config.columns[:descendants].associated_limit = 10
+    config.columns[:descendants].associated_limit = 100
     config.columns[:descendants].actions_for_association_links = [:show]
     config.nested.add_link("Form Fields", :fields)    
     config.nested.add_link("Sub-tests", :descendants)
