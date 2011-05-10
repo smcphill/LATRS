@@ -7,6 +7,8 @@ body { background-color: #ccc; }
 #content {min-height:10em;}
 #header { overflow:auto;background-color:#E165CE;}
 #header h1,#header .subhead  {float:left;}
+#header h1 a, #header h1 a:visited { text-decoration:none; color:#000; }
+#header h1 a:hover {text-decoration:underline;color:#000;}
 #header .date { clear:both; float:right;}
 #footer { font-size: 0.8em; line-height:1.5em; overflow:auto;background-color:#E165CE;}
 #footer .about { width: 300px; float:right; border-left: thin solid #ccc; padding-left: 20px;}
