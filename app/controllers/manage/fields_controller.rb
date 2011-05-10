@@ -1,6 +1,7 @@
 class Manage::FieldsController < ApplicationController
   layout "manage"
   before_filter :update_table_config
+  before_filter :action_links_order
 
   active_scaffold :fields do | config |
     config.label = "Form Fields"
@@ -11,6 +12,9 @@ class Manage::FieldsController < ApplicationController
     list.sorting = {:name => 'ASC'}
     config.create.link.label = "Add Field"
     
+    #actions
+    config.action_links.add 'copy', :label => 'Copy', :action => 'copy', :type => :member, :crud_type => :create
+
     #sorting
     config.actions << :sortable
     config.sortable.column = :position
@@ -25,7 +29,7 @@ class Manage::FieldsController < ApplicationController
     config.nested.add_link("Limits", :limits)    
     config.nested.add_link("Subfields", :children)
     config.columns[:limits].clear_link
-    config.columns[:limits].associated_limit = 10
+    config.columns[:limits].associated_limit = 100
     config.columns[:children].clear_link
     config.columns[:children].association.reverse = :parent 
 
@@ -61,6 +65,29 @@ class Manage::FieldsController < ApplicationController
     config.columns[:par_hi_lim].description = "Only display when the parent field value is lower than this"
     config.columns[:par_lo_lim].description = "Only display when the parent field value is higher than this"
 
+  end
+
+  def copy
+    copyfield = Field.new
+    newid = copyfield.deep_copy(params[:id])
+    @record = Field.find(newid)
+    @src = params[:id]
+    @eid = params[:eid]
+    params[:adapter] = nil
+    render :action => 'copy', :content_type => 'text/javascript'
+  end
+
+  protected
+  def action_links_order
+    links = active_scaffold_config.action_links
+    del_link = links[:delete]
+    copy_link = links[:copy]
+    if copy_link
+      links.delete :copy
+      links.delete :delete
+      links << copy_link
+      links << del_link
+    end
   end
 
   def update_table_config
