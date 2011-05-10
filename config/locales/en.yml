@@ -2,4 +2,8 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  active_scaffold:
+    create: 'Save'
+    update: 'Save'
+    update_model: 'Save %{model}'
+    updated_model: 'Saved %{model}'
