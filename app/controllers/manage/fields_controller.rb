@@ -47,6 +47,7 @@ class Manage::FieldsController < ApplicationController
     config.columns[:name].label = "Field"
     config.columns[:template].label = "Form"
     config.columns[:unit_label].label = "Unit label"
+    config.columns[:is_general].label = "General field?"
     config.columns[:is_required].label = "Required field?"
     config.columns[:is_multi].label = "Multiple selection?"
     config.columns[:par_hi_lim].label = "Parent display limit (upper)"
