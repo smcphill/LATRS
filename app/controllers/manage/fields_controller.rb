@@ -20,10 +20,10 @@ class Manage::FieldsController < ApplicationController
     config.sortable.column = :position
 
     #column definitions
-    config.columns = :name, :is_general, :is_required, :limits, :children, :parent, :type, :is_multi, :par_hi_lim, :par_lo_lim
+    config.columns = :name, :is_required, :limits, :children, :parent, :type, :is_multi, :par_hi_lim, :par_lo_lim
     config.list.columns = :name, :children, :limits
-    config.create.columns = :name, :unit_label, :is_general, :is_required, :type, :limits, :is_multi, :par_hi_lim, :par_lo_lim
-    config.update.columns = :name, :unit_label, :is_general, :is_required, :type, :is_multi, :par_hi_lim, :par_lo_lim
+    config.create.columns = :name, :unit_label, :is_required, :type, :limits, :is_multi, :par_hi_lim, :par_lo_lim
+    config.update.columns = :name, :unit_label, :is_required, :type, :is_multi, :par_hi_lim, :par_lo_lim
 
     #associations
     config.nested.add_link("Limits", :limits)    
@@ -34,7 +34,6 @@ class Manage::FieldsController < ApplicationController
     config.columns[:children].association.reverse = :parent 
 
     # boolean overrides
-    config.columns[:is_general].form_ui = :checkbox
     config.columns[:is_required].form_ui = :checkbox
     config.columns[:is_multi].form_ui = :checkbox
 
@@ -47,7 +46,6 @@ class Manage::FieldsController < ApplicationController
     config.columns[:name].label = "Field"
     config.columns[:template].label = "Form"
     config.columns[:unit_label].label = "Unit label"
-    config.columns[:is_general].label = "General field?"
     config.columns[:is_required].label = "Required field?"
     config.columns[:is_multi].label = "Multiple selection?"
     config.columns[:par_hi_lim].label = "Parent display limit (upper)"
@@ -56,7 +54,6 @@ class Manage::FieldsController < ApplicationController
 
     #descriptions
     config.columns[:name].description = "The name of this form field"
-    config.columns[:is_general].description = "Does this field hold a general outcome for the test? Eg., 'Outcome = Positive' for Malaria"
     config.columns[:is_required].description = "Data for a required field must be provided for the test result to be saved"
     config.columns[:limits].description = "If this field data should be limited to a list of options, provide a set of limits here"
     config.columns[:children].description = "If this field has additional structure (like a Malaria PV classifier of 's', 't', or 'g'), create a subfield"

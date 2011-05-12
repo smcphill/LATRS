@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110507054408) do
+ActiveRecord::Schema.define(:version => 20110512072918) do
 
   create_table "departments", :force => true do |t|
     t.string   "name"
@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(:version => 20110507054408) do
 
   create_table "fields", :force => true do |t|
     t.string   "name"
-    t.boolean  "is_general"
     t.boolean  "is_required"
     t.integer  "template_id"
     t.datetime "created_at"

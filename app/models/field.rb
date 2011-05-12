@@ -22,7 +22,6 @@ class Field < ActiveRecord::Base
     self.name = field.parent_id ? field.name : name
     self.template_id = field.template_id
     self.parent_id = field.parent_id
-    self.is_general = field.is_general
     self.is_required = field.is_required
     self.is_multi = field.is_multi
     self.type = field.type
@@ -48,7 +47,6 @@ class Field < ActiveRecord::Base
   private
   def init
     self.is_required ||= false
-    self.is_general ||= false
     self.is_multi ||= false
   end
 end
