@@ -1,4 +1,7 @@
 class Field < ActiveRecord::Base
+  DISP_OPTS = %w(i l)
+  validates_inclusion_of :display_as, :in => DISP_OPTS
+
   after_initialize :init
 
   has_many :limits, :dependent => :destroy
@@ -27,6 +30,7 @@ class Field < ActiveRecord::Base
     self.type = field.type
     self.par_hi_lim = field.par_hi_lim
     self.par_lo_lim = field.par_lo_lim
+    self.display_as = field.display_as
     self.created_at = Time.now
     self.updated_at = Time.now
     self.save

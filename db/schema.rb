@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110512081510) do
+ActiveRecord::Schema.define(:version => 20110512084017) do
 
   create_table "departments", :force => true do |t|
     t.string   "name"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20110512081510) do
     t.string   "par_lo_lim"
     t.string   "unit_label"
     t.integer  "position"
+    t.string   "display_as"
   end
 
   create_table "limits", :force => true do |t|

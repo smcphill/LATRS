@@ -20,10 +20,10 @@ class Manage::FieldsController < ApplicationController
     config.sortable.column = :position
 
     #column definitions
-    config.columns = :name, :is_required, :limits, :children, :parent, :type, :is_multi, :par_hi_lim, :par_lo_lim
+    config.columns = :name, :is_required, :limits, :children, :parent, :type, :is_multi, :par_hi_lim, :par_lo_lim, :display_as
     config.list.columns = :name, :children, :limits
-    config.create.columns = :name, :unit_label, :is_required, :type, :limits, :is_multi, :par_hi_lim, :par_lo_lim
-    config.update.columns = :name, :unit_label, :is_required, :type, :is_multi, :par_hi_lim, :par_lo_lim
+    config.create.columns = :name, :unit_label, :is_required, :type, :limits, :is_multi, :par_hi_lim, :par_lo_lim, :display_as
+    config.update.columns = :name, :unit_label, :is_required, :type, :is_multi, :par_hi_lim, :par_lo_lim, :display_as
 
     #associations
     config.nested.add_link("Limits", :limits)    
@@ -33,9 +33,12 @@ class Manage::FieldsController < ApplicationController
     config.columns[:children].clear_link
     config.columns[:children].association.reverse = :parent 
 
-    # boolean overrides
+    # form overrides
     config.columns[:is_required].form_ui = :checkbox
     config.columns[:is_multi].form_ui = :checkbox
+    config.columns[:display_as].form_ui = :select
+    config.columns[:display_as].options =  {:options =>  [['Inline with parent', 'i'], ['Listed underneath parent', 'l']]}
+
 
     # css
     config.columns[:unit_label].css_class = "short"
@@ -50,6 +53,7 @@ class Manage::FieldsController < ApplicationController
     config.columns[:is_multi].label = "Multiple selection?"
     config.columns[:par_hi_lim].label = "Parent display limit (upper)"
     config.columns[:par_lo_lim].label = "Parent display limit (lower)"
+    config.columns[:display_as].label = "Subfield display rule"
     config.columns[:children].label = "Subfield"
 
     #descriptions
@@ -62,6 +66,7 @@ class Manage::FieldsController < ApplicationController
     config.columns[:is_multi].description = "Can this field have multiple values?"
     config.columns[:par_hi_lim].description = "Only display when the parent field value is lower than this"
     config.columns[:par_lo_lim].description = "Only display when the parent field value is higher than this"
+    config.columns[:display_as].description = "Display subfield alongside parent, or underneath in a list?"
 
   end
 

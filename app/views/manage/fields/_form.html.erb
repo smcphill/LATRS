@@ -1,6 +1,6 @@
 <ol class="form" <%= 'style="display: none;"' if columns.collapsed -%>>
   <% columns.each :for => @record do |column| -%>
-  <% if (column.name.to_s != "par_hi_lim" && column.name.to_s != "par_lo_lim") || @record.parent_id -%>
+  <% if (column.name.to_s != "par_hi_lim" && column.name.to_s != "par_lo_lim" && column.name.to_s != "display_as") || @record.parent_id -%>
     <% if is_subsection? column -%>q
     <li class="sub-section">
       <h5><%= column.label %> (<%= link_to_visibility_toggle(:default_visible => !column.collapsed) -%>)</h5>
