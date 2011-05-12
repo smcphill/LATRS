@@ -11,11 +11,11 @@ class Manage::TemplatesController < ApplicationController
     config.create.action_after_create = 'show'
 
     #column definitions
-    config.columns = :name, :colour, :is_active, :fields, :ancestors, :descendants
+    config.columns = :name, :description, :colour, :is_active, :fields, :ancestors, :descendants
     config.list.columns = :name, :is_active, :fields, :descendants
-    config.show.columns = :name, :is_active, :colour, :fields, :descendants
-    config.create.columns = :name, :colour
-    config.update.columns = :name, :colour, :is_active    
+    config.show.columns = :name, :description, :is_active, :colour, :fields, :descendants
+    config.create.columns = :name, :description, :colour
+    config.update.columns = :name, :description, :colour, :is_active    
 
     #associations
     config.columns[:fields].clear_link
@@ -38,6 +38,7 @@ class Manage::TemplatesController < ApplicationController
 
     #descriptions
     config.columns[:name].description = "The name of the form"
+    config.columns[:description].description = "Explanatory text for this form"
     config.columns[:colour].description = "The data entry form for this test will be this colour"
     config.columns[:is_active].description = "If selected, this form will be available for people to use"
     config.columns[:fields].description = "Fields to be shown in the form"

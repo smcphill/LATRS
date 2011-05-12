@@ -2,7 +2,7 @@
 <% columns.each :for => @record do |column| %>
 <tr>
   <th><%= column.label %></th>
-  <% if column.name.to_s == "name" %>
+  <% if column.name.to_s == "name" || column.name.to_s == "description" %>
     <td><%= active_scaffold_inplace_edit(@record, column) %></td>
   <% elsif column.name.to_s == "is_active" %>
     <td id="as_manage__templates-is_active-column">
