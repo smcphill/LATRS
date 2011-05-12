@@ -19,7 +19,7 @@ class Field < ActiveRecord::Base
     else
       name += " #2"
     end
-    self.name = name
+    self.name = field.parent_id ? field.name : name
     self.template_id = field.template_id
     self.parent_id = field.parent_id
     self.is_general = field.is_general
