@@ -15,11 +15,11 @@ class Field < ActiveRecord::Base
   def deep_copy(src)
     field = Field.find(src)
     name = field.name
-    if (name =~ /\#(\d+)\s*$/)
+    if (name =~ /\(\#(\d+)\)\s*$/)
       num = Integer($1) + Integer(1)
-      name.gsub!(/\#\d+\s*$/, "##{num}")
+      name.gsub!(/\(\#\d+\)\s*$/, "(##{num})")
     else
-      name += " #2"
+      name += " (#2)"
     end
     self.name = field.parent_id ? field.name : name
     self.group_id = field.group_id
@@ -49,8 +49,9 @@ class Field < ActiveRecord::Base
 
   def authorized_for_move?
     if (self.group_id?)
-      return Group.count(:conditions => ["template_id = ?", 
-                                         self.group.template_id]) > 1
+      return (Group.count(:conditions => ["template_id = ?", 
+                                         self.group.template_id]) > 1 &&
+              !self.parent_id?)
     else
       return false
     end

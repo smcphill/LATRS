@@ -3,11 +3,15 @@ module Manage::FieldsHelper
 
   def field_group_form_column(record, input_name)
     g = record.group
-    groups = Group.all(:conditions => ["id != ? and template_id = ?", 
-                                       g.id, g.template_id])
-    select("record", 
-           "group", 
-           groups.collect {|g| [g.name, g.id] })
+    if !g.nil?
+      groups = Group.all(:conditions => ["id != ? and template_id = ?", 
+                                         g.id, g.template_id])
+      select("record", 
+             "group", 
+             groups.collect {|g| [g.name, g.id] })
+    else
+      active_scaffold_config.list.empty_field_text
+    end
   end
 
   def field_type_form_column(record, input_name)

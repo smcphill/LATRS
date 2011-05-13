@@ -23,7 +23,7 @@ class Manage::FieldsController < ApplicationController
     config.columns = :name, :is_required, :limits, :children, :parent, :type, :is_multi, :par_hi_lim, :par_lo_lim, :display_as, :group
     config.list.columns = :name, :children, :limits
     config.create.columns = :name, :unit_label, :is_required, :type, :limits, :is_multi, :par_hi_lim, :par_lo_lim, :display_as
-    config.update.columns = :name, :unit_label, :is_required, :type, :is_multi, :par_hi_lim, :par_lo_lim, :display_as, :group
+    config.update.columns = :name, :unit_label, :is_required, :type, :is_multi, :par_hi_lim, :par_lo_lim, :display_as
 
     #associations
     config.nested.add_link("Limits", :limits)    
