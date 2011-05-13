@@ -22,7 +22,7 @@ class Field < ActiveRecord::Base
       name += " #2"
     end
     self.name = field.parent_id ? field.name : name
-    self.template_id = field.template_id
+    self.group_id = field.group_id
     self.parent_id = field.parent_id
     self.is_required = field.is_required
     self.is_multi = field.is_multi
@@ -48,8 +48,12 @@ class Field < ActiveRecord::Base
   end
 
   def authorized_for_move?
-    return Group.count(:conditions => ["template_id = ?", 
-                                       self.group.template_id]) > 1
+    if (self.group_id?)
+      return Group.count(:conditions => ["template_id = ?", 
+                                         self.group.template_id]) > 1
+    else
+      return false
+    end
   end
 
   private
