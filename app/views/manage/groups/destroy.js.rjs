@@ -1,0 +1,7 @@
+if controller.send(:successful?)
+  page << "$('#{action_link_id((respond_to?(:nested_habtm?) and nested_habtm? and active_scaffold_config.nested.shallow_delete) ? 'destroy_existing' : 'delete', params[:id])}').action_link.close_previous_adapter();"
+  page << "$('#{active_scaffold_tbody_id}').update('');"
+  page << "ActiveScaffold.reload_if_empty('#{active_scaffold_tbody_id}','#{url_for(params_for(:action => :index, :id => nil, :page => [active_scaffold_config.list.user.page.to_i - 1, 1].max, :escape => false))}');"
+end
+
+

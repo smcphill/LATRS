@@ -1,6 +1,15 @@
 module Manage::FieldsHelper
   FIELD_TYPES = [["Text", "Stringfield"],["Number", "Numericfield"]]
 
+  def field_group_form_column(record, input_name)
+    g = record.group
+    groups = Group.all(:conditions => ["id != ? and template_id = ?", 
+                                       g.id, g.template_id])
+    select("record", 
+           "group", 
+           groups.collect {|g| [g.name, g.id] })
+  end
+
   def field_type_form_column(record, input_name)
     select_tag("type-input", 
                options_for_select(FIELD_TYPES, record.type), :name => "record[type]" )

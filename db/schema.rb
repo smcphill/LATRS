@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110512084017) do
+ActiveRecord::Schema.define(:version => 20110512091712) do
 
   create_table "departments", :force => true do |t|
     t.string   "name"
@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(:version => 20110512084017) do
   create_table "fields", :force => true do |t|
     t.string   "name"
     t.boolean  "is_required"
-    t.integer  "template_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "parent_id"
@@ -31,6 +30,16 @@ ActiveRecord::Schema.define(:version => 20110512084017) do
     t.string   "unit_label"
     t.integer  "position"
     t.string   "display_as"
+    t.integer  "group_id"
+  end
+
+  create_table "groups", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "position"
+    t.integer  "template_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "limits", :force => true do |t|

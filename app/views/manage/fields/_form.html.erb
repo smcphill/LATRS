@@ -1,4 +1,11 @@
 <ol class="form" <%= 'style="display: none;"' if columns.collapsed -%>>
+  <% if @do_move -%>
+    <input type="hidden" name="do_move" value="true" />
+    <% column = active_scaffold_config.columns[:group] %>
+    <li class="form-element">
+      <%= render :partial => form_partial_for_column(column), :locals => { :column => column } -%>
+    </li>
+  <% else -%>
   <% columns.each :for => @record do |column| -%>
   <% if (column.name.to_s != "par_hi_lim" && column.name.to_s != "par_lo_lim" && column.name.to_s != "display_as") || @record.parent_id -%>
     <% if is_subsection? column -%>q
@@ -15,6 +22,7 @@
       <%= render :partial => form_partial_for_column(column), :locals => { :column => column } -%>
     </li>
     <% end -%>
+  <% end -%>
   <% end -%>
   <% end -%>
 </ol>

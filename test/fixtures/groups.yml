@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: MyString
+  description: MyString
+  position: 1
+  template_id: 
+
+two:
+  title: MyString
+  description: MyString
+  position: 1
+  template_id: 

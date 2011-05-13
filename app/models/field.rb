@@ -1,13 +1,12 @@
 class Field < ActiveRecord::Base
   DISP_OPTS = %w(i l)
-  validates_inclusion_of :display_as, :in => DISP_OPTS
 
   after_initialize :init
 
   has_many :limits, :dependent => :destroy
   has_many :children, :class_name => "Field", :foreign_key => "parent_id", :dependent => :destroy
   belongs_to :parent, :class_name => "Field", :foreign_key => "parent_id"
-  belongs_to :template
+  belongs_to :group, :class_name => "Group", :foreign_key => "group_id"
 
   def to_label
     "#{name}"
@@ -46,6 +45,11 @@ class Field < ActiveRecord::Base
       newK.save
     end
     return self.id
+  end
+
+  def authorized_for_move?
+    return Group.count(:conditions => ["template_id = ?", 
+                                       self.group.template_id]) > 1
   end
 
   private

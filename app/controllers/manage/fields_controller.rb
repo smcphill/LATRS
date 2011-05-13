@@ -1,5 +1,4 @@
 class Manage::FieldsController < ApplicationController
-  layout "manage"
   before_filter :update_table_config
   before_filter :action_links_order
 
@@ -14,16 +13,17 @@ class Manage::FieldsController < ApplicationController
     
     #actions
     config.action_links.add 'copy', :label => 'Copy', :action => 'copy', :type => :member, :crud_type => :create
+    config.action_links.add 'move', :label => 'Move', :action => 'move', :type => :member, :crud_type => :update
 
     #sorting
     config.actions << :sortable
     config.sortable.column = :position
 
     #column definitions
-    config.columns = :name, :is_required, :limits, :children, :parent, :type, :is_multi, :par_hi_lim, :par_lo_lim, :display_as
+    config.columns = :name, :is_required, :limits, :children, :parent, :type, :is_multi, :par_hi_lim, :par_lo_lim, :display_as, :group
     config.list.columns = :name, :children, :limits
     config.create.columns = :name, :unit_label, :is_required, :type, :limits, :is_multi, :par_hi_lim, :par_lo_lim, :display_as
-    config.update.columns = :name, :unit_label, :is_required, :type, :is_multi, :par_hi_lim, :par_lo_lim, :display_as
+    config.update.columns = :name, :unit_label, :is_required, :type, :is_multi, :par_hi_lim, :par_lo_lim, :display_as, :group
 
     #associations
     config.nested.add_link("Limits", :limits)    
@@ -38,6 +38,7 @@ class Manage::FieldsController < ApplicationController
     config.columns[:is_multi].form_ui = :checkbox
     config.columns[:display_as].form_ui = :select
     config.columns[:display_as].options =  {:options =>  [['Inline with parent', 'i'], ['Listed underneath parent', 'l']]}
+    config.columns[:group].form_ui = :select
 
 
     # css
@@ -47,7 +48,6 @@ class Manage::FieldsController < ApplicationController
 
     #labels
     config.columns[:name].label = "Field"
-    config.columns[:template].label = "Form"
     config.columns[:unit_label].label = "Unit label"
     config.columns[:is_required].label = "Required field?"
     config.columns[:is_multi].label = "Multiple selection?"
@@ -80,23 +80,37 @@ class Manage::FieldsController < ApplicationController
     render :action => 'copy', :content_type => 'text/javascript'
   end
 
+  def move
+    @record = Field.find(params[:id])
+    @do_move = true
+    render :action => 'move', :layout => 'none'
+  end
+
+  def before_update_save(record)
+    record.group_id = params[:record][:group]
+    record.save
+  end
+
   protected
   def action_links_order
     links = active_scaffold_config.action_links
     del_link = links[:delete]
     copy_link = links[:copy]
-    if copy_link
+    move_link = links[:move]
+    if copy_link && move_link
+      links.delete :move
       links.delete :copy
       links.delete :delete
       links << copy_link
+      links << move_link
       links << del_link
     end
   end
 
   def update_table_config
     if params[:id]
-      @field = Field.find(params[:id])
-      if !@field.parent_id
+      field = Field.find(params[:id])
+      if !field.parent_id
         active_scaffold_config.create.columns.exclude :par_hi_lim
         active_scaffold_config.update.columns.exclude :par_hi_lim
         active_scaffold_config.create.columns.exclude :par_lo_lim
@@ -108,7 +122,7 @@ class Manage::FieldsController < ApplicationController
         active_scaffold_config.update.columns.add :par_lo_lim
       end
       
-      if !@field.limits.any?
+      if !field.limits.any?
         active_scaffold_config.create.columns.exclude :is_multi
         active_scaffold_config.update.columns.exclude :is_multi
       else

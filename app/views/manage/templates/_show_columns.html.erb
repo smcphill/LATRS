@@ -11,8 +11,8 @@
 	  <option value="t">Active</option>
 	  <option value="f">Inactive</option></select></div>
     </td>
-  <% elsif column.name.to_s == "fields" %>
-    <td><%= render :active_scaffold => 'manage/fields', :constraints => {:template_id => @record.id} %></td>
+  <% elsif column.name.to_s == "groups" %>
+    <td><%= render :active_scaffold => 'manage/groups', :constraints => {:template_id => @record.id} %></td>
   <% elsif column.name.to_s == "descendants" %>
     <td><%= render :active_scaffold => 'manage/links', :constraints => {:ancestor_id => @record.id} %></td>
   <% elsif column.name.to_s == "colour" %>

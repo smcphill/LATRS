@@ -8,6 +8,7 @@ ActionController::Routing::Routes.draw do |map|
     manage.resources :staff, :active_scaffold => true
     manage.resources :templates, :active_scaffold => true
     manage.resources :fields, :active_scaffold => true, :active_scaffold_sortable => true
+    manage.resources :groups, :active_scaffold => true, :active_scaffold_sortable => true
     manage.resources :limits, :active_scaffold => true, :active_scaffold_sortable => true
     manage.resources :links, :active_scaffold => true
   end
