@@ -15,11 +15,8 @@ class Field < ActiveRecord::Base
   def deep_copy(src)
     field = Field.find(src)
     name = field.name
-    if (name =~ /\(\#(\d+)\)\s*$/)
-      num = Integer($1) + Integer(1)
-      name.gsub!(/\(\#\d+\)\s*$/, "(##{num})")
-    else
-      name += " (#2)"
+    if (name !~ /\(copy\)\s*$/)
+      name += " (copy)"
     end
     self.name = field.parent_id ? field.name : name
     self.group_id = field.group_id

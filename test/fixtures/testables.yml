@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  linked_test_id: 1
+  patient_id: 1
+  staff_id: 1
+  source_id: 1
+  department_id: 1
+  type: MyString
+  time_in: 2011-06-27 11:00:11
+  time_out: 2011-06-27 11:00:11
+
+two:
+  linked_test_id: 1
+  patient_id: 1
+  staff_id: 1
+  source_id: 1
+  department_id: 1
+  type: MyString
+  time_in: 2011-06-27 11:00:11
+  time_out: 2011-06-27 11:00:11

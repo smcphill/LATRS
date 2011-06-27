@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  testable_id: 1
+  field_id: 1
+  value_s: MyString
+  value_i: 1
+
+two:
+  testable_id: 1
+  field_id: 1
+  value_s: MyString
+  value_i: 1

@@ -77,7 +77,8 @@ class Manage::FieldsController < ApplicationController
     @src = params[:id]
     @eid = params[:eid]
     params[:adapter] = nil
-    render :action => 'copy', :content_type => 'text/javascript'
+    render :action => 'on_create'
+    #render :action => 'copy', :content_type => 'text/javascript'
   end
 
   def move
