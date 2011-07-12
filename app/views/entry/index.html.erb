@@ -1,0 +1,6 @@
+<h2>New test</h2>
+<ul>
+<% @templates.each do |t| %>
+<li><%= link_to t.name, {:action => 'new', :controller => '/entry/testables', :params => {:tid => t.id}} %></li>
+<% end %>
+</ul>

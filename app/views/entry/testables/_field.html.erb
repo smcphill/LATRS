@@ -1,0 +1,21 @@
+<% items = Array.new %>
+<% if (subtest != false) %>
+  <% items = @testable.subtests[Integer(subtest)].testableitems %>
+<% else %>
+  <% items = @testable.testableitems %>
+<% end %>
+<% items[field.offset,1].each do |item| %>
+  <% if (subtest != false) %>
+    <% form.fields_for :subtests, item do |itembuilder| %>
+      <% itembuilder.fields_for :testableitems, item do |builder| %>
+        <%= render :partial => "field_items", 
+                   :locals => { :field => field, :form => form, :builder => builder, :subtest => subtest} %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% form.fields_for :testableitems, item do |builder| %>
+      <%= render :partial => "field_items", 
+                 :locals => { :field => field, :form => form, :builder => builder, :subtest => subtest} %>
+    <% end %>  
+  <% end %>
+<% end %>

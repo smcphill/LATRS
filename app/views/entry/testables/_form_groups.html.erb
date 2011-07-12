@@ -1,0 +1,13 @@
+<%- groups.each do |group| %>
+  <% next if group.fields.count < 1 %>
+  <div <%= group_class group %>>
+    <legend><%= group.name %></legend>
+    <%= description_box group.description %>
+    <dl class="field">
+      <%- group.fields.each do |field| %>
+        <%= render :partial => "field", 
+	           :locals => {:field => field, :form => form, :subtest => subtest} %>
+      <%- end %>
+    </dl>
+  </div>
+<%- end %>

@@ -18,4 +18,5 @@ class Manage::LinksController < ApplicationController
   def before_create_save(record)
     record.descendant_id = params[:associated_id]
   end
+  
 end

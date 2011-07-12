@@ -1,6 +1,6 @@
 class Group < ActiveRecord::Base
   belongs_to :template
-  has_many :fields, :source => :field
+  has_many :fields, :source => :field, :order => "position"
 
   def to_label
     "#{name}"

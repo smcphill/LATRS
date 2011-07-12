@@ -12,7 +12,7 @@ class Manage::TemplatesController < ApplicationController
     config.create.action_after_create = 'show'
 
     #column definitions
-    config.columns = :name, :description, :colour, :is_active, :groups, :ancestors, :descendants
+    config.columns = :name, :description, :colour, :is_active, :groups, :ancestors, :descendants, :testables
     config.list.columns = :name, :is_active, :groups, :descendants
     config.show.columns = :name, :description, :is_active, :colour, :groups, :descendants
     config.create.columns = :name, :description, :colour

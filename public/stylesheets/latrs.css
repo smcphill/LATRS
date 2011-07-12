@@ -1,3 +1,7 @@
+/* colour schemes */
+.manage #header, .manage #footer { background-color:#E165CE; }
+.entry #header, .entry #footer { background-color:#4f99d1; }
+
 /* global stuff */
 td { vertical-align: top; }
 * { font-family:  "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Lucida, sans; }
@@ -5,12 +9,12 @@ body { background-color: #ccc; }
 #content, #header, #footer { width:800px; margin: 0px auto; background-color:white; padding: 10px 20px;}
 #content, #footer {border-top: thin solid #ccc;}
 #content {min-height:10em;}
-#header { overflow:auto;background-color:#E165CE;}
+#header { overflow:auto;}
 #header h1,#header .subhead  {float:left;}
 #header h1 a, #header h1 a:visited { text-decoration:none; color:#000; }
 #header h1 a:hover {text-decoration:underline;color:#000;}
 #header .date { clear:both; float:right;}
-#footer { font-size: 0.8em; line-height:1.5em; overflow:auto;background-color:#E165CE;}
+#footer { font-size: 0.8em; line-height:1.5em; overflow:auto;}
 #footer .about { width: 300px; float:right; border-left: thin solid #ccc; padding-left: 20px;}
 #footer .nav { float:left; display:inline;list-style-type:none;padding:0px;margin:0px;padding-right: 20px;border-right: thin solid #ccc; }
 #footer a, #footer a:visited, #footer a:hover {color: #000;}
@@ -193,4 +197,67 @@ td.children-column ul.children { padding: 0px 0px 0px 15px; margin:0px}
   font-family: Tahoma, Helvetica, Sans-Serif;
   border: 1px solid #666666;
   color: #ffffff;
+}
+
+/* flash notices */
+#notice { background-color: #A4E7A0; border: 1px solid #26722D; }
+#error { background-color: #F0A8A8; border: 1px solid #900; }
+#notice, #error { width: 90%; margin: 0 auto 10px auto; padding: 5px; }
+#notice p, #error p { margin-left: 20px; padding: 0; font-size: .75em; color: #000; }
+#notice a, #error a { text-decoration: none; padding: 0 3px; }
+#notice a { border: 1px solid #26722D; color: #26722D; }
+#error a { border: 1px solid #900; color: #900; }
+#notice a:hover, #error a:hover { color: #333; border: 1px solid #333; }
+
+/* data entry: layout */
+#form-content {padding: 0em 1em;border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px}
+#form-content div.fieldset {border:2px groove threedface;margin:2px;padding:0.5em}
+#form-content div.fieldset legend {font-weight:bold;font-size:1.1em%;text-decoration:underline}
+#form-content div.fieldset.default legend { display:none; }
+#form-content div.fieldset.default { border:none;}
+#form-content input { width : 15em; }
+#form-content input.short { width : 5em; }
+#form-content label.required { color:#EB2020; background-color: rgba(255,255,255,0.6); border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px}
+#form-content dl.field dd { padding-bottom:1em;border-bottom: thin solid #666 }
+#form-content dl.field dl,
+#form-content dl.field dl dt,
+#form-content dl.field dl dd { font-size: 90%; border:none }
+#form-content dl.i,
+#form-content dl.i dt,
+#form-content dl.i dd { display:inline-block; border:none;}
+#form-content dl.i dd { margin:0px;}
+#form-content dl.i dt:before { content: "• " }
+#form-content .description,
+#form-content .smalldescription { display:block; float:none;max-width:70%;margin: 0 auto; border: 5px solid #4F99D1; border-radius:10px;padding:1.5em; font-size:90%;margin-bottom:1em;background: rgba(255,255,255,0.5) url('../images/help.png') 5px 5px no-repeat;padding-left: 70px; min-height:20px }
+#form-content div.smalldescription { font-size:80%; background-image: url('../images/help-small.png');height:2em;padding:10px 10px 5px 40px;}
+#form-content #patient-content {float: right; border: thin solid black; top: -20px; position: relative;width:50%;font-size:80%}
+#patient-info .loading { visibility:hidden;background: rgba(255,255,255,0.5)  url('../images/loading.gif') 0px 2px no-repeat;width:18px;height:20px;padding:0px;margin:0px;display:inline-block;position:relative;top:3px}
+
+/* data entry: auto-complete */
+div.auto_complete {
+  width: 350px;
+  background: #fff;
+}
+
+div.auto_complete ul {
+  border:1px solid #888;
+  margin:0;
+  padding:0;
+  width:100%;
+  list-style-type:none;
+}
+
+div.auto_complete ul li {
+  margin:0;
+  padding:3px;
+}
+
+div.auto_complete ul li.selected {
+  background-color: #ffb;
+}
+
+div.auto_complete ul strong.highlight {
+  color: #800;
+  margin:0;
+  padding:0;
 }

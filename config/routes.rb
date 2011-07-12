@@ -1,4 +1,13 @@
 ActionController::Routing::Routes.draw do |map|
+  # data entry routes
+  map.resources :entries
+  map.namespace :entry do |entry|
+    entry.resources :testables
+    entry.connect 'testables/new/:tid', :controller => 'testables', :action => 'new'
+    entry.connect 'testables/auto_complete_for_patient_rn/:foo', :controller => 'testables', :action => 'auto_complete_for_patient_rn'
+  end
+
+
   # admin routes
   map.resources :manages
   map.namespace :manage do |manage|

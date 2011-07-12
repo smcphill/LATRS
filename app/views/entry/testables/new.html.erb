@@ -1,0 +1,85 @@
+<div id="form-content" style="background-color:#<%= @form.colour %>;">
+  <h1><%= @form.name %></h1>
+  <%= description_box @form.description %>
+  <% form_for :testable, @testable, :url => { :action => "create" } do |f| %>
+    <%= f.hidden_field :datatype, :value => @testable.datatype %>
+    <fieldset>
+      <legend>Basic information</legend>
+      <dl>
+        <dt><%= f.label :patient_id_rn, "Patient RN" %>
+        <dd>
+          <% f.fields_for :patient_id do |patient| %>
+            <%= patient.text_field :rn, :autocomplete => "off" %>
+	    <div class="auto_complete" id="testable_patient_id_rn_auto_complete"></div>
+	    <div id="patient-content">
+	      <div id="patient-info">
+		<strong>Patient Details</strong>
+		<span id="patient-loading" class="loading"></span>
+		<br/>
+		<p>
+		Enter the patient's RN to retrieve details
+		</p>
+	      </div>
+	      <div class="smalldescription">
+		Can't find the right patient?
+		<%= link_to "Create the patient",
+		{:controller => '/manage/patients',
+		:action => 'new'},
+		{:popup => true} %>
+	      </div>
+	    </div>
+	    <script type="text/javascript">
+	      new Ajax.Autocompleter('testable_patient_id_rn',
+				     'testable_patient_id_rn_auto_complete',
+				     '/entry/testables/auto_complete_for_patient_rn/1', {
+					 method:'get',
+					 paramName:'pid',
+					 minChars: 1,
+					 afterUpdateElement: function (obj) {
+					     new Ajax.Updater('patient-info',
+							      '/manage/patients/rn/' + obj.value,
+							      {
+								  onCreate: function () { $("patient-loading").setStyle({visibility:'visible'}); },
+								  onComplete: function () { $("patient-loading").setStyle({visibility:'hidden'}); }
+							      });
+					 }});
+	    </script>
+
+	  <% end %>
+	</dd>
+	<%= belongs_widget f, :department_id, Department.all %>
+	<%= belongs_widget f, :source_id, Source.all %>
+	<%= belongs_widget f, :staff_id, Staff.all %>
+	<%= time_widget f, :time_in %>
+	<%= time_widget f, :time_out %>
+      </dl>
+    </fieldset>
+    <div class="fieldset">
+      <legend>Test data</legend>
+      <!-- Begin template-specific fields -->
+      <%= render :partial => "form_groups",
+                 :locals => {:groups => @form.groups, :form => f, :subtest => false } %>
+    </div>
+    <!-- subtests here -->
+    <% @form.subtests.each_with_index do |subtest, index| %>
+      <div class="fieldset">
+	<%= content_tag(:legend, 
+	                "Subtest: #{subtest.name}",
+			:onclick => "toggleForm(#{subtest.id}, #{index});") %>
+	<div class="smalldescription">
+	  Click the title to enable this test. Click again to disable.
+	</div>
+	<input type="hidden" 
+	       name="testable[subtests_attributes][<%= index %>][saveme]" 
+	       id="testable_subtests_attributes_<%= index %>_saveme" 
+	       value="false" />
+	<div id="subtest-<%= subtest.id %>" style="display:none;">
+	  <%= render :partial => "form_groups",
+	             :locals => {:groups => subtest.groups, :form => f, :subtest => index } %>	
+        </div>
+      </div>
+    <% end %>
+  <%= f.submit %>
+<% end %>
+</div>
+

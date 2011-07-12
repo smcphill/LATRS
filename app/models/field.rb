@@ -3,8 +3,8 @@ class Field < ActiveRecord::Base
 
   after_initialize :init
 
-  has_many :limits, :dependent => :destroy
-  has_many :children, :class_name => "Field", :foreign_key => "parent_id", :dependent => :destroy
+  has_many :limits, :dependent => :destroy, :order => "position"
+  has_many :children, :class_name => "Field", :foreign_key => "parent_id", :dependent => :destroy, :order => "position"
   belongs_to :parent, :class_name => "Field", :foreign_key => "parent_id"
   belongs_to :group, :class_name => "Group", :foreign_key => "group_id"
 

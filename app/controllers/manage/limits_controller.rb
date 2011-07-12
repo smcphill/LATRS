@@ -34,7 +34,7 @@ class Manage::LimitsController < ApplicationController
                 ["field_id = ? AND id != ?", record.field_id, record.id]).each do |l|
         l.is_default = false
         l.save
-      end
+      end      
     end
   end
 end

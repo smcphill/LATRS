@@ -1,13 +1,17 @@
 class Testableitem < ActiveRecord::Base
   belongs_to :testable
-  belongs_to :field
 
   def to_label
-    #{self.field.name}
+    #{name}
   end
 
-  def numberVal
-    Integer(self.value)
-  end
+  # need to make this work somehow...
+  # def value
+  #   if (type == "NumericItem")
+  #     return Integer(self.value)
+  #   else
+  #     return self.value
+  #   end
+  # end
   
 end

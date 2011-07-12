@@ -1,0 +1,6 @@
+<dt><%= field_label(field) %>
+<dd>
+  <%= field_input(field, builder) %>
+  <%= field_children field.inlineChildren, "i", builder, form, subtest %>
+  <%= field_children field.blockChildren, "l", builder, form, subtest %>
+</dd>

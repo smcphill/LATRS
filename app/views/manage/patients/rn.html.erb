@@ -1,0 +1,23 @@
+<strong>Patient details</strong> [<%= link_to_remote "refresh", 
+                  :url => {:controller => '/manage/patients', 
+		           :action => 'rn', 
+			   :id => @p.rn},
+		  :update => {:success => "patient-info"},
+		  :loading => "$('patient-loading').setStyle({visibility:'visible'});",
+		  :complete => "$('patient-loading').setStyle({visibility:'hidden'});" %>]
+<span id="patient-loading" class="loading"></span>
+<%- if not @p.nil? %>
+  <dl>
+    <dt>Name
+    <dd><%= @p.name %>
+  </dl>
+<%- else %>
+  <p>Patient data not found!</p>
+<%- end %>
+<div class="smalldescription">
+  Are these details incorrect? <%= link_to "Update this patient", 
+                                           {:controller => '/manage/patients',
+					   :action => 'edit',
+					   :id => @p.id},
+					   {:popup => true} %>
+</div>

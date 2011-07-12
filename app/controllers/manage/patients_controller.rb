@@ -1,5 +1,5 @@
 class Manage::PatientsController < ApplicationController
-  layout "manage"
+  layout "manage", :except => [:rn]
   active_scaffold :patients do | config |
     config.label = "Patients"
     config.columns = [:name, :rn]
@@ -12,5 +12,9 @@ class Manage::PatientsController < ApplicationController
 
   def index
     redirect_to :controller => '/manage', :action => 'index'
+  end
+  
+  def rn
+    @p = Patient.find_by_rn(params[:id])
   end
 end
