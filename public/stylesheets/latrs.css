@@ -212,9 +212,11 @@ td.children-column ul.children { padding: 0px 0px 0px 15px; margin:0px}
 /* data entry: layout */
 #form-content {padding: 0em 1em;border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px}
 #form-content div.fieldset {border:2px groove threedface;margin:2px;padding:0.5em}
-#form-content div.fieldset legend {font-weight:bold;font-size:1.1em%;text-decoration:underline}
-#form-content div.fieldset.default legend { display:none; }
 #form-content div.fieldset.default { border:none;}
+#form-content div.fieldset legend {font-weight:bold;font-size:1.1em;text-decoration:underline}
+#form-content div.fieldset.default legend { display:none; }
+#form-content div.fieldset legend.subtest { cursor:pointer; }
+#form-content div.fieldset legend.subtest.disabled { color:#555;text-decoration:line-through;}
 #form-content input { width : 15em; }
 #form-content input.short { width : 5em; }
 #form-content label.required { color:#EB2020; background-color: rgba(255,255,255,0.6); border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px}
@@ -231,7 +233,8 @@ td.children-column ul.children { padding: 0px 0px 0px 15px; margin:0px}
 #form-content .smalldescription { display:block; float:none;max-width:70%;margin: 0 auto; border: 5px solid #4F99D1; border-radius:10px;padding:1.5em; font-size:90%;margin-bottom:1em;background: rgba(255,255,255,0.5) url('../images/help.png') 5px 5px no-repeat;padding-left: 70px; min-height:20px }
 #form-content div.smalldescription { font-size:80%; background-image: url('../images/help-small.png');height:2em;padding:10px 10px 5px 40px;}
 #form-content #patient-content {float: right; border: thin solid black; top: -20px; position: relative;width:50%;font-size:80%}
-#patient-info .loading { visibility:hidden;background: rgba(255,255,255,0.5)  url('../images/loading.gif') 0px 2px no-repeat;width:18px;height:20px;padding:0px;margin:0px;display:inline-block;position:relative;top:3px}
+#patient-info .loading { visibility:hidden;background: rgba(255,255,255,0.5)  url('../images/loading.gif') 0px 2px no-repeat;width:18px;height:20px;padding:0px;margin:0px;display:inline-block;position:relative;top:3px;}
+span.disabled { color:red;font-weight:bold;}
 
 /* data entry: auto-complete */
 div.auto_complete {

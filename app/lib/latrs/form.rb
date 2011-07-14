@@ -19,7 +19,7 @@ module Latrs
         @parent = parent_form
       end
       @id = id
-      @colour = template.colour
+      @colour = template.colour || "fff"
       @name = template.name
       @description = template.description
 
