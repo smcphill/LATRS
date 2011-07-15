@@ -87,8 +87,10 @@ class Manage::FieldsController < ApplicationController
   end
 
   def before_update_save(record)
-    record.group_id = params[:record][:group]
-    record.save
+    if not params[:record].nil?
+      record.group_id = params[:record][:group] if not params[:record][:group].nil?
+      record.save
+    end
   end
 
   protected
