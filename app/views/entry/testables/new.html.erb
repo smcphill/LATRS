@@ -10,14 +10,14 @@
         <dd>
           <% f.fields_for :patient_id do |patient| %>
             <%= patient.text_field :rn, :autocomplete => "off" %>
-	    <%= observe_field "testable_patient_id_rn", 
-	                              :function => "new Ajax.Updater('patient-info',
-				                   '/manage/patients/rn/' + value,
-						   {
-						   onCreate: function () { $('patient-loading').setStyle({visibility:'visible'}); },
-						   onComplete: function () { $('patient-loading').setStyle({visibility:'hidden'}); }
-						   });",
-				      :on => "blur" %>
+	    <%= observe_field "testable_patient_id_rn",
+	        :function => "new Ajax.Updater('patient-info',
+		                               '/manage/patients/rn/' + value,
+					       {
+					         onCreate: function () { $('patient-loading').setStyle({visibility:'visible'}); },
+						 onComplete: function () { $('patient-loading').setStyle({visibility:'hidden'}); }
+					       });",
+		:on => "blur" %>
 	    <div class="auto_complete" id="testable_patient_id_rn_auto_complete"></div>
 	    <div id="patient-content">
 	      <div id="patient-info">
@@ -50,6 +50,7 @@
 								  onCreate: function () { $("patient-loading").setStyle({visibility:'visible'}); },
 								  onComplete: function () { $("patient-loading").setStyle({visibility:'hidden'}); }
 							      });
+					     new Ajax.Request('/entry/testables/similar/' + obj.value);
 					 }});
 	    </script>
 

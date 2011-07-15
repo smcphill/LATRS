@@ -5,6 +5,7 @@ ActionController::Routing::Routes.draw do |map|
     entry.resources :testables
     entry.connect 'testables/new/:tid', :controller => 'testables', :action => 'new'
     entry.connect 'testables/auto_complete_for_patient_rn/:foo', :controller => 'testables', :action => 'auto_complete_for_patient_rn'
+    entry.connect 'testables/similar/:rn', :controller => 'testables', :action => 'similar'
   end
 
 

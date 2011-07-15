@@ -1,5 +1,5 @@
 class Entry::TestablesController < ApplicationController
-  layout "entry", :except => [:auto_complete_for_patient_rn]
+  layout "entry", :except => [:auto_complete_for_patient_rn, :similar]
 
   def new
     if (FormManager.instance.hasForm(params[:tid]))
@@ -63,6 +63,21 @@ class Entry::TestablesController < ApplicationController
     pid = params[:pid].to_s.downcase + "%"
     @p = Patient.all(:conditions => ["lower(rn) like ?", pid])
     render :action => 'autocomplete'
+  end
+
+  # do we want the first or the last one?
+  def similar
+    @t = Testable.last :joins => :patient, 
+                       :conditions => { 
+                         :patients => { 
+                           :rn => params[:rn] }, 
+                         :testables => { 
+                           :created_at => (Time.now.midnight - 2.day)..Time.now }
+                       }
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def index
