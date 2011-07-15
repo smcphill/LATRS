@@ -60,6 +60,16 @@ module Latrs
       @inlineChildren = @children.select {|c| c.display == "i" }.compact
       @blockChildren = @children.select {|c| c.display == "l" }.compact
     end
-
+    
+    def dbName
+      item = self
+      dbNames = Array.new
+      while not item.nil?
+        dbNames.unshift(item.name)
+        item = item.parent
+      end
+      return dbNames.join("::")
+    end
+    
   end
 end
