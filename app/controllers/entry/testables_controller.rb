@@ -18,6 +18,24 @@ class Entry::TestablesController < ApplicationController
   end
 
   def create
+
+    # massage the params to take care of array values
+    # DONT FORGET SUBTESTS!
+    params[:testable][:testableitems_attributes].each_pair do |key,val|
+      item = params[:testable][:testableitems_attributes][key]
+      transKey = Integer(key)
+      
+      while item[:value].kind_of?(Array)
+        transKey += 1        
+        params[:testable][:testableitems_attributes][transKey] = item.dup
+        params[:testable][:testableitems_attributes][transKey][:value] = item[:value].pop
+        if item[:value].count == 1
+          item[:value] = item[:value].first
+        end
+      end
+      
+    end
+    
     @testable = Testable.new(params[:testable])
     if @testable.save
       flash[:notice] = "Data entry complete"
