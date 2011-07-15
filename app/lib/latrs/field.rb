@@ -44,9 +44,6 @@ module Latrs
       field.limits.each do |l|
         @limits << Latrs::LatrsLimit.new(l.id, self)
       end
-      if (@is_multi)
-        @field_count += @limits.count - 1
-      end
 
       @children = Array.new
       field.children.each do |c|

@@ -70,27 +70,30 @@
     </div>
     <!-- subtests here -->
     <% @form.subtests.each_with_index do |subtest, index| %>
-      <div class="fieldset" style="background-color:#<%= subtest.colour %>">
-	<%= content_tag(:legend, 
-	                "Subtest: #{subtest.name}",
-	                { :onclick => "toggleForm(#{subtest.id}, #{index});",
-	                  :id => "subtest-legend-#{subtest.id}",
-	                  :class => "disabled subtest"}) %>
-	<div id="subtest-description-<%= subtest.id %>" class="smalldescription">
-	  This form is <span class="disabled">disabled</span>. 
-	  <%= link_to "Enable",{}, 
-	      {:href => "#", :onclick => "toggleForm(#{subtest.id}, #{index});return false;"} %>
-	</div>
-	<input type="hidden" 
-	       name="testable[subtests_attributes][<%= index %>][saveme]" 
-	       id="testable_subtests_attributes_<%= index %>_saveme" 
-	       value="false" />
-	<div id="subtest-<%= subtest.id %>" 
-	     style="display:none;">
-	  <%= render :partial => "form_groups",
-	             :locals => {:groups => subtest.groups, :form => f, :subtest => index } %>	
+      <% f.fields_for :subtests, @testable do |subtest_form| %>
+        <div class="fieldset" style="background-color:#<%= subtest.colour %>">
+	  <%= content_tag(:legend,
+	                  "Subtest: #{subtest.name}",
+			  { :onclick => "toggleForm(#{subtest.id}, #{index});",
+	                    :id => "subtest-legend-#{subtest.id}",
+			    :class => "disabled subtest"}) %>
+	  <div id="subtest-description-<%= subtest.id %>" class="smalldescription">
+	    This form is <span class="disabled">disabled</span>.
+	    <%= link_to "Enable",{},
+	                {:href => "#",
+			 :onclick => "toggleForm(#{subtest.id}, #{index});return false;"} %>
+	  </div>
+	  <%= subtest_form.hidden_field :saveme, :value => "false" %>
+	  <%= subtest_form.hidden_field :datatype, :value => subtest.className %>
+	  
+	  <div id="subtest-<%= subtest.id %>" style="display:none;">
+	    <%= render :partial => "form_groups",
+	               :locals => {:groups => subtest.groups,
+                                   :form => subtest_form,
+                                   :subtest => index } %>
+	  </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
   <%= f.submit %>
 <% end %>

@@ -17,25 +17,38 @@ class Entry::TestablesController < ApplicationController
     end
   end
 
-  def create
+  def prep_create(items)
+    items.each_pair do |key,val|
+      item = items[key]
+      transKey = Integer(items.keys.max {|a,b| Integer(a) <=> Integer(b) })
 
-    # massage the params to take care of array values
-    # DONT FORGET SUBTESTS!
-    params[:testable][:testableitems_attributes].each_pair do |key,val|
-      item = params[:testable][:testableitems_attributes][key]
-      transKey = Integer(key)
-      
       while item[:value].kind_of?(Array)
-        transKey += 1        
-        params[:testable][:testableitems_attributes][transKey] = item.dup
-        params[:testable][:testableitems_attributes][transKey][:value] = item[:value].pop
+        transKey += 1
+        items["#{transKey.to_s}"] = item.dup
+        items["#{transKey.to_s}"][:value] = item[:value].pop
         if item[:value].count == 1
           item[:value] = item[:value].first
         end
       end
       
     end
-    
+    return items
+  end
+
+  def create
+
+    params[:testable][:testableitems_attributes] = prep_create(params[:testable][:testableitems_attributes])
+    if params[:testable].has_key?(:subtests_attributes)
+      params[:testable][:subtests_attributes].each_pair do |key,subtest|
+        subtest[:testableitems_attributes] = prep_create(subtest[:testableitems_attributes])
+        subtest[:time_in] = params[:testable][:time_in]
+        subtest[:time_out] = params[:testable][:time_out]
+        subtest[:source_id] = params[:testable][:source_id]
+        subtest[:staff_id] = params[:testable][:staff_id]
+        subtest[:patient_id] = params[:testable][:patient_id]
+        subtest[:department_id] = params[:testable][:department_id]
+      end
+    end
     @testable = Testable.new(params[:testable])
     if @testable.save
       flash[:notice] = "Data entry complete"
