@@ -3,4 +3,10 @@
   <%= field_input(field, builder) %>
   <%= field_children field.inlineChildren, "i", builder, form, subtest %>
   <%= field_children field.blockChildren, "l", builder, form, subtest %>
+  <% if not field.limits.nil? %>
+    <!-- insert javascript updater here -->
+    <script type="text/javascript">
+      <%= "hidefields#{field.object_id.to_s.gsub(/-/,'_')}();" %>
+    </script>
+  <% end %>
 </dd>

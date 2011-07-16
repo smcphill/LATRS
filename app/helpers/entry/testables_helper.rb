@@ -48,13 +48,25 @@ module Entry::TestablesHelper
                      field.limits.collect {|l| [ l.name, l.name] }, 
                      opts,
                      hopts)
+      id = input.match(/id="(.+?)"/)[0][4..-2]
+      hash_var = id + "s"
+      hash_vals = field.limits.collect {|l| "'#{l.name}':'#{l.position}'" }
+      input += javascript_tag do
+        "var #{hash_var} = new Hash({#{hash_vals.join(',')}});\n" +
+          "$('#{id}').observe('change', function(event,obj) {caller = this;displayChildren(event,obj,caller);});\n" + 
+          "function hidefields#{field.object_id.to_s.gsub(/-/,'_')}() {Event.simulate($('#{id}'), 'change');}";
+      end
     else
       input = builder.text_field(:value, 
                                  :class => 'short')
+      input += javascript_tag do
+        "function hidefields#{field.object_id.to_s.gsub(/-/,'_')}() {}";
+      end
     end
     input += builder.hidden_field(:name, :value => field.name)
     input += builder.hidden_field(:datatype, :value => field.type)
-    input += builder.hidden_field(:label, :value => field.label)
+    input += builder.hidden_field(:max, :value => field.max, :disabled => true) if not field.max.nil?
+    input += builder.hidden_field(:min, :value => field.min, :disabled => true) if not field.min.nil?
     "#{input} #{field.label}"
   end
 
