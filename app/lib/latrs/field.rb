@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/limit.rb'
 module Latrs
   class LatrsField
-    attr_reader :name, :position, :label, :children, :is_required, :parent, :min, :max, :display, :is_multi, :limits, :type
+    attr_reader :name, :position, :label, :children, :is_required, :parent, :min, :max, :display, :is_multi, :limits, :type, :inlineChildren, :blockChildren
     attr_accessor :field_count, :offset
     @name
     @position
@@ -20,6 +20,9 @@ module Latrs
     # misc
     @field_count
     @offset
+
+    @inlineChildren
+    @blockChildren
 
     def initialize(id, offset, parent_field = nil)
       field = Field.find(id)
@@ -53,14 +56,9 @@ module Latrs
                                            self)
         @field_count += @children.last.field_count
       end
-    end
-    
-    def inlineChildren
-      return @children.select {|c| c.display == "i" }.compact
-    end
-    
-    def blockChildren
-      return @children.select {|c| c.display == "l" }.compact
+
+      @inlineChildren = @children.select {|c| c.display == "i" }.compact
+      @blockChildren = @children.select {|c| c.display == "l" }.compact
     end
 
   end

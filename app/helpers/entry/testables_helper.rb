@@ -56,7 +56,7 @@ module Entry::TestablesHelper
           "$('#{id}').observe('change', function(event,obj) {caller = this;displayChildren(event,obj,caller);});\n" + 
           "function hidefields#{field.object_id.to_s.gsub(/-/,'_')}() {Event.simulate($('#{id}'), 'change');}";
       end
-    else
+    else      
       input = builder.text_field(:value, 
                                  :class => 'short')
       input += javascript_tag do
@@ -65,6 +65,7 @@ module Entry::TestablesHelper
     end
     input += builder.hidden_field(:name, :value => field.name)
     input += builder.hidden_field(:datatype, :value => field.type)
+    input += builder.hidden_field(:required, :value => field.is_required.to_s)
     input += builder.hidden_field(:max, :value => field.max, :disabled => true) if not field.max.nil?
     input += builder.hidden_field(:min, :value => field.min, :disabled => true) if not field.min.nil?
     "#{input} #{field.label}"

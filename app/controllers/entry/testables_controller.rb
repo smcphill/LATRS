@@ -18,51 +18,65 @@ class Entry::TestablesController < ApplicationController
   end
 
   def prep_create(items)
-    items.each_pair do |key,val|
-      item = items[key]
+    items.each_pair do |key,item|
       transKey = Integer(items.keys.max {|a,b| Integer(a) <=> Integer(b) })
 
       while item[:value].kind_of?(Array)
-        transKey += 1
-        items["#{transKey.to_s}"] = item.dup
-        items["#{transKey.to_s}"][:value] = item[:value].pop
         if item[:value].count == 1
           item[:value] = item[:value].first
+        else
+          transKey += 1
+          items["#{transKey.to_s}"] = item.dup
+          items["#{transKey.to_s}"][:value] = item[:value].pop
         end
       end
-      
+      # now, strip out non-required empty values
+      items.delete(key) if item[:value].blank? and item[:required] != "true"
     end
+
     return items
   end
 
   def create
-
-    params[:testable][:testableitems_attributes] = prep_create(params[:testable][:testableitems_attributes])
-    if params[:testable].has_key?(:subtests_attributes)
-      params[:testable][:subtests_attributes].each_pair do |key,subtest|
+    if params[:testable][:patient_id][:rn].blank?
+      params[:testable].delete(:patient_id)
+    end
+    save_params = params[:testable].dup
+    save_params[:testableitems_attributes] = prep_create(save_params[:testableitems_attributes])
+    if save_params.has_key?(:subtests_attributes)
+      save_params[:subtests_attributes].each_pair do |key,subtest|
+        next if subtest[:saveme] == "false"
         subtest[:testableitems_attributes] = prep_create(subtest[:testableitems_attributes])
-        subtest[:time_in] = params[:testable][:time_in]
-        subtest[:time_out] = params[:testable][:time_out]
-        subtest[:source_id] = params[:testable][:source_id]
-        subtest[:staff_id] = params[:testable][:staff_id]
-        subtest[:patient_id] = params[:testable][:patient_id]
-        subtest[:department_id] = params[:testable][:department_id]
+        subtest[:time_in] = save_params[:time_in]
+        subtest[:time_out] = save_params[:time_out]
+        subtest[:source_id] = save_params[:source_id]
+        subtest[:staff_id] = save_params[:staff_id]
+        subtest[:patient_id] = save_params[:patient_id]
+        subtest[:department_id] = save_params[:department_id]
       end
     end
-    @testable = Testable.new(params[:testable])
+    @testable = Testable.new(save_params)
     if @testable.save
       flash[:notice] = "Data entry complete"
       redirect_to :action => 'index'
     else
-      flash[:error] = @testable.errors
+      @form ||=YAML::load(params[:form])
+      flash.now[:error] = @testable.errors
+      @testable = Testable.new(params[:testable])
+      @testable.add_lost_subtests(@form.subtests)
+
       render :action => 'new'
     end
   end
 
   def auto_complete_for_patient_rn
-    pid = params[:pid].to_s.downcase + "%"
-    @p = Patient.all(:conditions => ["lower(rn) like ?", pid])
-    render :action => 'autocomplete'
+    if params[:pid].nil?
+      @p = nil
+    else
+      pid = params[:pid].to_s.downcase + "%"
+      @p = Patient.all(:conditions => ["lower(rn) like ?", pid])
+    end
+      render :action => 'autocomplete'
   end
 
   # do we want the first or the last one?

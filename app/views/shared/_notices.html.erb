@@ -1,7 +1,16 @@
 <%- flash.each do |key, msg| -%>
   <div id="<%= key %>">
     <p style="float:right;"><%= link_to_function 'X', "Effect.Fade('#{key}')" %></p>
-    <p><%= msg %></p>
+    <p>
+      <% if msg.kind_of?(ActiveRecord::Errors) %>
+        <b>Validation Errors:</b>
+	<ul>
+	  <%= msg.full_messages.collect {|m| if m.start_with?("Value ") then m = m[6..-1];end;"<li>#{m}</li>" if not m.start_with?("Testableitems") and not m.start_with?("Subtests") } %>
+	</ul>
+      <% else %>
+        <%= msg %>
+      <% end %>
+    </p>
     <div class="clear"></div>
   </div>
 <%- end -%>

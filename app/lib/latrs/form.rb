@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/group.rb'
 module Latrs
   class LatrsForm
-    attr_reader :id, :colour, :name, :description, :groups, :subtests, :parent, :className
+    attr_reader :id, :colour, :name, :description, :groups, :subtests, :className, :nbr_fields
 
     @id
     @colour
@@ -9,15 +9,12 @@ module Latrs
     @description
     @groups
     @subtests
-    @parent
     @className
+    @nbr_fields
 
     def initialize(id, parent_form = nil)
       template = Template.find(id)
       @className = template.rbName
-      if (parent_form)
-        @parent = parent_form
-      end
       @id = id
       @colour = template.colour || "fff"
       @name = template.name
@@ -25,9 +22,11 @@ module Latrs
 
       @groups = Array.new
       offset = 0;
+      @nbr_fields = 0;
       template.groups.each do |g|
         @groups << Latrs::LatrsGroup.new(g.id, offset)
         offset += groups.last.field_counts
+        @nbr_fields += groups.last.field_counts
       end
 
       @subtests = Array.new
@@ -40,14 +39,6 @@ module Latrs
           end
         end
       end
-    end
-
-    def nbr_fields
-      count = 0
-      @groups.each do |g|
-        count += g.field_counts
-      end
-      return count
     end
 
   end

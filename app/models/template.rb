@@ -17,7 +17,7 @@ class Template < ActiveRecord::Base
 
   # this will be our implemented type
   def rbName
-    self.name.gsub(/\s/, '_') + "-" + self.id.to_s
+    "#{self.name}^^#{self.id.to_s}"
   end
 
   def validate_active_status

@@ -1,25 +1,45 @@
-function toggleForm(id, fieldid) {
-    subtestField = $('subtest-'+id);
-    descField = $('subtest-description-'+id);
-    inputField = $('testable_subtests_attributes_'+fieldid+'_saveme');
-    legendField = $('subtest-legend-'+id);
+function checkState(id, fieldid) {
+    if ($F('testable_subtests_attributes_'+fieldid+'_saveme') == "true" &&
+         !$('subtest-'+id).visible()) {
+	 enableForm(id, fieldid, getFields(id, fieldid));
+    }
+}
 
-    subtestField.toggle();
-    descField.update('');
-    if (inputField.value == 'true') {
-	inputField.value = 'false';
-	descField.update("This form is " +
-	  "<span class='disabled'>disabled</span>. " +
-	  "<a href='#' onclick='toggleForm(" + id + ", " + fieldid + ");return false;'>" +
-	  "Enable</a>");
-	legendField.addClassName('disabled');
+function enableForm(id, fieldid, fields) {
+    $(fields.get('input')).value = 'true';
+    $(fields.get('desc')).update("This form is enabled. " +
+        "<a href='#' onclick='toggleForm(" + id + ", " + fieldid + ");return false;'>" +
+	"Disable</a>");
+    $(fields.get('legend')).removeClassName('disabled');
+    $(fields.get('subtest')).show();
+}
+
+function disableForm(id, fieldid, fields) {
+    $(fields.get('input')).value = 'false';
+    $(fields.get('desc')).update("This form is " +
+        "<span class='disabled'>disabled</span>. " +
+	"<a href='#' onclick='toggleForm(" + id + ", " + fieldid + ");return false;'>" +
+	"Enable</a>");
+    $(fields.get('legend')).addClassName('disabled');
+    $(fields.get('subtest')).hide();
+}
+
+function getFields(id, fieldid) {
+    return new Hash({'subtest':'subtest-'+id, 
+                     'desc':'subtest-description-'+id, 
+		     'input':'testable_subtests_attributes_'+fieldid+'_saveme', 
+		     'legend':'subtest-legend-'+id});
+}
+
+function toggleForm(id, fieldid) {
+    fields = getFields(id, fieldid)
+    $(fields.get('desc')).update('');
+
+    if ($(fields.get('input')).value == 'true') {
+        disableForm(id, fieldid, fields);
     }
     else {
-	inputField.value = 'true';
-	descField.update("This form is enabled. " +
-	  "<a href='#' onclick='toggleForm(" + id + ", " + fieldid + ");return false;'>" +
-	  "Disable</a>");
-	legendField.removeClassName('disabled');
+        enableForm(id, fieldid, fields);
     }
     return false;
 }
@@ -45,17 +65,21 @@ function displayChildren (event, obj, caller) {
 		can_display = between(curr_val, min_val, max_val);
 	    }
 	}
+	else if ($(max_id) || $(min_id)) {
+	    can_display = false;
+	}
 	if (can_display && !$(item.id).up().visible()) {
 	    new Effect.Appear($(item.id).up().previousSiblings().first());
 	    new Effect.Appear($(item.id).up());
 	    new Effect.Pulsate(item.id, {pulses: 3});
 	    new Effect.Opacity(item.id);
+	    $(item.id).enable();
 	}
 	else if (!can_display) {
 	    new Effect.Shake(item.id);
 	    new Effect.Fade($(item.id).up());
 	    new Effect.Fade($(item.id).up().previousSiblings().first());
-	    item.value = '';
+	    $(item.id).disable();
 	}
     });
 }

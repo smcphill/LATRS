@@ -2,6 +2,7 @@
   <h1><%= @form.name %></h1>
   <%= description_box @form.description %>
   <% form_for :testable, @testable, :url => { :action => "create" } do |f| %>
+    <%= hidden_field_tag "form", YAML::dump(@form) %>
     <%= f.hidden_field :datatype, :value => @testable.datatype %>
     <fieldset>
       <legend>Basic information</legend>
@@ -9,7 +10,7 @@
         <dt><%= f.label :patient_id_rn, "Patient RN" %>
         <dd>
           <% f.fields_for :patient_id do |patient| %>
-            <%= patient.text_field :rn, :autocomplete => "off" %>
+            <%= patient.text_field :rn, :autocomplete => "off", :value => @testable.patient.nil? ? '' : @testable.patient.rn %>
 	    <%= observe_field "testable_patient_id_rn",
 	        :function => "new Ajax.Updater('patient-info',
 		                               '/manage/patients/rn/' + value,
@@ -84,15 +85,17 @@
 	                {:href => "#",
 			 :onclick => "toggleForm(#{subtest.id}, #{index});return false;"} %>
 	  </div>
-	  <%= subtest_form.hidden_field :saveme, :value => "false" %>
+	  <%= subtest_form.hidden_field :saveme, :value => @testable.subtests[index].saveme || "false" %>
 	  <%= subtest_form.hidden_field :datatype, :value => subtest.className %>
-	  
 	  <div id="subtest-<%= subtest.id %>" style="display:none;">
 	    <%= render :partial => "form_groups",
 	               :locals => {:groups => subtest.groups,
                                    :form => subtest_form,
                                    :subtest => index } %>
 	  </div>
+	  <script type="text/javascript">
+	    checkState(<%= subtest.id %>, <%= index %>);
+	  </script>
         </div>
       <% end %>
     <% end %>
