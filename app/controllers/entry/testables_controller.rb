@@ -25,7 +25,9 @@ class Entry::TestablesController < ApplicationController
     @form.subtests.count.times { @testable.subtests.build }
     @testable.subtests.each_with_index do |s,i|
       @form.subtests[i].nbr_fields.times {s.testableitems.build}
-    end        
+    end
+    @form.description = "<span style='color:red'>This is a <b>preview</b> of the form</span><br/>#{@form.description}"
+    render :layout => 'preview'
   end
 
   def prep_create(items)
