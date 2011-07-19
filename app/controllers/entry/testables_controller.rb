@@ -17,6 +17,17 @@ class Entry::TestablesController < ApplicationController
     end
   end
 
+  def preview
+    @form = FormManager.instance.getForm(params[:id])
+    @testable = Testable.new
+    @testable.datatype = @form.className      
+    @form.nbr_fields.times { @testable.testableitems.build }
+    @form.subtests.count.times { @testable.subtests.build }
+    @testable.subtests.each_with_index do |s,i|
+      @form.subtests[i].nbr_fields.times {s.testableitems.build}
+    end        
+  end
+
   def prep_create(items)
     items.each_pair do |key,item|
       transKey = Integer(items.keys.max {|a,b| Integer(a) <=> Integer(b) })

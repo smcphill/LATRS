@@ -1,4 +1,10 @@
-<h2>Manage Form</h2>
+<h2 style="float:left">Manage Form</h2>
+<div style="font-size:0.8em;float:left;margin-top:1em">
+  <%= link_to "Preview", {:controller => '/entry/testables', 
+                          :action => 'preview', 
+			  :id => params[:id]}, 
+			  :popup => true %> (opens in new window)
+</div>
 
 <%= render :partial => 'show_columns', :locals => {:columns => active_scaffold_config.show.columns} -%>
 
