@@ -1,0 +1,8 @@
+<dl>
+<% test.testableitems.each do |item| %>
+<dt><%= item.name %>
+<dd>
+  <%= "#{item.value} #{item.label}" %>
+</dd>
+<% end %>
+</dl>

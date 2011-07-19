@@ -1,6 +1,27 @@
-<h2>New test</h2>
-<ul>
-<% @templates.each do |t| %>
-<li><%= link_to t.name, {:action => 'new', :controller => '/entry/testables', :params => {:tid => t.id}} %></li>
-<% end %>
+<div class="smalldescription">
+  Can't find a test? Its form probably hasn't been <%= link_to "activated", {:action => 'index', :controller => '/manage'} %>
+</div>
+<ul class="entry-menu">
+  <li class="newtests">
+    <div class="entry-item">
+      <h3>New Test</h3>
+      <ul>
+	<% @templates.each do |t| %>
+	<li><%= link_to t.name, {:action => 'new', :controller => '/entry/testables', :params => {:tid => t.id}} %></li>
+	<% end %>
+      </ul>
+    </div>
+  </li>
+  <li class="patients">
+    <div class="entry-item">
+      <h3><%= link_to "Patients", {:action => 'list', :controller => '/entry/patients'} %></h3>
+    </div>
+  </li>
+  <li class="tests">
+    <div class="entry-item">
+      <h3><%= link_to "Test Results", {:action => 'list', :controller => '/entry/testables'} %></h3>
+    </div>
+  </li>
 </ul>
+<div style="clear:both;"></div>
+

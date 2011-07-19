@@ -2,6 +2,14 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  activerecord:
+    attributes:
+      patient:
+        m: 'Male'
+        f: 'Female'
+      field:
+        i: 'Inline with parent'
+        l: 'Listed underneath parent'
   active_scaffold:
     create: 'Save'
     update: 'Save'

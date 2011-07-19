@@ -1,5 +1,31 @@
 class Entry::TestablesController < ApplicationController
   layout "entry", :except => [:auto_complete_for_patient_rn, :similar]
+  active_scaffold :testables do | config |
+    config.label = "Test Results"
+    config.list.pagination = true
+    config.list.per_page = 20
+    config.actions.exclude :create, :update
+    config.actions = [:nested, :list, :show, :delete, :field_search]
+
+    config.columns = [:time_in_str, :test_name, :department, :source, :staff, :patient, :time_taken, :subtests, :master]
+    config.list.columns = [:time_in_str, :test_name, :department, :source, :staff, :patient, :time_taken]
+    config.show.columns = [:time_in_str, :department, :source, :staff, :patient, :time_taken]
+    
+    #labels
+    config.columns[:test_name].label = "Type"
+    config.columns[:time_in_str].label = "Requested"
+
+    #search
+    config.field_search.columns = :datatype, :patient, :time_in
+
+    #sort
+    config.columns[:time_in_str].sort_by :sql => "time_in"
+    config.columns[:test_name].sort_by :sql => "datatype"
+
+    #subtests
+    config.nested.add_link("Sub-tests", :subtests)
+    config.columns[:subtests].association.reverse = :master
+  end
 
   def new
     if (FormManager.instance.hasForm(params[:tid]))
@@ -13,7 +39,7 @@ class Entry::TestablesController < ApplicationController
       end
     else
       flash[:error] = "This test isn't active; please try again";
-      redirect_to :action => 'index'
+      redirect_to :action => 'index', :controller => '/entry'
     end
   end
 
@@ -68,10 +94,23 @@ class Entry::TestablesController < ApplicationController
         subtest[:department_id] = save_params[:department_id]
       end
     end
+    # i don't know why, but our nested patient info isn't triggering the correct
+    # association. i have something like params[:testable][:patient_id][:rn], but
+    # this is getting ignored, and the first patient in the db is being used.
+    # let's fix this. we already know that the RN is (mostly) correct, but it
+    # isn't a required field anyway...
+    if (not save_params[:patient_id][:rn].blank?)
+      patient = Patient.find_by_rn(save_params[:patient_id][:rn])
+      if not patient.nil?
+        save_params[:patient_id] = patient.id
+      else
+        save_params[:patient_id] = nil
+      end
+    end
     @testable = Testable.new(save_params)
     if @testable.save
       flash[:notice] = "Data entry complete"
-      redirect_to :action => 'index'
+      redirect_to :action => 'index', :controller => '/entry'
     else
       @form ||=YAML::load(params[:form])
       flash.now[:error] = @testable.errors
@@ -105,9 +144,5 @@ class Entry::TestablesController < ApplicationController
     respond_to do |format|
       format.js
     end
-  end
-
-  def index
-    redirect_to :controller => '/entry', :action => 'index'
   end
 end

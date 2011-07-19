@@ -28,8 +28,19 @@ body { background-color: #ccc; }
 .manage-menu li { width:190px; height: 180px; float:left;border: 2px solid #333; margin:10px;border-radius:20px; padding: 0px 5px;position:relative;}
 .manage-menu li .content { position:absolute; top:40px; text-align:center; width:95%; margin: 0px auto;}
 .vspace { height:2em; }
-.manage-menu li .content a, .manage-menu li .content a:hover
+.manage-menu li .content a, 
+.manage-menu li .content a:hover
 {color:#06c;background-color:transparent;text-decoration:none; padding-bottom:0.5em;margin-bottom:0.5em;border-bottom: thin solid #ccc;display:block;}
+
+/* data entry homepage */
+#entry-menu { overflow:auto; margin-bottom: 1em; }
+ul.entry-menu li h3 { margin:1em 0px 0px 0px; padding:0px; text-align:center;}
+ul.entry-menu { width:700px;list-style-type:none; margin: 0.5em auto 0px auto;}
+ul.entry-menu li { width:190px; float:left;border: 2px solid #333; margin:10px;border-radius:20px; padding: 0px 5px;position:relative;}
+ul.entry-menu li  a, 
+ul.entry-menu li  a:hover
+{color:#06c;background-color:transparent;text-decoration:none; padding-bottom:0.5em;margin-bottom:0.5em;display:block;}
+ul.entry-menu li li { border:none;margin:0px;padding:0px}
 
 /* management homepage colours */
 .manage-menu li.forms { background-color: #DAFFCD; }
@@ -230,11 +241,25 @@ td.children-column ul.children { padding: 0px 0px 0px 15px; margin:0px}
 #form-content dl.i dd { margin:0px;}
 #form-content dl.i dt:before { content: "• " }
 #form-content .description,
+.smalldescription,
 #form-content .smalldescription { display:block; float:none;max-width:70%;margin: 0 auto; border: 5px solid #4F99D1; border-radius:10px;padding:1.5em; font-size:90%;margin-bottom:1em;background: rgba(255,255,255,0.5) url('../images/help.png') 5px 5px no-repeat;padding-left: 70px; min-height:20px }
 #form-content div.smalldescription { font-size:80%; background-image: url('../images/help-small.png');height:2em;padding:10px 10px 5px 40px;}
-#form-content #patient-content {float: right; border: thin solid black; top: -20px; position: relative;width:50%;font-size:80%}
-#patient-info .loading { visibility:hidden;background: rgba(255,255,255,0.5)  url('../images/loading.gif') 0px 2px no-repeat;width:18px;height:20px;padding:0px;margin:0px;display:inline-block;position:relative;top:3px;}
+
 span.disabled { color:red;font-weight:bold;}
+
+/* data entry: patient info div */
+#form-content #patient-content {float: right; border: thin solid black; top: -20px; position: relative;width:50%;font-size:80%}
+#patient-loading { visibility:hidden;background: rgba(255,255,255,0.5)  url('../images/loading.gif') 0px 2px no-repeat;width:18px;height:20px;padding:0px;margin:0px;display:inline-block;position:relative;top:3px;}
+body.entry .active-scaffold .show-view dl dt { font-size: 11px; font-weight: normal; margin-bottom:0em }
+#patient-controls {float:right;font-size:0.9em;}
+#patient-content a, 
+#patient-content a:hover
+#patient-content a:visited { color:#06C; }
+#patient-content { background-color:white; padding:5px}
+.patient-history {float:left;margin-top:1em;font-size:0.8em}
+
+/* data entry: testables show */
+body.entry .active-scaffold .show-view div.testable-show  dl dt { font-size: 11px; font-weight: normal; margin-bottom:1em }
 
 /* data entry: auto-complete */
 div.auto_complete {

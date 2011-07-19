@@ -1,0 +1,26 @@
+<h3 style="float:left"><%= @record.name %></h3>
+<div class="patient-history">
+  <%= link_to "Patient history", 
+              {:action => 'list', 
+                 :controller => 'entry/testables',
+                 "search[patient]" => @record.id}, 
+              :popup => ['History','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes'] %>
+  <!-- entry/testables?search%5Bpatient%5D=1 -->
+</div>
+<%= render :partial => 'show_columns', :locals => {:columns => active_scaffold_config.show.columns} -%>
+
+<p class="form-footer">
+  <% if params[:action] == 'new' %>
+    <%= link_to as_(:close), main_path_to_return, :class => 'cancel' %>
+  <% end %>
+</p>
+<% if params[:action] == 'rn' %>
+<div class="smalldescription">
+  Are these details incorrect? <%= link_to "Update this patient", 
+                                           {:controller => '/manage/patients',
+					   :action => 'edit',
+					   :id => @record.id},
+					   {:popup => ['Edit Patient','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes']} %>
+</div>
+
+<% end %>

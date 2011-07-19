@@ -12,19 +12,19 @@
           <% f.fields_for :patient_id do |patient| %>
             <%= patient.text_field :rn, :autocomplete => "off", :value => @testable.patient.nil? ? '' : @testable.patient.rn %>
 	    <%= observe_field "testable_patient_id_rn",
-	        :function => "new Ajax.Updater('patient-info',
-		                               '/manage/patients/rn/' + value,
-					       {
-					         onCreate: function () { $('patient-loading').setStyle({visibility:'visible'}); },
-						 onComplete: function () { $('patient-loading').setStyle({visibility:'hidden'}); }
-					       });",
+	        :function => "if (value.length > 3) { patientInfo(value); }",
 		:on => "blur" %>
 	    <div class="auto_complete" id="testable_patient_id_rn_auto_complete"></div>
 	    <div id="patient-content">
+	      <strong>Patient Details</strong>
+	      <span id="patient-loading" class="loading"></span>
+	      <div id="patient-controls">
+		<%= link_to "[refresh]",{},
+		{:href => "#",
+		:onclick => "patientInfo($F('testable_patient_id_rn')); return false;"} %>	
+	      </div>
+	      <br/>
 	      <div id="patient-info">
-		<strong>Patient Details</strong>
-		<span id="patient-loading" class="loading"></span>
-		<br/>
 		<p>
 		Enter the patient's RN to retrieve details
 		</p>
@@ -34,17 +34,12 @@
 		<%= link_to "Create the patient",
 		{:controller => '/manage/patients',
 		:action => 'new'},
-		{:popup => true} %>
+		{:popup => ["Create Patient","toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes"]} %>
 	      </div>
 	    </div>
 	    <script type="text/javascript">
 	      <% if not @testable.patient.nil? %>
-                     new Ajax.Updater('patient-info',
-		                      '/manage/patients/rn/' + <%= @testable.patient.rn %>,
-				      {
-					  onCreate: function () { $('patient-loading').setStyle({visibility:'visible'}); },
-					  onComplete: function () { $('patient-loading').setStyle({visibility:'hidden'}); }
-				      });
+                     patientInfo(<%= @testable.patient.rn %>);
               <% end %>
 	      new Ajax.Autocompleter('testable_patient_id_rn',
 				     'testable_patient_id_rn_auto_complete',
@@ -53,12 +48,7 @@
 					 paramName:'pid',
 					 minChars: 1,
 					 afterUpdateElement: function (obj) {
-					     new Ajax.Updater('patient-info',
-							      '/manage/patients/rn/' + obj.value,
-							      {
-								  onCreate: function () { $("patient-loading").setStyle({visibility:'visible'}); },
-								  onComplete: function () { $("patient-loading").setStyle({visibility:'hidden'}); }
-							      });
+					     patientInfo(obj.value);
 					     new Ajax.Request('/entry/testables/similar/' + obj.value);
 					 }});
 	    </script>

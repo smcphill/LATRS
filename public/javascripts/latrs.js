@@ -87,3 +87,12 @@ function displayChildren (event, obj, caller) {
 function between(x, min, max) {
     return x >= min && x <= max;
 }
+
+function patientInfo(rn) {
+    new Ajax.Updater('patient-info',
+		     '/entry/patients/rn/' + rn,
+		     {
+			 onCreate: function () { $('patient-loading').setStyle({visibility:'visible'}); },
+			 onComplete: function () { $('patient-loading').setStyle({visibility:'hidden'}); $('patient-info').fire('latrs:patientloaded');}
+		     });
+}

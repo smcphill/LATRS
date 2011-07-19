@@ -37,7 +37,7 @@ class Manage::FieldsController < ApplicationController
     config.columns[:is_required].form_ui = :checkbox
     config.columns[:is_multi].form_ui = :checkbox
     config.columns[:display_as].form_ui = :select
-    config.columns[:display_as].options =  {:options =>  [['Inline with parent', 'i'], ['Listed underneath parent', 'l']]}
+    config.columns[:display_as].options =  {:options => Field::DISP.map(&:to_sym)}
     config.columns[:group].form_ui = :select
 
 

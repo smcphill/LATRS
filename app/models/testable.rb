@@ -5,7 +5,7 @@ class Testable < ActiveRecord::Base
   belongs_to :department
   has_many :testableitems, :dependent => :destroy
   has_many :subtests, :class_name => "Testable", :foreign_key => "linked_test_id"
-  belongs_to :master, :class_name => "Testable"
+  belongs_to :master, :class_name => "Testable", :foreign_key => "linked_test_id"
 
   # VALIDATIONS
   validates_associated :testableitems
@@ -26,7 +26,25 @@ class Testable < ActiveRecord::Base
 
 
   def to_label
-    #{name}
+    test_name()
+  end
+
+  def test_name
+    "#{datatype.split('^^')[0]}"
+  end
+
+  def time_in_str
+    "#{time_in.strftime('%B %-d, %Y %-I:%M %p')}"
+  end
+
+  def time_out_str
+    "#{time_out.strftime('%B %-d, %Y %-I:%M %p')}"
+  end
+
+  def time_taken
+    time_spent = time_out.to_datetime - time_in.to_datetime
+    hours, minutes, seconds, fracs = Date.day_fraction_to_time(time_spent.to_f)
+    "#{hours} hours, #{minutes} minutes, #{seconds} seconds"
   end
 
   # when we reject empty subtests, we lose them from the array which sucks;
