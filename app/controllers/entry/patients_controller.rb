@@ -38,7 +38,11 @@ class Entry::PatientsController < ApplicationController
       render :text => "<p>Enter the patient's RN to retrieve details</p>"
     else
       @record = Patient.find_by_rn(params[:id])
-      render :action => 'show', :locals => {@record => @record}
+      if @record.nil?
+        render :action => 'nopatient'
+      else
+        render :action => 'show', :locals => {@record => @record}
+      end
     end
   end
 end
