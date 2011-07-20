@@ -8,25 +8,36 @@
 <div class="smalldescription">
   Can't find a test? Its form probably hasn't been <%= link_to "activated", {:action => 'index', :controller => '/manage'} %>
 </div>
-<ul class="entry-menu">
-  <li class="newtests">
-    <div class="entry-item">
-      <h3>New Test</h3>
+<div id="menu">
+  <ul class="entry menu">
+    <li class="newtests">
+      <div class="item content">
+	<h3>New Test</h3>
 	<%= select_tag "id", 
 	               "<option>--select--</option>" + options_from_collection_for_select(@templates, "id", "name"), 
 		       {:onchange => "jumpTo(this)"} %>
-    </div>
-  </li>
-  <li class="patients">
-    <div class="entry-item">
-      <h3><%= link_to "Patients", {:action => 'list', :controller => '/entry/patients'} %></h3>
-    </div>
-  </li>
-  <li class="tests">
-    <div class="entry-item">
-      <h3><%= link_to "Test Results", {:action => 'list', :controller => '/entry/testables'} %></h3>
-    </div>
-  </li>
-</ul>
+        <p>
+	  Create a new test result
+	</p>
+      </div>
+    </li>
+    <li class="patients">
+      <div class="item content">
+	<h3><%= link_to "Patients", {:action => 'list', :controller => '/entry/patients'} %></h3>
+	<p>
+	  Find patients, view patient history
+	</p>
+      </div>
+    </li>
+    <li class="tests">
+      <div class="item content">
+	<h3><%= link_to "Test Results", {:action => 'list', :controller => '/entry/testables'} %></h3>
+	<p>
+	  Find (and delete) tests, view test results
+	</p>
+      </div>
+    </li>
+  </ul>
+</div>
 <div style="clear:both;"></div>
-
+  

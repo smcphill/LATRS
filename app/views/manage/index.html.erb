@@ -5,47 +5,61 @@
     }
   }
 </script>
-<div id="manage-menu">
-  <ul class="manage-menu">
+<div id="menu">
+  <ul class="manage menu">
     <li class="forms">
-      <div class="manage-item">
-	<h3>Forms</h3>
-	<div class="content">
-	  <%= link_to "Add New Form", {:action => 'new', :controller => '/manage/templates'} %>
-	  <label>Manage Form: <%= select_tag "id", "<option></option>" + options_from_collection_for_select(@templates, "id", "name"), {:onchange => "jumpTo(this)"} %></label>
-	</div>
+      <h3>Forms</h3>
+      <div class="content">
+	<%= link_to "Add New Form", {:action => 'new', :controller => '/manage/templates'} %>
+	<label>Manage Form: <%= select_tag "id", "<option></option>" + options_from_collection_for_select(@templates, "id", "name"), {:onchange => "jumpTo(this)"} %></label>
+	<p>
+	  Create a new form, or edit an existing one.
+	</p>
       </div>
     </li>
     <li class="patients">
-      <div class="manage-item">
-	<h3>Patients</h3>
-	<div class="content">
-	  <%= link_to "Manage Patients", {:action => 'list', :controller => '/manage/patients'} %>
-	</div>
+      <h3>Patients</h3>
+      <div class="content">
+	<%= link_to "Manage Patients", {:action => 'list', :controller => '/manage/patients'} %>
+	<p>
+	  Add a new patient, or edit an existing one
+	</p>
       </div>
     </li>
     <li class="staff">
-      <div class="manage-item">
-	<h3>Staff</h3>
-	<div class="content">
-	  <%= link_to "Manage Staff", {:action => 'list', :controller => '/manage/staff'} %>
-	</div>
+      <h3>Staff</h3>
+      <div class="content">
+	<%= link_to "Manage Staff", {:action => 'list', :controller => '/manage/staff'} %>
+	<p>
+	  Add a new staff member, or edit an existing one
+	</p>
       </div>
     </li>
     <li class="departments">
-      <div class="manage-item">
-	<h3>Departments</h3>
-	<div class="content">
-	  <%= link_to "Manage Departments", {:action => 'list', :controller => '/manage/departments'} %>
-	</div>
+      <h3>Departments</h3>
+      <div class="content">
+	<%= link_to "Manage Departments", {:action => 'list', :controller => '/manage/departments'} %>
+	<p>
+	  Add a new department, or edit an existing one
+	</p>
       </div>
     </li>
     <li class="sources">
-      <div class="manage-item">
-	<h3>Sources</h3>
-	<div class="content">
-	  <%= link_to "Manage Sources", {:action => 'list', :controller => '/manage/sources'} %>
-	</div>
+      <h3>Sources</h3>
+      <div class="content">
+	<%= link_to "Manage Sources", {:action => 'list', :controller => '/manage/sources'} %>
+	<p>
+	  Add a new source, or edit an existing one
+	</p>
+      </div>
+    </li>
+    <li class="export">
+      <h3>Data export</h3>
+      <div class="content">
+	<%= link_to "Export Data", {:action => 'export', :controller => '/manage/data'} %>
+	<p>
+	  Export all test result data in XLS format
+	</p>
       </div>
     </li>
   </ul>
