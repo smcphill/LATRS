@@ -26,11 +26,7 @@ class Testable < ActiveRecord::Base
 
 
   def to_label
-    test_name()
-  end
-
-  def test_name
-    "#{datatype.split('^^')[0]}"
+    #{datatype}
   end
 
   def time_in_str
@@ -61,7 +57,7 @@ class Testable < ActiveRecord::Base
       if sub.datatype.nil?
         pos = newsubs.index {|s| s.nil?}        
       else
-        pos = subs.index {|s| s.name == sub.datatype.split('^^').first()}
+        pos = subs.index {|s| s.name == sub.datatype}
       end
       newsubs[pos] = true
       sub[:pos] = pos

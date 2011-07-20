@@ -7,12 +7,11 @@ class Entry::TestablesController < ApplicationController
     config.actions.exclude :create, :update
     config.actions = [:nested, :list, :show, :delete, :field_search]
 
-    config.columns = [:datatype, :time_in_str, :test_name, :department, :source, :staff, :patient, :time_taken, :subtests, :master]
-    config.list.columns = [:time_in_str, :test_name, :department, :source, :staff, :patient, :time_taken]
+    config.columns = [:time_in_str, :datatype, :department, :source, :staff, :patient, :time_taken, :subtests, :master]
+    config.list.columns = [:time_in_str, :datatype, :department, :source, :staff, :patient, :time_taken]
     config.show.columns = [:time_in_str, :department, :source, :staff, :patient, :time_taken]
     
     #labels
-    config.columns[:test_name].label = "Type"
     config.columns[:datatype].label = "Type"
     config.columns[:time_in_str].label = "Requested"
 
@@ -22,7 +21,6 @@ class Entry::TestablesController < ApplicationController
 
     #sort
     config.columns[:time_in_str].sort_by :sql => "time_in"
-    config.columns[:test_name].sort_by :sql => "datatype"
 
     #subtests
     config.nested.add_link("Sub-tests", :subtests)
@@ -33,7 +31,7 @@ class Entry::TestablesController < ApplicationController
     if (FormManager.instance.hasForm(params[:tid]))
       @form = FormManager.instance.getForm(params[:tid])
       @testable = Testable.new
-      @testable.datatype = @form.className      
+      @testable.datatype = @form.name      
       @form.nbr_fields.times { @testable.testableitems.build }
       @form.subtests.count.times { @testable.subtests.build }
       @testable.subtests.each_with_index do |s,i|
@@ -48,7 +46,7 @@ class Entry::TestablesController < ApplicationController
   def preview
     @form = FormManager.instance.previewForm(params[:id])
     @testable = Testable.new
-    @testable.datatype = @form.className      
+    @testable.datatype = @form.name      
     @form.nbr_fields.times { @testable.testableitems.build }
     @form.subtests.count.times { @testable.subtests.build }
     @testable.subtests.each_with_index do |s,i|

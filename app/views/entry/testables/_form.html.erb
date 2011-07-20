@@ -84,7 +84,7 @@
 			 :onclick => "toggleForm(#{subtest.id}, #{index});return false;"} %>
 	  </div>
 	  <%= subtest_form.hidden_field :saveme, :value => @testable.subtests[index].saveme || "false" %>
-	  <%= subtest_form.hidden_field :datatype, :value => subtest.className %>
+	  <%= subtest_form.hidden_field :datatype, :value => subtest.name %>
 	  <div id="subtest-<%= subtest.id %>" style="display:none;">
 	    <%= render :partial => "form_groups",
 	               :locals => {:groups => subtest.groups,

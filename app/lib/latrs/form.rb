@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/group.rb'
 module Latrs
   class LatrsForm
-    attr_reader :id, :colour, :name, :groups, :subtests, :className, :nbr_fields
+    attr_reader :id, :colour, :name, :groups, :subtests, :nbr_fields
     attr_accessor :description
 
     @id
@@ -10,12 +10,10 @@ module Latrs
     @description
     @groups
     @subtests
-    @className
     @nbr_fields
 
     def initialize(id, parent_form = nil)
       template = Template.find(id)
-      @className = template.rbName
       @id = id
       @colour = template.colour || "fff"
       @name = template.name

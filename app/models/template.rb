@@ -15,11 +15,6 @@ class Template < ActiveRecord::Base
     "#{name}"
   end
 
-  # this will be our implemented type
-  def rbName
-    "#{self.name}^^#{self.id.to_s}"
-  end
-
   def validate_active_status
     if (is_active and fields.count() == 0)
       errors.add(:fields, ": active forms require at least one data field.")
