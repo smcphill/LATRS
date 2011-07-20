@@ -22,7 +22,7 @@ module Entry::TestablesHelper
   end
 
   # AS fielded search options
-  def datatype_search_column(record, input_name)
+  def testable_datatype_search_column(record, input_name)
     select :record, :datatype, Testable.all(:select => "DISTINCT(datatype)").collect {|t| [t.datatype.split('^^').first(), t.datatype]}, {:include_blank => as_('- select -')}, input_name
   end
 
