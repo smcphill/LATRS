@@ -21,6 +21,11 @@ module Entry::TestablesHelper
     end
   end
 
+  # AS fielded search options
+  def datatype_search_column(record, input_name)
+    select :record, :datatype, Testable.all(:select => "DISTINCT(datatype)").collect {|t| [t.datatype.split('^^').first(), t.datatype]}, {:include_blank => as_('- select -')}, input_name
+  end
+
   # use opts instead of these params
   def field_children(kids, type, builder, form, subtest)
     if kids.count > 0

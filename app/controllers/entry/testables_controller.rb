@@ -7,16 +7,18 @@ class Entry::TestablesController < ApplicationController
     config.actions.exclude :create, :update
     config.actions = [:nested, :list, :show, :delete, :field_search]
 
-    config.columns = [:time_in_str, :test_name, :department, :source, :staff, :patient, :time_taken, :subtests, :master]
+    config.columns = [:datatype, :time_in_str, :test_name, :department, :source, :staff, :patient, :time_taken, :subtests, :master]
     config.list.columns = [:time_in_str, :test_name, :department, :source, :staff, :patient, :time_taken]
     config.show.columns = [:time_in_str, :department, :source, :staff, :patient, :time_taken]
     
     #labels
     config.columns[:test_name].label = "Type"
+    config.columns[:datatype].label = "Type"
     config.columns[:time_in_str].label = "Requested"
 
     #search
-    config.field_search.columns = :datatype, :patient, :time_in
+    config.field_search.columns = :datatype, :patient, :staff, :department, :source, :time_in
+    config.columns[:datatype].search_ui = :select
 
     #sort
     config.columns[:time_in_str].sort_by :sql => "time_in"
