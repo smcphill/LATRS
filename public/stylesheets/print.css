@@ -1,0 +1,4 @@
+.active-scaffold-header, .form-footer, td.actions, a.inline-adapter-close, #footer, .patient-history {display:none}
+.show-view h3 {float:none;clear:both;display:block;width:100%}
+tbody.records { width:90%}
+tbody.records td { border:thin solid black;}
