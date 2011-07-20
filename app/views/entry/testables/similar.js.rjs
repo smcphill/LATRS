@@ -2,7 +2,7 @@ if not @t.nil?
    for e in ["department_id", "source_id", "staff_id", "time_in", "time_out"]
      value = @t.read_attribute e
      if (e == "time_in" or e == "time_out")
-       value = Time.at(@t.read_attribute e).strftime('%B %d, %Y %I:%M %p').gsub(/ 0(\d\D)/, ' \1')
+       value = Time.at(@t.read_attribute e).strftime(FULLTIME).gsub(/ 0(\d\D)/, ' \1')
      end
      page['testable_' + e].value = value
      page.visual_effect(:pulsate, 'testable_' + e, :pulses => 3)

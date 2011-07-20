@@ -1,3 +1,10 @@
+<script type="text/javascript">
+  function jumpTo (e) {
+    if (e.value) {
+      window.location = '<%= url_for({:action => 'new', :controller => 'entry/testables', :only_path => false}) %>/'+e.value;
+    }
+  }
+</script>
 <div class="smalldescription">
   Can't find a test? Its form probably hasn't been <%= link_to "activated", {:action => 'index', :controller => '/manage'} %>
 </div>
@@ -5,11 +12,9 @@
   <li class="newtests">
     <div class="entry-item">
       <h3>New Test</h3>
-      <ul>
-	<% @templates.each do |t| %>
-	<li><%= link_to t.name, {:action => 'new', :controller => '/entry/testables', :params => {:tid => t.id}} %></li>
-	<% end %>
-      </ul>
+	<%= select_tag "id", 
+	               "<option>--select--</option>" + options_from_collection_for_select(@templates, "id", "name"), 
+		       {:onchange => "jumpTo(this)"} %>
     </div>
   </li>
   <li class="patients">

@@ -34,11 +34,11 @@ class Testable < ActiveRecord::Base
   end
 
   def time_in_str
-    "#{time_in.strftime('%B %d, %Y %I:%M %p').gsub(/ 0(\d\D)/, ' \1')}"
+    "#{time_in.strftime(FULLTIME).gsub(/ 0(\d\D)/, ' \1')}"
   end
 
   def time_out_str
-    "#{time_out.strftime('%B %d, %Y %I:%M %p').gsub(/ 0(\d\D)/, ' \1')}"
+    "#{time_out.strftime(FULLTIME).gsub(/ 0(\d\D)/, ' \1')}"
   end
 
   def time_taken
