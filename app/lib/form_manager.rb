@@ -33,6 +33,10 @@ class FormManager
     end
   end
   
+  def previewForm(id)
+    return Latrs::LatrsForm.new(Integer(id))
+  end
+
   def unloadForm(id)
     id = Integer(id)
     if (@forms.has_key?(id))

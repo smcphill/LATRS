@@ -46,7 +46,7 @@ class Entry::TestablesController < ApplicationController
   end
 
   def preview
-    @form = FormManager.instance.getForm(params[:id])
+    @form = FormManager.instance.previewForm(params[:id])
     @testable = Testable.new
     @testable.datatype = @form.className      
     @form.nbr_fields.times { @testable.testableitems.build }
@@ -101,7 +101,7 @@ class Entry::TestablesController < ApplicationController
     # this is getting ignored, and the first patient in the db is being used.
     # let's fix this. we already know that the RN is (mostly) correct, but it
     # isn't a required field anyway...
-    if (not save_params[:patient_id][:rn].blank?)
+    if (save_params[:patient_id] and not save_params[:patient_id][:rn].blank?)
       patient = Patient.find_by_rn(save_params[:patient_id][:rn])
       if not patient.nil?
         save_params[:patient_id] = patient.id
@@ -137,11 +137,7 @@ class Entry::TestablesController < ApplicationController
   def similar
     @t = Testable.last :joins => :patient, 
                        :conditions => { 
-                         :patients => { 
-                           :rn => params[:rn] }, 
-                         :testables => { 
-                           :created_at => (Time.now.midnight - 2.day)..Time.now }
-                       }
+                         :patients => { :rn => params[:rn] } }
 
     respond_to do |format|
       format.js
