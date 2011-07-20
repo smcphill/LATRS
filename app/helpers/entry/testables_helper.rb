@@ -69,6 +69,7 @@ module Entry::TestablesHelper
       end
     end
     input += builder.hidden_field(:name, :value => field.dbName)
+    input += builder.hidden_field(:label, :value => field.label) if not field.label.nil?
     input += builder.hidden_field(:datatype, :value => field.type)
     input += builder.hidden_field(:required, :value => field.is_required.to_s)
     input += builder.hidden_field(:max, :value => field.max, :disabled => true) if not field.max.nil?
