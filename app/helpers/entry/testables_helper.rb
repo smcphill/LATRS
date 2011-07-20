@@ -9,7 +9,7 @@ module Entry::TestablesHelper
     opts = {:time => "mixed",
       :minute_interval => 5,
       :year_range => 3.years.ago..1.years.from_now,
-      :value => Time.new.strftime('%B %-d, %Y %-I:%M %p')}
+      :value => Time.new.strftime('%B %d, %Y %I:%M %p').gsub(/ 0(\d\D)/, ' \1')}
 
     content_tag(:dt, form.label(symbol)) +
       content_tag(:dd, form.calendar_date_select(symbol, opts))
