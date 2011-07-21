@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110719075557) do
+ActiveRecord::Schema.define(:version => 20110721102318) do
 
   create_table "departments", :force => true do |t|
     t.string   "name"
@@ -33,6 +33,9 @@ ActiveRecord::Schema.define(:version => 20110719075557) do
     t.integer  "group_id"
   end
 
+  add_index "fields", ["group_id"], :name => "index_fields_on_group_id"
+  add_index "fields", ["parent_id"], :name => "index_fields_on_parent_id"
+
   create_table "groups", :force => true do |t|
     t.string   "name"
     t.string   "description"
@@ -41,6 +44,8 @@ ActiveRecord::Schema.define(:version => 20110719075557) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "groups", ["template_id"], :name => "index_groups_on_template_id"
 
   create_table "limits", :force => true do |t|
     t.string   "name"
@@ -51,12 +56,17 @@ ActiveRecord::Schema.define(:version => 20110719075557) do
     t.integer  "position"
   end
 
+  add_index "limits", ["field_id"], :name => "index_limits_on_field_id"
+
   create_table "links", :force => true do |t|
     t.integer  "ancestor_id"
     t.integer  "descendant_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "links", ["ancestor_id"], :name => "index_links_on_ancestor_id"
+  add_index "links", ["descendant_id"], :name => "index_links_on_descendant_id"
 
   create_table "patients", :force => true do |t|
     t.string   "name"
@@ -70,6 +80,12 @@ ActiveRecord::Schema.define(:version => 20110719075557) do
     t.integer  "height"
     t.float    "weight"
   end
+
+  add_index "patients", ["birthdate"], :name => "index_patients_on_birthdate"
+  add_index "patients", ["ethnicity"], :name => "index_patients_on_ethnicity"
+  add_index "patients", ["gender"], :name => "index_patients_on_gender"
+  add_index "patients", ["name"], :name => "index_patients_on_name"
+  add_index "patients", ["rn"], :name => "index_patients_on_rn"
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
@@ -91,6 +107,8 @@ ActiveRecord::Schema.define(:version => 20110719075557) do
     t.string "name"
   end
 
+  add_index "staffs", ["name"], :name => "index_staffs_on_name"
+
   create_table "templates", :force => true do |t|
     t.string   "name"
     t.boolean  "is_active"
@@ -110,6 +128,9 @@ ActiveRecord::Schema.define(:version => 20110719075557) do
     t.string   "datatype"
   end
 
+  add_index "testableitems", ["name"], :name => "index_testableitems_on_name"
+  add_index "testableitems", ["testable_id"], :name => "index_testableitems_on_testable_id"
+
   create_table "testables", :force => true do |t|
     t.integer  "linked_test_id"
     t.integer  "patient_id"
@@ -122,5 +143,13 @@ ActiveRecord::Schema.define(:version => 20110719075557) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "testables", ["datatype"], :name => "index_testables_on_datatype"
+  add_index "testables", ["department_id"], :name => "index_testables_on_department_id"
+  add_index "testables", ["linked_test_id"], :name => "index_testables_on_linked_test_id"
+  add_index "testables", ["patient_id"], :name => "index_testables_on_patient_id"
+  add_index "testables", ["source_id"], :name => "index_testables_on_source_id"
+  add_index "testables", ["staff_id"], :name => "index_testables_on_staff_id"
+  add_index "testables", ["time_in"], :name => "index_testables_on_time_in"
 
 end
