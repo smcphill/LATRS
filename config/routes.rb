@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
     entry.resources :testables, :active_scaffold => true
     entry.connect 'testables/new/:tid', :controller => 'testables', :action => 'new'
     entry.connect 'testables/auto_complete_for_patient_rn/:foo', :controller => 'testables', :action => 'auto_complete_for_patient_rn'
-    entry.connect 'testables/similar/:rn', :controller => 'testables', :action => 'similar'
+    entry.connect 'testables/similar/:rn.:format', :controller => 'testables', :action => 'similar'
     entry.resources :patients, :active_scaffold => true
   end
 
@@ -22,6 +22,7 @@ ActionController::Routing::Routes.draw do |map|
     manage.resources :groups, :active_scaffold => true, :active_scaffold_sortable => true
     manage.resources :limits, :active_scaffold => true, :active_scaffold_sortable => true
     manage.resources :links, :active_scaffold => true
+    manage.connect '/data/export/:days', :controller => 'data', :action => 'export'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

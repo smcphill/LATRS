@@ -1,0 +1,39 @@
+<h2>Data Export</h2>
+<p>
+Export all LATRS data, including patient registry. Choose between
+XML and XLS (Spreadsheet) formats. Specify how many days to include
+in the export, or request a full export.
+</p>
+<div style="padding:2em 0px 0px 5em"">
+<%= form_tag({:controller => 'manage/data', :action => 'export'}, {:method => 'post'}) %>
+  <% format_opts = options_for_select([['XLS Spreadsheet', 'html'],
+                                       ['XML','xml']]) %>
+  <dl>
+    <dt><%= label_tag("format", "Export format:") %>
+    <dd>
+      <%= select_tag("format", format_opts) %>
+    </dd>
+    <dt><%= label_tag("time", "Time period:") %>
+    <dd>
+      <%= select_tag("time", options_for_select(1..10), :class=>'days') %>
+      <%= select_tag("type", options_for_select(%w{days weeks}), :class=>'days') %>
+    </dd>
+    <dt><%= label_tag("all", "Full export:") %>
+    <dd>
+      <%= check_box_tag("all") %>
+      <script type="text/javascript">
+        $('all').observe('click', 
+			 function(event,obj) {
+			     if ($F('all') === "1") { 
+				 $$('.days').each(function(obj){obj.disable(); });
+			     } 
+			     else { 
+				 $$('.days').each(function(obj){obj.enable(); });
+			     }
+			 });
+      </script>
+    </dd>
+  </dl>
+  <%= submit_tag "Export" %>
+</form>
+</div>
