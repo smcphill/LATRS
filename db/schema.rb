@@ -9,76 +9,64 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110721102318) do
+ActiveRecord::Schema.define(:version => 20110722060518) do
 
   create_table "departments", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string "name"
   end
 
   create_table "fields", :force => true do |t|
-    t.string   "name"
-    t.boolean  "is_required"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "parent_id"
-    t.string   "type"
-    t.boolean  "is_multi"
-    t.string   "par_hi_lim"
-    t.string   "par_lo_lim"
-    t.string   "unit_label"
-    t.integer  "position"
-    t.string   "display_as"
-    t.integer  "group_id"
+    t.string  "name"
+    t.boolean "is_required"
+    t.integer "parent_id"
+    t.string  "type"
+    t.boolean "is_multi"
+    t.string  "par_hi_lim"
+    t.string  "par_lo_lim"
+    t.string  "unit_label"
+    t.integer "position"
+    t.string  "display_as"
+    t.integer "group_id"
   end
 
   add_index "fields", ["group_id"], :name => "index_fields_on_group_id"
   add_index "fields", ["parent_id"], :name => "index_fields_on_parent_id"
 
   create_table "groups", :force => true do |t|
-    t.string   "name"
-    t.string   "description"
-    t.integer  "position"
-    t.integer  "template_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string  "name"
+    t.string  "description"
+    t.integer "position"
+    t.integer "template_id"
   end
 
   add_index "groups", ["template_id"], :name => "index_groups_on_template_id"
 
   create_table "limits", :force => true do |t|
-    t.string   "name"
-    t.integer  "field_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "is_default"
-    t.integer  "position"
+    t.string  "name"
+    t.integer "field_id"
+    t.boolean "is_default"
+    t.integer "position"
   end
 
   add_index "limits", ["field_id"], :name => "index_limits_on_field_id"
 
   create_table "links", :force => true do |t|
-    t.integer  "ancestor_id"
-    t.integer  "descendant_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "ancestor_id"
+    t.integer "descendant_id"
   end
 
   add_index "links", ["ancestor_id"], :name => "index_links_on_ancestor_id"
   add_index "links", ["descendant_id"], :name => "index_links_on_descendant_id"
 
   create_table "patients", :force => true do |t|
-    t.string   "name"
-    t.string   "rn"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "location"
-    t.string   "gender"
-    t.date     "birthdate"
-    t.string   "ethnicity"
-    t.integer  "height"
-    t.float    "weight"
+    t.string  "name"
+    t.string  "rn"
+    t.text    "location"
+    t.string  "gender"
+    t.date    "birthdate"
+    t.string  "ethnicity"
+    t.integer "height"
+    t.float   "weight"
   end
 
   add_index "patients", ["birthdate"], :name => "index_patients_on_birthdate"
@@ -88,19 +76,14 @@ ActiveRecord::Schema.define(:version => 20110721102318) do
   add_index "patients", ["rn"], :name => "index_patients_on_rn"
 
   create_table "sessions", :force => true do |t|
-    t.string   "session_id", :null => false
-    t.text     "data"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string "session_id", :null => false
+    t.text   "data"
   end
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
-  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "sources", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string "name"
   end
 
   create_table "staffs", :force => true do |t|
@@ -110,22 +93,18 @@ ActiveRecord::Schema.define(:version => 20110721102318) do
   add_index "staffs", ["name"], :name => "index_staffs_on_name"
 
   create_table "templates", :force => true do |t|
-    t.string   "name"
-    t.boolean  "is_active"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "colour"
-    t.text     "description"
+    t.string  "name"
+    t.boolean "is_active"
+    t.string  "colour"
+    t.text    "description"
   end
 
   create_table "testableitems", :force => true do |t|
-    t.integer  "testable_id"
-    t.string   "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name"
-    t.string   "label"
-    t.string   "datatype"
+    t.integer "testable_id"
+    t.string  "value"
+    t.string  "name"
+    t.string  "label"
+    t.string  "datatype"
   end
 
   add_index "testableitems", ["name"], :name => "index_testableitems_on_name"
@@ -140,8 +119,6 @@ ActiveRecord::Schema.define(:version => 20110721102318) do
     t.string   "datatype"
     t.datetime "time_in"
     t.datetime "time_out"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   add_index "testables", ["datatype"], :name => "index_testables_on_datatype"

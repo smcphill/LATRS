@@ -28,8 +28,6 @@ class Field < ActiveRecord::Base
     self.par_hi_lim = field.par_hi_lim
     self.par_lo_lim = field.par_lo_lim
     self.display_as = field.display_as
-    self.created_at = Time.now
-    self.updated_at = Time.now
     self.save
     field.limits.each do |l|
       newL = l.clone :except => :field_id
