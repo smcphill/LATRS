@@ -1,6 +1,8 @@
 /* colour schemes */
 .manage #header, .manage #footer, ul.homepage.menu li.manage { background-color:#E165CE; }
 .entry #header, .entry #footer, ul.homepage.menu li.entry { background-color:#4f99d1; }
+.report #header, .report #footer, ul.homepage.menu li.report { background-color:#65E169; }
+.doc #header, .doc #footer, ul.homepage.menu li.doc { background-color:#E1D965; }
 .homepage #header, .homepage #footer {background-color:#99AEDE;}
 
 /* global stuff */
@@ -277,3 +279,6 @@ div.auto_complete ul strong.highlight {
   margin:0;
   padding:0;
 }
+
+/* reports: show testable */
+body.report .active-scaffold .show-view dl dt { font-size: 11px; font-weight: normal; margin-bottom:0em }

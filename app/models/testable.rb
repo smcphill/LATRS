@@ -22,9 +22,25 @@ class Testable < ActiveRecord::Base
   @pos
   attr_accessor :saveme, :pos
 
-
   def to_label
     #{datatype}
+  end
+
+  def tvals
+    testableitems.collect {|t| t.value }
+  end
+
+  def tnumvals
+    testableitems.collect {|t| t.value }
+  end
+
+
+  def tnames
+    testableitems.collect {|t| t.name }
+  end
+
+  def twildnames
+    testableitems.collect {|t| t.name }
   end
 
   def time_in_str

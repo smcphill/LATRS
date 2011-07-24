@@ -1,4 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
+  # report routes
+  map.resources :reports
+  map.namespace :report do |report|
+    report.resources :testables, :active_scaffold => true
+  end
+
   # data entry routes
   map.resources :entries
   map.namespace :entry do |entry|

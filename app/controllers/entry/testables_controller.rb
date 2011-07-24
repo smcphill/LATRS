@@ -19,6 +19,7 @@ class Entry::TestablesController < ApplicationController
     config.field_search.columns = :datatype, :patient, :staff, :department, :time_in
     config.columns[:datatype].search_ui = :select
 
+
     #sort
     config.columns[:time_in_str].sort_by :sql => "time_in"
 
