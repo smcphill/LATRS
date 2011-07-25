@@ -33,10 +33,11 @@ class Manage::DataController < ApplicationController
   # export the last params[:days] worth of data, where time is taken
   # from midnight today. if no day is given, return all data
   def export
+    start = Time.now.midnight
     if (not params[:all])
       time = case params[:type]
-             when "days" then Time.now.midnight - params[:time].to_i.day
-             when "weeks" then Time.now.midnight - (7 * params[:time].to_i).day
+             when "days" then start - params[:time].to_i.day
+             when "weeks" then start - (7 * params[:time].to_i).day
              else Time.at(0)
              end
     else
@@ -44,7 +45,7 @@ class Manage::DataController < ApplicationController
     end
     book = Spreadsheet::Workbook.new
     test_names = Testable.all(:select => "DISTINCT(datatype)",
-                              :conditions => ["time_in >= ?", time]
+                              :conditions => ["time_in >= ? AND time_in <= ?", time, start]
                               ).collect {|t|t.datatype}
     test_names.each do |t|
       sheet = book.create_worksheet :name => t
@@ -57,7 +58,7 @@ class Manage::DataController < ApplicationController
                                    ).collect {|c|c.label.nil? ? [c.name] : [c.name,c.label]}
       write_header(sheet, 
                    GENERAL_COLS + test_cols.collect{|c|c[1].nil? ? c[0] : "#{c[0]} (#{c[1]})"})
-      Testable.all(:conditions => ["datatype = ? AND time_in >= ?", t, time], 
+      Testable.all(:conditions => ["datatype = ? AND time_in >= ? AND time_in <= ?", t, time, start], 
                    :include => :testableitems
                    ).each do |test|
         write_test(sheet, 
@@ -76,7 +77,7 @@ class Manage::DataController < ApplicationController
     
     data = StringIO.new
     book.write data
-    filename = "latrs-#{time.strftime(TIME_STR)}-TO-#{(Time.now.midnight - 1.day).strftime(TIME_STR)}"
+    filename = "latrs-#{time.strftime(TIME_STR)}-TO-#{start.strftime(TIME_STR)}"
 
     respond_to do |format|
       format.html { send_data data.string, :type=>"application/excel",
@@ -84,7 +85,7 @@ class Manage::DataController < ApplicationController
                                            :filename => "#{filename}.xls"
       }
       format.xml { 
-        render :xml => to_xml(book,time,Time.now.midnight - 1.day)
+        render :xml => to_xml(book,time,start)
       }
     end
 
