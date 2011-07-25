@@ -1,5 +1,5 @@
 module Report::TestablesHelper
-   def tnames_search_column(record, html_options)
+   def testable_tnames_search_column(record, html_options)
      logger.debug "our params: #{params.inspect}"
      items = Testableitem.all(:select => "distinct (name)", :order => "name")
      selected = params[:search][:tnames] if not params[:search].nil? and not params[:search][:tnames].nil?
