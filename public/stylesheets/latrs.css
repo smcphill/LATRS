@@ -39,6 +39,9 @@ ul.menu li .content a:hover
 ul.homepage.menu li a, ul.homepage.menu li a:hover {background-color:white;border-radius:5px}
 ul.homepage.menu {width:60%;}
 
+/* report menu */
+ul.report.menu {width:65%}
+
 /* management section colours */
 .active-scaffold .manage\/staff-view { background-color: #FFFFCD;}
 .active-scaffold .manage\/patients-view { background-color: #CDDCFF;}
@@ -282,3 +285,4 @@ div.auto_complete ul strong.highlight {
 
 /* reports: show testable */
 body.report .active-scaffold .show-view dl dt { font-size: 11px; font-weight: normal; margin-bottom:0em }
+#do-report { padding:1px; border: 2px solid #009905; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; background-color:#65E169;}

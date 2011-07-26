@@ -39,10 +39,6 @@ class Testable < ActiveRecord::Base
     testableitems.collect {|t| t.name }
   end
 
-  def twildnames
-    testableitems.collect {|t| t.name }
-  end
-
   def time_in_str
     "#{time_in.strftime(FULLTIME).gsub(/ 0(\d\D)/, ' \1')}"
   end
