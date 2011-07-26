@@ -10,7 +10,6 @@ class Manage::DataController < ApplicationController
                             'time_out',
                             'department.name',
                             'staff.name',
-                            'source.name',
                             'patient.name',
                             'patient.rn'
                             ]);

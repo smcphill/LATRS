@@ -1,7 +1,6 @@
 class Testable < ActiveRecord::Base
   belongs_to :staff
   belongs_to :patient
-  belongs_to :source
   belongs_to :department
   has_many :testableitems, :dependent => :destroy
   has_many :subtests, :class_name => "Testable", :foreign_key => "linked_test_id"
@@ -12,7 +11,6 @@ class Testable < ActiveRecord::Base
   validates_associated :subtests
   validates_presence_of :department_id
   validates_presence_of :staff_id
-  validates_presence_of :source_id
   
   # NESTED ATTRIBUTES
   accepts_nested_attributes_for :testableitems

@@ -14,7 +14,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :manages
   map.namespace :manage do |manage|
     manage.resources :patients, :active_scaffold => true
-    manage.resources :sources, :active_scaffold => true
     manage.resources :departments, :active_scaffold => true
     manage.resources :staff, :active_scaffold => true
     manage.resources :templates, :active_scaffold => true

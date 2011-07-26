@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110722060518) do
+ActiveRecord::Schema.define(:version => 20110726125354) do
 
   create_table "departments", :force => true do |t|
     t.string "name"
@@ -82,10 +82,6 @@ ActiveRecord::Schema.define(:version => 20110722060518) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
 
-  create_table "sources", :force => true do |t|
-    t.string "name"
-  end
-
   create_table "staffs", :force => true do |t|
     t.string "name"
   end
@@ -114,7 +110,6 @@ ActiveRecord::Schema.define(:version => 20110722060518) do
     t.integer  "linked_test_id"
     t.integer  "patient_id"
     t.integer  "staff_id"
-    t.integer  "source_id"
     t.integer  "department_id"
     t.string   "datatype"
     t.datetime "time_in"
@@ -125,7 +120,6 @@ ActiveRecord::Schema.define(:version => 20110722060518) do
   add_index "testables", ["department_id"], :name => "index_testables_on_department_id"
   add_index "testables", ["linked_test_id"], :name => "index_testables_on_linked_test_id"
   add_index "testables", ["patient_id"], :name => "index_testables_on_patient_id"
-  add_index "testables", ["source_id"], :name => "index_testables_on_source_id"
   add_index "testables", ["staff_id"], :name => "index_testables_on_staff_id"
   add_index "testables", ["time_in"], :name => "index_testables_on_time_in"
 

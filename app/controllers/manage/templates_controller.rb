@@ -44,7 +44,7 @@ class Manage::TemplatesController < ApplicationController
     config.columns[:colour].description = "The data entry form for this test will be this colour"
     config.columns[:is_active].description = "If selected, this form will be available for people to use"
     config.columns[:groups].description = "Fields to be shown in the form"
-    config.columns[:descendants].description = "These forms will be displayed upon completion of this form, pre-populated with patient, tester, department and source data"
+    config.columns[:descendants].description = "These forms will be displayed upon completion of this form, pre-populated with patient, staff and department data"
     
   end
   

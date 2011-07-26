@@ -7,16 +7,16 @@ class Entry::TestablesController < ApplicationController
     config.actions.exclude :create, :update
     config.actions = [:nested, :list, :show, :delete, :field_search]
 
-    config.columns = [:time_in_str, :datatype, :department, :source, :staff, :patient, :time_taken, :subtests, :master]
-    config.list.columns = [:time_in_str, :datatype, :department, :source, :staff, :patient, :time_taken]
-    config.show.columns = [:time_in_str, :department, :source, :staff, :patient, :time_taken]
+    config.columns = [:time_in_str, :datatype, :department, :staff, :patient, :time_taken, :subtests, :master]
+    config.list.columns = [:time_in_str, :datatype, :department, :staff, :patient, :time_taken]
+    config.show.columns = [:time_in_str, :department, :staff, :patient, :time_taken]
     
     #labels
     config.columns[:datatype].label = "Type"
     config.columns[:time_in_str].label = "Requested"
 
     #search
-    config.field_search.columns = :datatype, :patient, :staff, :department, :source, :time_in
+    config.field_search.columns = :datatype, :patient, :staff, :department, :time_in
     config.columns[:datatype].search_ui = :select
 
     #sort
@@ -88,7 +88,6 @@ class Entry::TestablesController < ApplicationController
         subtest[:testableitems_attributes] = prep_create(subtest[:testableitems_attributes])
         subtest[:time_in] = save_params[:time_in]
         subtest[:time_out] = save_params[:time_out]
-        subtest[:source_id] = save_params[:source_id]
         subtest[:staff_id] = save_params[:staff_id]
         subtest[:patient_id] = save_params[:patient_id]
         subtest[:department_id] = save_params[:department_id]

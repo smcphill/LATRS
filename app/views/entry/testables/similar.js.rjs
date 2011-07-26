@@ -1,5 +1,5 @@
 if not @t.nil?
-   for e in ["department_id", "source_id", "staff_id", "time_in", "time_out"]
+   for e in ["department_id", "staff_id", "time_in", "time_out"]
      value = @t.read_attribute e
      if (e == "time_in" or e == "time_out")
        value = Time.at(@t.read_attribute e).strftime(FULLTIME).gsub(/ 0(\d\D)/, ' \1')
