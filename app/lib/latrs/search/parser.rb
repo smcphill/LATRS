@@ -77,9 +77,9 @@ module Latrs
         if (exprs.count > 1)
           ops = Array.new
           (exprs.count - 1).times { ops.push("AND") }
-          return Latrs::Report::ClauseExpr.new(ops, exprs)
+          return Latrs::Report::ClauseExpr.new(ops, exprs).to_s
         else
-          return exprs[0]
+          return exprs[0].to_s
         end
       end
       

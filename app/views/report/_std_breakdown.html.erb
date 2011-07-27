@@ -1,0 +1,13 @@
+<% id = '' if id.nil? %>
+<% classname = '' if classname.nil? %>
+<div id="<%= id %>" class="<%= classname %>" style="clear:both;padding-top:1em">
+  <%= heading %>
+  <dl>
+    <% data.each do |item| %>
+      <% item.each_pair do |key, value| %>
+	 <dt><%= key %>
+	 <dd><%= value %></dd>
+      <% end %>
+    <% end %>
+  </dl>
+</div>

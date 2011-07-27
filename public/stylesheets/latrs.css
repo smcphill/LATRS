@@ -286,3 +286,13 @@ div.auto_complete ul strong.highlight {
 /* reports: show testable */
 body.report .active-scaffold .show-view dl dt { font-size: 11px; font-weight: normal; margin-bottom:0em }
 #do-report { padding:1px; border: 2px solid #009905; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; background-color:#65E169;}
+
+/* reports: raw report */
+#report-content dl dt { font-size: 11px; font-weight: normal; margin-bottom:0em;width: 12em;float: left;clear: left;font: normal 11px verdana, sans-serif;color: #555;line-height: 16px; }
+
+#report-content dl dd {float: left;font: bold 14px arial;padding-left: 5px;margin-bottom: 5px;}
+#report-content .breakdown { clear:both;float:none;}
+#report-content h3, #report-content h4 { padding: 0px;margin:0px;}
+#report-content .cleared { clear:both;float:none}
+#report-content { margin-top:2em;}
+#report-header blockquote { padding:5px;background-color: #ccc}

@@ -29,7 +29,7 @@
   </ol>
   <p class="form-footer">
     <span id="do-report" style="display:none;">
-      <%= link_to "Generate Report", :controller => '/report', :action => 'custom', :class => "submit" %></span>
+      <%= link_to "Generate Report", {:controller => '/report', :action => 'custom'}, :class => "submit", :popup => true %></span>
     <%= submit_tag as_(:search), :class => "submit", :id => "fieldsearch-submit" %>
     <% href = url_for(href_params.merge(:search => '')) -%>
     <%= link_to_remote as_(:reset), {:url => href, 
