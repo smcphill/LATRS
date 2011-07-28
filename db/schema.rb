@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110726125354) do
+ActiveRecord::Schema.define(:version => 20110728072425) do
 
   create_table "departments", :force => true do |t|
     t.string "name"
@@ -59,14 +59,12 @@ ActiveRecord::Schema.define(:version => 20110726125354) do
   add_index "links", ["descendant_id"], :name => "index_links_on_descendant_id"
 
   create_table "patients", :force => true do |t|
-    t.string  "name"
-    t.string  "rn"
-    t.text    "location"
-    t.string  "gender"
-    t.date    "birthdate"
-    t.string  "ethnicity"
-    t.integer "height"
-    t.float   "weight"
+    t.string "name"
+    t.string "rn"
+    t.text   "location"
+    t.string "gender"
+    t.date   "birthdate"
+    t.string "ethnicity"
   end
 
   add_index "patients", ["birthdate"], :name => "index_patients_on_birthdate"

@@ -20,8 +20,6 @@ class Manage::DataController < ApplicationController
                             'birthdate',
                             'gender',
                             'ethnicity',
-                            'weight',
-                            'height',
                             'location']);
 
   TIME_STR = "%Y%m%d";
