@@ -1,5 +1,8 @@
 # Be sure to restart your server when you modify this file
 
+# our patient info service url
+HIS_PATIENT_URL = "http://192.168.1.111/healthinfo/outside/patient.php?rn="
+
 # Uncomment below to force Rails into production mode when
 # you don't control web/app server and can't set it the proper way
 # ENV['RAILS_ENV'] ||= 'production'
