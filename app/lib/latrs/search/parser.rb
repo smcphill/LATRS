@@ -14,12 +14,16 @@ module Latrs
       
       def parse
         exprs = Array.new
+        has_tnames = @args.has_key?(:tnames)
         @args.each_pair do |key,val|
           # we have a few special conditions here:
           #  - time_in is a hash, with datetimes
           #  - time_taken is the difference between time_in and time_out, in minutes
           #  - staff and department are joins on staff.id, department.id to [table].name
           #  - tnames is the 'name' part for either tvals or tnumvals, or just on its own
+          #  - tvals is the "value" part of a field.
+          #  - tnumvals is like tvals, but only has numbers
+          
           expr = nil
           case key.to_s
           when "time_in"
@@ -58,7 +62,7 @@ module Latrs
             else
               # we have tnumvals. check to and from. if both, we'll have 3 exprs
               e1 = Latrs::Report::AtomExpr.new("testableitems.name", val, "like")
-              es = make_exprs('testableitems.value', @args[:tnumvals])
+              es = make_exprs('round(testableitems.value,2)', @args[:tnumvals])
               es = [e1] + es if not e1.nil?
             end
             if expr.nil?
@@ -66,6 +70,25 @@ module Latrs
               es.reject {|e| e.nil?}
               (es.count - 1).times { ops.push('AND') }
               expr = Latrs::Report::ClauseExpr.new(ops, es)
+            end
+          when "tvals", "tnumvals"
+            # if we have a field name, we can do nothing
+            tkey = "testableitems.value"
+            tkey = "round(#{tkey},2)" if key.to_s == "tnumvals"
+            if not has_tnames
+              es = make_exprs(tkey, val)
+              if not es.nil?
+                es.reject {|e| e.nil?}
+                if not es.nil?
+                  if es.count == 1
+                    expr = es
+                  else
+                    ops = Array.new
+                    (es.count - 1).times { ops.push('AND') }
+                    expr = Latrs::Report::ClauseExpr.new(ops, es)
+                  end
+                end
+              end
             end
           when "staff", "department"
             expr = Latrs::Report::AtomExpr.new("#{key}_id", val, '=')

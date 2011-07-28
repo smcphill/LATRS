@@ -40,8 +40,8 @@ module Latrs
 
       def to_s
         if not @value.empty?
-          if not @value.kind_of?(Numeric)
-            @value = "'#{@value}'"
+          if @value.match(/\A[+-]?\d+\.?\d*\Z/).nil?
+            @value = "'#{@value}'" 
           end
           return "#{@field} #{@op} #{@value}"            
         else
