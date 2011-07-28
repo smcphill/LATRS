@@ -31,7 +31,7 @@ class ReportController < ApplicationController
       end
 
       @report_data = generate_report(tests)      
-      @report_data[:rule] = "#{conds.parse}"
+      @report_data[:rule] = "SELECT testables.* FROM testables INNER JOIN testableitems ON testableitems.testable_id = testables.id WHERE #{conds.parse}"
 
       render :layout => "raw-report"
     end
