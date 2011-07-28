@@ -1,8 +1,19 @@
+<script type="text/javascript">
+  function jumpTo (e) {
+    if (e.value && e.value !== "--select--") {
+      window.location = '<%= url_for({:action => 'core', :controller => '/report', :only_path => false}) %>/'+e.value;
+    }
+  }
+</script>
 <div id="menu">
   <ul class="report menu">
     <li>
       <div class="item content">
-	<h3><%= link_to "Run report", {:action => 'list', :controller => '/report/list'} %></h3>
+	<h3>Run report</h3>
+	<%= select_tag "core", 
+	               "<option>--select--</option>" + options_for_select(@reports), 
+		       {:onchange => "jumpTo(this)"} %>
+
 	<p>
 	  Choose one of the inbuilt reports to run
 	</p>

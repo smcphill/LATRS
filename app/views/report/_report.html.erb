@@ -1,0 +1,49 @@
+<div id="report-content">
+  <div style="float: left; width: 40%;">
+    <div id="report-patient" class='breakdown'>
+      <h3>Patients</h3>
+      <%= render :partial => 'std_breakdown', 
+                 :locals => {:data => report_data[:patients][:gender],
+                             :id => 'report-patient-gender',
+                             :heading => "<h4>Gender</h4>"}%>
+      <%= render :partial => 'std_breakdown', 
+                 :locals => {:data => report_data[:patients][:age],
+                             :id => 'report-patient-age',
+                             :heading => "<h4>Age</h4>"}%>
+      <%= render :partial => 'std_breakdown', 
+                 :locals => {:data => report_data[:patients][:ethnicity],
+                             :id => 'report-patient-ethnicity',
+                             :heading => "<h4>Ethinicity</h4>"}%>
+    </div>
+
+    <%= render :partial => 'std_breakdown',
+               :locals => {:data => report_data[:staff],
+                           :id => 'report-staff',
+	    		   :classname => 'breakdown',
+                           :heading => "<h3>Staff</h3>"}%>
+
+    <%= render :partial => 'std_breakdown',
+               :locals => {:data => report_data[:depts],
+                           :id => 'report-dept',
+		  	   :classname => 'breakdown',
+                           :heading => "<h3>Departments</h3>"}%>
+  </div>
+  <div style="float: left; width: 40%; margin-left: 40px; border-left: thin dashed black; padding-left: 40px;">
+    <div id='report-fields' class='breakdown'>
+      <h3>Fields</h3>
+      <% report_data[:fields].each do |field| %>
+        <% fname = field.keys.first %>
+        <% val_hash = field[fname] %>
+        <% vals = Array.new %>
+        <% field[fname].each_pair do |label, value| %>
+          <% vals[value[:pos]] = Hash.new; vals[value[:pos]][label] = value[:val] %>
+        <% end %>
+        <% vals = vals.reject {|v| v.nil?} %>
+        <%= render :partial => 'std_breakdown',
+                  :locals => {:data => vals,
+	  		      :heading => "<h4>#{fname}</h4>"} %>
+      <% end %>
+    </div>
+  </div>
+  <div class="cleared"></div>
+</div>

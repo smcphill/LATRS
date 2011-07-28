@@ -27,13 +27,13 @@ body { background-color: #ccc; }
 
 /* common homepage */
 #menu { overflow:auto; margin-bottom: 1em; }
-#menu h3 { margin:0px; padding:0px; text-align:center;}
+#menu h3 { margin:0px; padding:0px; padding-bottom:0.5em;margin-bottom:0.5em;border-bottom: thin solid #ccc; text-align:center;}
 ul.menu { width:700px;list-style-type:none; margin: 0px auto;}
 ul.menu li { width:190px; height: 180px; float:left;border: 2px solid #333; margin:10px;border-radius:20px; padding: 0px 5px;position:relative;}
 ul.menu li .content { position:absolute; text-align:center; width:95%; margin: 10px auto;}
 ul.menu li .content a, 
 ul.menu li .content a:hover
-{color:#06c;background-color:transparent;text-decoration:underline; padding-bottom:0.5em;margin-bottom:0.5em;border-bottom: thin solid #ccc;display:block;}
+{color:#06c;background-color:transparent;text-decoration:underline; display:block;}
 
 /* main homepage */
 ul.homepage.menu li a, ul.homepage.menu li a:hover {background-color:white;border-radius:5px}

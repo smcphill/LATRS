@@ -1,18 +1,49 @@
 class ReportController < ApplicationController
-  layout "report", :except => :custom
+  layout "report", :except => [:custom, :core]
 
   def index
-#    @templates = Template.all(:conditions => ["id IN (?)",
-#                                              FormManager.instance.activeForms])
+    # need to find a list of available core reports
+    report_ids = ReportManager.instance.reports.keys
+    @reports = report_ids.collect {|r| [ReportManager.instance.reports.fetch(r)[:name], r]}    
   end
 
-  # this is a pretty big job; need to set up a bunch of data
-  # hashes to display the report. code probably belongs somewhere else...
+
+  def core
+    if not ReportManager.instance.reports.has_key?(params[:id])
+      flash[:error] = "Report not found"
+      redirect_to :action => 'index'
+      return
+    end
+    report = ReportManager.instance.reports.fetch(params[:id])
+    conds = report[:sql]
+    if conds.nil?
+      flash[:error] = "Report has no conditions"
+      redirect_to :action => 'index'
+      return
+    end
+
+    tests = Testable.find_by_sql(conds)
+    if tests.count < 1
+      flash[:error] = "No matching tests found"
+      redirect_to :action => 'index'
+      return
+    end
+
+    rule = conds.dup
+    @report_data = generate_report(tests)
+    @report_data[:rule] = pretty_rule(rule)
+    @report_data[:name] = report[:name]
+    @report_data[:description] = report[:desc]
+
+    render :layout => "raw-report"
+
+  end
+
   def custom
     scaf_sess = session['as:report/testables']
 
     if  scaf_sess.nil?
-      redirect_to :action => 'index' 
+      redirect_to :action => 'index'
       return
     end
 
@@ -30,11 +61,18 @@ class ReportController < ApplicationController
         return
       end
 
-      @report_data = generate_report(tests)      
-      @report_data[:rule] = "SELECT testables.* FROM testables INNER JOIN testableitems ON testableitems.testable_id = testables.id WHERE #{conds.parse}"
+      rule = "SELECT testables.* FROM testables INNER JOIN testableitems ON testableitems.testable_id = testables.id WHERE #{conds.parse}"
+
+
+      @report_data = generate_report(tests)
+      @report_data[:rule] = pretty_rule(rule)
 
       render :layout => "raw-report"
     end
+  end
+
+  def pretty_rule(rule)
+    rule.gsub(/( ?from | ?where | ?and | ?FROM | ?WHERE | ?AND )/, '<br/>\1')    
   end
 
   def generate_report(tests)
@@ -44,7 +82,7 @@ class ReportController < ApplicationController
     report[:tests] = test_ids.count
 
     report[:patients] = Hash.new
-    
+
     report[:patients][:ethnicity] = Array.new
     report[:patients][:gender] = Array.new
     report[:patients][:gender][0] = Hash.new
@@ -59,7 +97,7 @@ class ReportController < ApplicationController
     report[:patients][:age][6] = Hash.new
     report[:patients][:age][7] = Hash.new
 
-    
+
 
     report[:patients][:gender][0][:male] = 0
     report[:patients][:gender][1][:female] = 0
@@ -118,15 +156,15 @@ class ReportController < ApplicationController
     end
 
     report[:fields] = Array.new
-    
+
     fields = tests.collect {|t| t.testableitems}.flatten
     field_ids = fields.collect { |f|f.id}.uniq
     fields = fields.collect {|f|f.name}.uniq
     fields.sort {|a,b| a <=> b}.each_with_index do |name,i|
       report[:fields][i] = Hash.new if report[:fields][i].nil?
       report[:fields][i][name] = Hash.new
-      
-      Testableitem.all(:select => "value", 
+
+      Testableitem.all(:select => "value",
                        :conditions => ["name = ? AND id in (?) AND testable_id IN (?)",
                                        name, field_ids, test_ids]).each_with_index do |val,j|
         report[:fields][i][name][val.value] = Hash.new if not report[:fields][i][name].has_key?(val.value)
@@ -135,8 +173,8 @@ class ReportController < ApplicationController
         report[:fields][i][name][val.value][:val] += 1
       end
     end
-    
+
     return report
   end
-  
+
 end
