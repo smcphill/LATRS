@@ -25,6 +25,7 @@ GEM
       daemons (>= 1.0.3)
       fastthread (>= 1.0.1)
       gem_plugin (>= 0.2.3)
+    mysql (2.8.1)
     rack (1.1.2)
     rails (2.3.11)
       actionmailer (= 2.3.11)
@@ -47,6 +48,7 @@ DEPENDENCIES
   calendar_date_select
   i18n (= 0.4.1)
   mongrel
+  mysql
   rails (= 2.3.11)
   spreadsheet (~> 0.6.5.6)
   sqlite3

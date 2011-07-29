@@ -3,3 +3,6 @@ log/*
 .bundle
 db/development.sqlite3
 .DS_Store
+vendor/bundle
+vendor/cache
+DO_NOT_EDIT
