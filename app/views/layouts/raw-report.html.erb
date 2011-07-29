@@ -11,7 +11,10 @@
 <body class="raw-report">
   <div id="header">
     <h1>LATRS: Report</h1>
-    <div class="subhead"><b>LA</b>boratory <b>T</b>est <b>R</b>esults <b>S</b>ystem</div>
+    <div class="subhead">
+      <b>LA</b>boratory <b>T</b>est <b>R</b>esults <b>S</b>ystem
+        <%= render :partial => '/shared/devel' %>
+    </div>
     <div class="date"><%= Time.now().strftime(STDTIME) %></div>
   </div>
   <div id="content" style="padding-bottom:3em">

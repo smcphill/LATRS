@@ -16,7 +16,10 @@
 <body class="entry">
 <div id="header">
   <h1><a href="<%= url_for :controller => '/entry' %>">LATRS: Data Entry portal</a></h1>
-  <div class="subhead"><b>LA</b>boratory <b>T</b>est <b>R</b>esults <b>S</b>ystem</div>
+  <div class="subhead">
+    <b>LA</b>boratory <b>T</b>est <b>R</b>esults <b>S</b>ystem
+    <%= render :partial => '/shared/devel' %>
+  </div>
   <div class="date"><%= Time.now().strftime(STDTIME) %></div>
 </div>
 <div style="clear:both"></div>
@@ -30,7 +33,7 @@
     <a href="http://www.maetaoclinic.org/">Mae Tao Clinic</a>.
   </div>
   <ul class="nav">
-    <li><a href="../">Home</a></li>
+    <li><a href="/">Home</a></li>
     <li><%= link_to "Administration", :action=> 'index', :controller=> '/manage' %></li>
     <li><%= link_to "Reporting", :action=> 'index', :controller=> '/report' %></li>
     <li><%= link_to "Documentation", :action=> 'index', :controller=> '/doc' %></li>
