@@ -28,13 +28,21 @@ module Latrs
           case key.to_s
           when "time_in"
             if not val[:from].empty? and not val[:to].empty?
-              e1 = Latrs::Report::AtomExpr.new(key, val[:from], '>=')
-              e2 = Latrs::Report::AtomExpr.new(key, val[:to], '<=')
-              expr = Latrs::Report::ClauseExpr.new(['AND'], e1, e2)
+              e1 = Latrs::Report::AtomExpr.new(key, 
+                                               Time.parse(val[:from]).strftime('%F %T'), 
+                                               '>=')
+              e2 = Latrs::Report::AtomExpr.new(key, 
+                                               Time.parse(val[:to]).strftime('%F %T'), 
+                                               '<=')
+              expr = Latrs::Report::ClauseExpr.new(['AND'], [e1, e2])
             elsif not val[:from].empty?
-              expr = Latrs::Report::AtomExpr.new(key, val[:from], '>=')
+              expr = Latrs::Report::AtomExpr.new(key, 
+                                                 Time.parse(val[:from]).strftime('%F %T'), 
+                                                 '>=')
             elsif not val[:to].empty?
-              expr = Latrs::Report::AtomExpr.new(key, val[:to], '<=')
+              expr = Latrs::Report::AtomExpr.new(key, 
+                                                 Time.parse(val[:to]).strftime('%F %T'), 
+                                                 '<=')
             end
           when "time_taken"
             tkey = "(strftime('%s',time_out) - strftime('%s',time_in)) / 60"
@@ -62,7 +70,7 @@ module Latrs
             else
               # we have tnumvals. check to and from. if both, we'll have 3 exprs
               e1 = Latrs::Report::AtomExpr.new("testableitems.name", val, "like")
-              es = make_exprs('round(testableitems.value,2)', @args[:tnumvals])
+              es = make_exprs('round(testableitems.value,2)', @args[:tnumvals])              
               es = [e1] + es if not e1.nil?
             end
             if expr.nil?
@@ -121,8 +129,8 @@ module Latrs
         exprs = Array.new
         if not val[:to].nil? and not val[:to].empty? and not val[:from].nil? and not val[:from].empty?
           if val[:opt] == "BETWEEN"
-            e1 = make_name(name, val[:from], val[:opt])
-            e2 = make_name(name, val[:to], val[:opt])
+            e1 = make_name(name, val[:from], ">=")
+            e2 = make_name(name, val[:to], "<=")
             exprs.push(Latrs::Report::ClauseExpr.new(['AND'], [e1, e2]))
           else
             e = make_name(name, val[:from], val[:opt])
