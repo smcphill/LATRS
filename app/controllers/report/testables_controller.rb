@@ -9,7 +9,7 @@ class Report::TestablesController < ApplicationController
     config.actions = [:list, :show, :field_search]
     config.columns = [:time_in_str, :datatype, :department, :staff, :patient, :time_taken, :tnames, :tvals, :tnumvals]
     config.list.columns = [:time_in_str, :datatype, :department, :staff, :patient, :time_taken]
-    config.show.columns.exclude :tnames, :twildnames, :tvals
+    config.show.columns.exclude :tnames, :twildnames, :tvals, :tnumvals
 
     
     #labels
