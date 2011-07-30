@@ -1,0 +1,37 @@
+<div id="menu">
+  <ul class="homepage menu">
+    <li class="entry">
+      <div class="item content">
+	<h3><%= link_to "Data Entry", {:controller => '/entry', :action => 'index'} %></h3>
+	<p style="background-color:white;border-radius:5px;padding:3px;text-align:left">
+	  Enter test results, view patient history,
+	  find existing tests and patients
+	</p>
+      </div>
+    </li>
+    <li class="report">
+      <div class="item content">
+	<h3><%= link_to "Reporting", {:controller => '/report', :action => 'index'} %></h3>
+	<p style="background-color:white;border-radius:5px;padding:3px;text-align:left">
+	  Run pre-defined or custom reports
+	</p>
+      </div>
+    </li>
+    <li class="manage">
+      <div class="item content">
+	<h3><%= link_to "Administration", {:controller => '/manage', :action => 'index'} %></h3>
+	<p style="background-color:white;border-radius:5px;padding:3px;text-align:left">
+	  Create new forms, patients, staff, departments and sources. Initiate data export
+	</p>
+      </div>
+    </li>
+    <li class="doc">
+      <div class="item content">
+	<h3><%= link_to "Documentation", {:controller => '/doc', :action => 'index'} %></h3>
+	<p style="background-color:white;border-radius:5px;padding:3px;text-align:left">
+	  Browse online documentation, including training materials
+	</p>
+      </div>
+    </li>
+  </ul>
+</div>

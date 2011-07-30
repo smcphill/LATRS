@@ -33,7 +33,7 @@
     <a href="http://www.maetaoclinic.org/">Mae Tao Clinic</a>.
   </div>
   <ul class="nav">
-    <li><a href="/">Home</a></li>
+    <li><%= link_to "Home", :action=> 'index', :controller=> '/home' %></li>
     <li><%= link_to "Data Entry", :action=> 'index', :controller=> '/entry' %></li>
     <li><%= link_to "Administration", :action=> 'index', :controller=> '/manage' %></li>
     <li><%= link_to "Documentation", :action=> 'index', :controller=> '/doc' %></li>
