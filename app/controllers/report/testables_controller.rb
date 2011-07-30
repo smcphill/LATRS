@@ -30,13 +30,8 @@ class Report::TestablesController < ApplicationController
     config.columns[:tnames].search_ui = :select
     
     # this works on SqlLite only.
-    config.columns[:time_taken].search_sql = "(strftime('%s',time_out) - strftime('%s',time_in)) / 60"
+    config.columns[:time_taken].search_sql = DB_TIME_TAKEN_SEARCH
     config.columns[:time_taken].search_ui = :integer
-    # this works on MySQL only.
-    #config.columns[:time_taken].search_sql = "TIMESTAMPDIFF(MINUTE,time_in,time_out)"
-    #this works on MS SQL only. - untested
-    #config.columns[:time_taken].search_sql = "DATEDIFF ( minute , time_in , time_out )"
-    
 
 
     config.columns[:tvals].includes = [:testableitems]
@@ -46,16 +41,10 @@ class Report::TestablesController < ApplicationController
     
     config.columns[:tnumvals].includes = [:testableitems]
     config.columns[:tnumvals].search_ui = :integer
-    # this works in SqlLite only
-    config.columns[:tnumvals].search_sql = "round(testableitems.value, 2)"
-    # this works in MySQL only
-    #config.columns[:tnumvals].search_sql = "format(testableitems.value, 2)"
-    # this works in MS SQL only - untested
-    #config.columns[:tnumvals].search_sql = "round(cast(testableitems.value AS FLOAT),2)"
-
+    config.columns[:tnumvals].search_sql = DB_TNUMVALS_SEARCH
     
     #sort
     config.columns[:time_in_str].sort_by :sql => "time_in"
-    config.columns[:time_taken].sort_by :sql => "strftime('%s',time_out) - strftime('%s',time_in)"
+    config.columns[:time_taken].sort_by :sql => DB_TIME_TAKEN_SORT
   end
 end

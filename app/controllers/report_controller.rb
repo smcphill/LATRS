@@ -111,7 +111,7 @@ class ReportController < ApplicationController
     report[:patients][:age][7]['over 60'] = 0
 
     patient_ids = Testable.all(:select => "patient_id", :conditions => ["id in (?)", test_ids]).collect {|p|p.patient_id}
-    Patient.all(:select => "strftime('%Y','now') - strftime('%Y', birthdate) as years, gender, ethnicity", :conditions => ["id in (?)", patient_ids]).each_with_index do |p,i|
+    Patient.all(:select => DB_PATIENT_AGE_SEARCH + ", gender, ethnicity", :conditions => ["id in (?)", patient_ids]).each_with_index do |p,i|
       report[:patients][:ethnicity][i] = Hash.new
       report[:patients][:ethnicity][i][p.ethnicity] = 0 if not report[:patients][:ethnicity][i].has_key?(p.ethnicity)
 

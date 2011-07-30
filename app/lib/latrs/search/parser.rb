@@ -45,7 +45,7 @@ module Latrs
                                                  '<=')
             end
           when "time_taken"
-            tkey = "(strftime('%s',time_out) - strftime('%s',time_in)) / 60"
+            tkey = DB_TIME_TAKEN_SEARCH
             if not val[:from].empty? and not val[:to].empty?
               e1 = Latrs::Report::TimeExpr.new(tkey, val[:from], val[:opt])
               e2 = Latrs::Report::TimeExpr.new(tkey, val[:to], val[:opt])
@@ -70,7 +70,7 @@ module Latrs
             else
               # we have tnumvals. check to and from. if both, we'll have 3 exprs
               e1 = Latrs::Report::AtomExpr.new("testableitems.name", val, "like")
-              es = make_exprs('round(testableitems.value,2)', @args[:tnumvals])              
+              es = make_exprs(DB_TNUMVALS_SEARCH, @args[:tnumvals])              
               es = [e1] + es if not e1.nil?
             end
             if expr.nil?
@@ -82,7 +82,7 @@ module Latrs
           when "tvals", "tnumvals"
             # if we have a field name, we can do nothing
             tkey = "testableitems.value"
-            tkey = "round(#{tkey},2)" if key.to_s == "tnumvals"
+            tkey = DB_TNUMVALS_SEARCH if key.to_s == "tnumvals"
             if not has_tnames
               es = make_exprs(tkey, val)
               if not es.nil?

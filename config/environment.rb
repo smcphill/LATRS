@@ -3,6 +3,14 @@
 # our patient info service url
 HIS_PATIENT_URL = "http://192.168.1.111/healthinfo/outside/patient.php?rn="
 
+# db-specific queries; each environment should override these
+# as appropriate.
+DB_TNUMVALS_SEARCH = "format(testableitems.value, 2)"
+DB_TIME_TAKEN_SEARCH = "TIMESTAMPDIFF(MINUTE,time_in,time_out)"
+DB_TIME_TAKEN_SORT = "TIMESTAMPDIFF(MINUTE,time_in,time_out)"
+DB_PATIENT_AGE_SEARCH = "TIMESTAMPDIFF(YEAR,birthdate,curdate()) as years"
+
+
 # Uncomment below to force Rails into production mode when
 # you don't control web/app server and can't set it the proper way
 # ENV['RAILS_ENV'] ||= 'production'

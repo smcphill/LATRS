@@ -1,5 +1,11 @@
 # Settings specified here will take precedence over those in config/environment.rb
 
+# mysql-specific SQL fragments
+DB_TNUMVALS_SEARCH = "format(testableitems.value, 2)"
+DB_TIME_TAKEN_SEARCH = "TIMESTAMPDIFF(MINUTE,time_in,time_out)"
+DB_TIME_TAKEN_SORT = "TIMESTAMPDIFF(MINUTE,time_in,time_out)"
+DB_PATIENT_AGE_SEARCH = "TIMESTAMPDIFF(YEAR,birthdate,curdate()) as years"
+
 # The production environment is meant for finished, "live" apps.
 # Code is not reloaded between requests
 config.cache_classes = true
