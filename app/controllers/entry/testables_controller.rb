@@ -14,11 +14,14 @@ class Entry::TestablesController < ApplicationController
     #labels
     config.columns[:datatype].label = "Type"
     config.columns[:time_in_str].label = "Requested"
+    config.columns[:patient].label = "Patient (RN)"
 
     #search
     config.field_search.columns = :datatype, :patient, :staff, :department, :time_in
     config.columns[:datatype].search_ui = :select
-
+    config.columns[:patient].search_ui = :string
+    config.columns[:patient].options[:string_comparators] =  true
+    config.columns[:patient].options[:null_comparators] =  false
 
     #sort
     config.columns[:time_in_str].sort_by :sql => "time_in"
