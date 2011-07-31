@@ -1,4 +1,6 @@
 # Settings specified here will take precedence over those in config/environment.rb
+HIS_RN_URL="http://eee-901-scm:3000/patient.xml?"
+
 
 #SQLite-specific search fragments
 DB_TNUMVALS_SEARCH = "round(testableitems.value, 2)"

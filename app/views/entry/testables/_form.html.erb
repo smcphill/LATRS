@@ -21,7 +21,7 @@
 	      <div id="patient-controls">
 		<%= link_to "[refresh]",{},
 		{:href => "#",
-		:onclick => "patientInfo($F('testable_patient_id_rn')); return false;"} %>	
+		:onclick => "patientInfo($F('testable_patient_id_rn')); return false;"} %>
 	      </div>
 	      <br/>
 	      <div id="patient-info">
@@ -43,14 +43,19 @@
               <% end %>
 	      new Ajax.Autocompleter('testable_patient_id_rn',
 				     'testable_patient_id_rn_auto_complete',
-				     '/entry/testables/auto_complete_for_patient_rn/1', {
-					 method:'get',
-					 paramName:'pid',
-					 minChars: 1,
-					 afterUpdateElement: function (obj) {
-					     patientInfo(obj.value);
-					     new Ajax.Request('/entry/testables/similar/' + obj.value);
-					 }});
+				     '/health_info/list', 
+	                             {method:'get',
+	                              paramName:'id',
+				      minChars: 3,
+			              afterUpdateElement: function (obj) {
+	                                new Ajax.Request('/health_info/migrate/' + obj.value,
+	                                                 {method:'get',
+	                                                  onSuccess: function (){
+	                                                    new Ajax.Request('/entry/testables/similar/' + obj.value);
+	                                                    patientInfo(obj.value);
+
+	                                                  }});}
+	                             });
 	    </script>
 
 	  <% end %>

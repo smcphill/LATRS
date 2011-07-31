@@ -1,7 +1,8 @@
 # Be sure to restart your server when you modify this file
 
 # our patient info service url
-HIS_PATIENT_URL = "http://192.168.1.111/healthinfo/outside/patient.php?rn="
+HIS_RN_URL = "http://192.168.1.111/healthinfo/outside/patient.php?rn="
+HIS_DATE_FORMAT = "%d/%m/%Y"
 
 # db-specific queries; each environment should override these
 # as appropriate.

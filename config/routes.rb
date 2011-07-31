@@ -8,9 +8,9 @@ ActionController::Routing::Routes.draw do |map|
   # data entry routes
   map.resources :entries
   map.namespace :entry do |entry|
+    entry.connect 'testables/auto_complete_for_patient_rn', :controller => 'testables', :action => 'auto_complete_for_patient_rn'
     entry.resources :testables, :active_scaffold => true
     entry.connect 'testables/new/:tid', :controller => 'testables', :action => 'new'
-    entry.connect 'testables/auto_complete_for_patient_rn/:foo', :controller => 'testables', :action => 'auto_complete_for_patient_rn'
     entry.connect 'testables/similar/:rn.:format', :controller => 'testables', :action => 'similar'
     entry.resources :patients, :active_scaffold => true
   end

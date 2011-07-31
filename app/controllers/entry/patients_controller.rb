@@ -39,7 +39,7 @@ class Entry::PatientsController < ApplicationController
       if @record.nil?
         render :action => 'nopatient'
       else
-        render :action => 'show', :locals => {@record => @record}
+        render :action => 'show'
       end
     end
   end
