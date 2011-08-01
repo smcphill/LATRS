@@ -118,6 +118,12 @@ class Entry::TestablesController < ApplicationController
       @form ||=YAML::load(params[:form])
       flash.now[:error] = @testable.errors
       @testable = Testable.new(params[:testable])
+      begin
+        patient = Patient.find_by_rn(params[:testable][:patient_id][:rn])
+        @testable.patient = patient
+      rescue
+        @testable.patient = nil
+      end
       @testable.add_lost_subtests(@form.subtests)
 
       render :action => 'new'
