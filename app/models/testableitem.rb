@@ -8,7 +8,7 @@ class Testableitem < ActiveRecord::Base
   validate do |item|    
     item.errors.add(:value, "\"#{item.name}\" can't be empty") if item.required == "true" and item.value.blank?
     next if item.value.blank?
-    item.errors.add(:value, "\"#{item.name}\" must be a number") if not item.value.match(/\A[+-]?\d+\Z/) and item.datatype == "Numericfield"
+    item.errors.add(:value, "\"#{item.name}\" must be a number") if not item.value.match(/\A[+-]?\d+\.?\d*\Z/) and item.datatype == "Numericfield"
   end
   
   # this is how we can check for mandatory fields

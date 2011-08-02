@@ -11,7 +11,7 @@ class Limit < ActiveRecord::Base
     if field and field.class.name == 'Numericfield'
       errors.add(:name, 
                  "must be a number because the form \
-                 field has a type of 'Number'") if !name.match(/\A[+-]?\d+\Z/)
+                 field has a type of 'Number'") if !name.match(/\A[+-]?[\d+\.]+\Z/)
     end
   end
   
