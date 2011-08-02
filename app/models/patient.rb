@@ -1,5 +1,5 @@
 class Patient < ActiveRecord::Base
-  GENDER = %w(m f)
+  GENDER = %w(m f u)
   validates_inclusion_of :gender, :in => GENDER
 
   validates_uniqueness_of :name,
