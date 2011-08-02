@@ -12,7 +12,7 @@
           <% f.fields_for :patient_id do |patient| %>
             <%= patient.text_field :rn, :autocomplete => "off", :value => @testable.patient.nil? ? '' : @testable.patient.rn %>
 	    <%= observe_field "testable_patient_id_rn",
-	        :function => "if (value.length > 3) { patientInfo(value); }",
+	        :function => "if (value.length > 1) { patientInfo(value); }",
 		:on => "blur" %>
 	    <div class="auto_complete" id="testable_patient_id_rn_auto_complete"></div>
 	    <div id="patient-content">
