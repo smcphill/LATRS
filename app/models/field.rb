@@ -1,6 +1,5 @@
 class Field < ActiveRecord::Base
   DISP = %w(i l)
-  validates_inclusion_of :display_as, :in => DISP
 
   after_initialize :init
 
