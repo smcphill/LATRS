@@ -271,6 +271,7 @@ div.auto_complete ul {
 div.auto_complete ul li {
   margin:0;
   padding:3px;
+  cursor: pointer;
 }
 
 div.auto_complete ul li.selected {
