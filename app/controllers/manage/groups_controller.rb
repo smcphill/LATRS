@@ -34,5 +34,10 @@ class Manage::GroupsController < ApplicationController
     config.columns[:description].inplace_edit = true
     config.columns[:fields].send_form_on_update_column = true
   end
+  
+  def after_create_save(record)
+    record.position = Group.maximum("position", :conditions => "template_id = #{record.template_id}") + 1
+    record.save
+  end
 
 end
