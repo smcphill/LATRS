@@ -11,6 +11,8 @@ class Template < ActiveRecord::Base
   has_many :groups, :order => "position"
   has_many :fields, :through => :groups
 
+  accepts_nested_attributes_for :groups
+
   def to_label
     "#{name}"
   end

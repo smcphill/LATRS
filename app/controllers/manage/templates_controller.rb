@@ -60,4 +60,13 @@ class Manage::TemplatesController < ApplicationController
       super
     end
   end
+
+  def after_create_save(record)
+    group = Group.new
+    group.name = "_default"
+    group.description = "This is the default group. It will always be displayed at the top of the form, and cannot be deleted"
+    group.position = 1
+    group.template_id = record.id
+    group.save
+  end
 end
