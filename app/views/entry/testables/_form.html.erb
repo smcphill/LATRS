@@ -11,6 +11,8 @@
         <dd>
           <% f.fields_for :patient_id do |patient| %>
             <%= patient.text_field :rn, :autocomplete => "off", :value => @testable.patient.nil? ? '' : @testable.patient.rn %>
+	    <span id="testable_patient_id_rn_loading" style='display:none;'></span>
+
 	    <%= observe_field "testable_patient_id_rn",
 	        :function => "if (value.length > 1) { patientInfo(value); }",
 		:on => "blur" %>
@@ -45,6 +47,7 @@
 				     'testable_patient_id_rn_auto_complete',
 				     '/health_info/list', 
 	                             {method:'get',
+	                              indicator:'testable_patient_id_rn_loading',
 	                              paramName:'id',
 				      minChars: 3,
 			              afterUpdateElement: function (obj) {

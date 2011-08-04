@@ -42,6 +42,14 @@ ul.homepage.menu {width:60%;}
 /* report menu */
 ul.report.menu {width:65%}
 
+/* data entry menu */
+ul.entry.menu { width:300px;}
+ul.entry.menu li { width:260px;}
+
+/* manage menu */
+ul.manage.menu { width:300px;}
+ul.manage.menu li { width:260px;}
+
 /* management section colours */
 .active-scaffold .manage\/staff-view { background-color: #FFFFCD;}
 .active-scaffold .manage\/patients-view { background-color: #CDDCFF;}
@@ -220,7 +228,7 @@ td.children-column ul.children { padding: 0px 0px 0px 15px; margin:0px}
 #form-content div.fieldset legend {font-weight:bold;font-size:1.1em;text-decoration:underline}
 #form-content div.fieldset.default legend { display:none; }
 #form-content div.fieldset legend.subtest { cursor:pointer; }
-#form-content div.fieldset legend.subtest.disabled { color:#555;text-decoration:line-through;}
+#form-content div.fieldset legend.subtest.disabled { color:#555;}
 #form-content input { width : 15em; }
 #form-content input.short { width : 5em; }
 #form-content label.required { color:#EB2020; background-color: rgba(255,255,255,0.6); border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px}
@@ -242,6 +250,7 @@ span.disabled { color:red;font-weight:bold;}
 
 /* data entry: patient info div */
 #form-content #patient-content {float: right; border: thin solid black; top: -20px; position: relative;width:50%;font-size:80%}
+#testable_patient_id_rn_loading { background: rgba(255,255,255,0.5)  url('../images/loading.gif') 0px 2px no-repeat;width:18px;height:20px;padding:0px;margin:0px;display:inline-block;position:relative;top:3px;}
 #patient-loading { visibility:hidden;background: rgba(255,255,255,0.5)  url('../images/loading.gif') 0px 2px no-repeat;width:18px;height:20px;padding:0px;margin:0px;display:inline-block;position:relative;top:3px;}
 body.entry .active-scaffold .show-view dl dt { font-size: 11px; font-weight: normal; margin-bottom:0em }
 #patient-controls {float:right;font-size:0.9em;}
