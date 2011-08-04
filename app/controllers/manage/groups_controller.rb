@@ -36,7 +36,9 @@ class Manage::GroupsController < ApplicationController
   end
   
   def after_create_save(record)
-    record.position = Group.maximum("position", :conditions => "template_id = #{record.template_id}") + 1
+    curr_pos = Group.maximum("position", :conditions => "template_id = #{record.template_id}")
+    curr_pos ||= 0
+    record.position =  curr_pos + 1
     record.save
   end
 

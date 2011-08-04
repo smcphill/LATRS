@@ -93,6 +93,22 @@ class Manage::FieldsController < ApplicationController
     end
   end
 
+  def after_create_save(record)
+    curr_pos = Field.maximum("position", :conditions => "group_id = #{record.group_id}")
+    curr_pos ||= 0
+    record.position =  curr_pos + 1
+    record.save
+    if record.limits.exists?
+      record.limits.each do |l|
+        curr_pos = nil
+        curr_pos = Limit.maximum("position", :conditions => "field_id = #{record.id}")
+        curr_pos ||= 0
+        l.position = curr_pos + 1
+        l.save
+      end
+    end
+  end
+
   protected
   def action_links_order
     links = active_scaffold_config.action_links

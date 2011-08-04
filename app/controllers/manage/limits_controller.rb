@@ -37,4 +37,12 @@ class Manage::LimitsController < ApplicationController
       end      
     end
   end
+
+  def after_create_save(record)
+    logger.debug "we have just saved limit #{record.id}"
+    curr_pos = Limit.maximum("position", :conditions => "field_id = #{record.field_id}")
+    curr_pos ||= 0
+    record.position =  curr_pos + 1
+    record.save
+  end
 end
