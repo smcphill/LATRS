@@ -42,14 +42,6 @@ ul.homepage.menu {width:60%;}
 /* report menu */
 ul.report.menu {width:65%}
 
-/* data entry menu */
-ul.entry.menu { width:300px;}
-ul.entry.menu li { width:260px;}
-
-/* manage menu */
-ul.manage.menu { width:300px;}
-ul.manage.menu li { width:260px;}
-
 /* management section colours */
 .active-scaffold .manage\/staff-view { background-color: #FFFFCD;}
 .active-scaffold .manage\/patients-view { background-color: #CDDCFF;}
