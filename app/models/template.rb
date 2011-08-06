@@ -2,6 +2,9 @@ class Template < ActiveRecord::Base
   after_create :set_defaults
   after_update :set_activity
   validate :validate_active_status
+  validates_presence_of :name,
+                        :message => "You must provide a form name" 
+  
   validates_uniqueness_of :name, 
                           :message => "Form names must be unique", 
                           :case_sensitive => false
