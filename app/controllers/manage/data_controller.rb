@@ -135,7 +135,7 @@ class Manage::DataController < ApplicationController
     row = sheet.row(sheet.last_row_index+1)
     cols.each do |col|
       cell = "test.#{col}"
-      row.push(eval(cell))
+      row.push(eval(cell)) rescue row.push("-")
     end
     if not test_cols.nil?
       test_cols.each do |col|
