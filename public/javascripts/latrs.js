@@ -10,8 +10,12 @@ function enableForm(id, fieldid, fields) {
     $(fields.get('desc')).update("This form is enabled. " +
         "<a href='#' onclick='toggleForm(" + id + ", " + fieldid + ");return false;'>" +
 	"Disable</a>");
-    $(fields.get('legend')).removeClassName('disabled');
-    $(fields.get('subtest')).show();
+    if ($(fields.get('legend'))) {
+      $(fields.get('legend')).removeClassName('disabled');
+    }
+    if ($(fields.get('subtest'))) {
+      $(fields.get('subtest')).show();
+    }
 }
 
 function disableForm(id, fieldid, fields) {
@@ -20,8 +24,12 @@ function disableForm(id, fieldid, fields) {
         "<span class='disabled'>disabled</span>. " +
 	"<a href='#' onclick='toggleForm(" + id + ", " + fieldid + ");return false;'>" +
 	"Enable</a>");
-    $(fields.get('legend')).addClassName('disabled');
-    $(fields.get('subtest')).hide();
+    if ($(fields.get('legend'))) {
+      $(fields.get('legend')).addClassName('disabled');
+    }
+    if ($(fields.get('subtest'))) {
+      $(fields.get('subtest')).hide();
+    }
 }
 
 function getFields(id, fieldid) {
