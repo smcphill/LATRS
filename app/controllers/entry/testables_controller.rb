@@ -1,3 +1,4 @@
+
 class Entry::TestablesController < ApplicationController
   layout "entry", :except => [:auto_complete_for_patient_rn, :similar]
   active_scaffold :testables do | config |
@@ -20,11 +21,13 @@ class Entry::TestablesController < ApplicationController
     config.field_search.columns = :datatype, :patient, :staff, :department, :time_in
     config.columns[:datatype].search_ui = :select
     config.columns[:patient].search_ui = :string
+    config.columns[:patient].search_sql = "patients.rn"
     config.columns[:patient].options[:string_comparators] =  true
     config.columns[:patient].options[:null_comparators] =  false
 
     #sort
     config.columns[:time_in_str].sort_by :sql => "time_in"
+    config.columns[:patient].sort_by :sql => "patients.name"
 
     #subtests
     config.nested.add_link("Sub-tests", :subtests)
