@@ -94,7 +94,8 @@ class Manage::FieldsController < ApplicationController
   end
 
   def after_create_save(record)
-    curr_pos = Field.maximum("position", :conditions => "group_id = #{record.group_id}")
+    cond = record.group_id.nil? ? "parent_id = #{record.parent_id}" : "group_id = #{record.group_id}"
+    curr_pos = Field.maximum("position", :conditions => cond)
     curr_pos ||= 0
     record.position =  curr_pos + 1
     record.save
