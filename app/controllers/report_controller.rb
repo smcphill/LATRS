@@ -66,7 +66,6 @@ class ReportController < ApplicationController
 
       @report_data = generate_report(tests)
       @report_data[:rule] = pretty_rule(rule)
-
       render :layout => "raw-report"
     end
   end
@@ -83,7 +82,7 @@ class ReportController < ApplicationController
 
     report[:patients] = Hash.new
 
-    report[:patients][:ethnicity] = Array.new
+    report[:patients][:ethnicity] = Hash.new
     report[:patients][:gender] = Array.new
     report[:patients][:gender][0] = Hash.new
     report[:patients][:gender][1] = Hash.new
@@ -111,11 +110,12 @@ class ReportController < ApplicationController
     report[:patients][:age][7]['over 60'] = 0
 
     patient_ids = Testable.all(:select => "patient_id", :conditions => ["id in (?)", test_ids]).collect {|p|p.patient_id}
-    Patient.all(:select => DB_PATIENT_AGE_SEARCH + ", gender, ethnicity", :conditions => ["id in (?)", patient_ids]).each_with_index do |p,i|
-      report[:patients][:ethnicity][i] = Hash.new
-      report[:patients][:ethnicity][i][p.ethnicity] = 0 if not report[:patients][:ethnicity][i].has_key?(p.ethnicity)
+    Patient.all(:select => DB_PATIENT_AGE_SEARCH + ", gender, ethnicity", :conditions => ["id in (?)", patient_ids]).each do |p|
+      ethnicity = p.ethnicity
+      ethnicity ||= "unknown"
+      report[:patients][:ethnicity][ethnicity] = 0 if not report[:patients][:ethnicity].has_key?(ethnicity)
 
-      report[:patients][:ethnicity][i][p.ethnicity] += 1
+      report[:patients][:ethnicity][ethnicity] += 1
       report[:patients][:gender][0][:male] += 1 if p.gender == 'm'
       report[:patients][:gender][1][:female] += 1 if p.gender == 'f'
       if p.years.nil?
@@ -155,25 +155,21 @@ class ReportController < ApplicationController
                                                                        test_ids])
     end
 
-    report[:fields] = Array.new
+    report[:fields] = Hash.new
 
     fields = tests.collect {|t| t.testableitems}.flatten
     field_ids = fields.collect { |f|f.id}.uniq
     fields = fields.collect {|f|f.name}.uniq
-    fields.sort {|a,b| a <=> b}.each_with_index do |name,i|
-      report[:fields][i] = Hash.new if report[:fields][i].nil?
-      report[:fields][i][name] = Hash.new
+    fields.sort {|a,b| a <=> b}.each do |name|
+      report[:fields][name] = Hash.new if not report.has_key?(name)
 
       Testableitem.all(:select => "value",
                        :conditions => ["name = ? AND id in (?) AND testable_id IN (?)",
-                                       name, field_ids, test_ids]).each_with_index do |val,j|
-        report[:fields][i][name][val.value] = Hash.new if not report[:fields][i][name].has_key?(val.value)
-        report[:fields][i][name][val.value][:pos] = j
-        report[:fields][i][name][val.value][:val] = 0 if not report[:fields][i][name][val.value].has_key?(:val)
-        report[:fields][i][name][val.value][:val] += 1
+                                       name, field_ids, test_ids]).each do |val|
+        report[:fields][name][val.value] = 0 if not report[:fields][name].has_key?(val.value)
+        report[:fields][name][val.value] += 1
       end
     end
-
     return report
   end
 
