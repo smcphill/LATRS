@@ -2,9 +2,6 @@ class Patient < ActiveRecord::Base
   GENDER = %w(m f u)
   validates_inclusion_of :gender, :in => GENDER
 
-  validates_uniqueness_of :name,
-                          :message => ": names must be unique",
-                          :case_sensitive => false
   validates_uniqueness_of :rn,
                           :message => ": RNs must be unique",
                           :case_sensitive => false
