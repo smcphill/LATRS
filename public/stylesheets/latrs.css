@@ -1,3 +1,14 @@
+/* fonts */
+@font-face {
+        font-family: 'ZwekabinRegular';
+        src: url('zwekabin-webfont.eot');
+        src: local('☺'), url('zwekabin-webfont.woff') format('woff'), url('zwekabin-webfont.ttf') format('truetype'), url('zwekabin-webfont.svg#webfontriRTgDgd') format('svg');
+        font-weight: normal;
+        font-style: normal;
+}
+
+h3.mm, ul.mm, ul.mm li { font-family: 'ZwekabinRegular' !important}
+
 /* colour schemes */
 .manage #header, .manage #footer, ul.homepage.menu li.manage { background-color:#E165CE; }
 .entry #header, .entry #footer, ul.homepage.menu li.entry { background-color:#4f99d1; }
