@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File app/controllers/manage/limits_controller.rb, line 31</span>
+  <pre><span class="ruby-comment cmt"># File app/controllers/manage/limits_controller.rb, line 34</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">after_update_save</span>(<span class="ruby-identifier">record</span>)
     <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">record</span>.<span class="ruby-identifier">is_default</span>)
       <span class="ruby-constant">Limit</span>.<span class="ruby-identifier">all</span>(<span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> 

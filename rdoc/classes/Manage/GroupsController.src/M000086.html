@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File app/controllers/manage/groups_controller.rb, line 38</span>
+  <pre><span class="ruby-comment cmt"># File app/controllers/manage/groups_controller.rb, line 41</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">after_create_save</span>(<span class="ruby-identifier">record</span>)
     <span class="ruby-identifier">curr_pos</span> = <span class="ruby-constant">Group</span>.<span class="ruby-identifier">maximum</span>(<span class="ruby-value str">&quot;position&quot;</span>, <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;template_id = #{record.template_id}&quot;</span>)
     <span class="ruby-identifier">curr_pos</span> <span class="ruby-operator">||=</span> <span class="ruby-value">0</span>

@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File app/controllers/entry/testables_controller.rb, line 76</span>
+  <pre><span class="ruby-comment cmt"># File app/controllers/entry/testables_controller.rb, line 79</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">prep_create</span>(<span class="ruby-identifier">items</span>)
     <span class="ruby-identifier">items</span>.<span class="ruby-identifier">each_pair</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>,<span class="ruby-identifier">item</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">transKey</span> = <span class="ruby-constant">Integer</span>(<span class="ruby-identifier">items</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">max</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">a</span>,<span class="ruby-identifier">b</span><span class="ruby-operator">|</span> <span class="ruby-constant">Integer</span>(<span class="ruby-identifier">a</span>) <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-constant">Integer</span>(<span class="ruby-identifier">b</span>) })

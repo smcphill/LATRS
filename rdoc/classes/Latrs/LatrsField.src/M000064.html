@@ -5,20 +5,47 @@
 
 <html>
 <head>
-  <title>dbName (Latrs::LatrsField)</title>
+  <title>new (Latrs::LatrsField)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File app/lib/latrs/field.rb, line 76</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dbName</span>
-      <span class="ruby-identifier">item</span> = <span class="ruby-keyword kw">self</span>
-      <span class="ruby-identifier">dbNames</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
-      <span class="ruby-keyword kw">while</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">nil?</span>
-        <span class="ruby-identifier">dbNames</span>.<span class="ruby-identifier">unshift</span>(<span class="ruby-identifier">item</span>.<span class="ruby-identifier">name</span>)
-        <span class="ruby-identifier">item</span> = <span class="ruby-identifier">item</span>.<span class="ruby-identifier">parent</span>
+  <pre><span class="ruby-comment cmt"># File app/lib/latrs/field.rb, line 37</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">id</span>, <span class="ruby-identifier">offset</span>, <span class="ruby-identifier">parent_field</span> = <span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-identifier">field</span> = <span class="ruby-constant">Field</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">id</span>)
+
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">parent_field</span>)
+        <span class="ruby-ivar">@parent</span> = <span class="ruby-identifier">parent_field</span>
+        <span class="ruby-ivar">@min</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">par_lo_lim</span>
+        <span class="ruby-ivar">@max</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">par_hi_lim</span>
+        <span class="ruby-ivar">@display</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">display_as</span> <span class="ruby-operator">||</span> <span class="ruby-value str">&quot;i&quot;</span>
       <span class="ruby-keyword kw">end</span>
-      <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">dbNames</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;::&quot;</span>)
+
+      <span class="ruby-ivar">@offset</span> = <span class="ruby-identifier">offset</span>
+      <span class="ruby-ivar">@field_count</span> = <span class="ruby-value">1</span>;
+      <span class="ruby-ivar">@name</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">name</span>
+      <span class="ruby-ivar">@position</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">position</span>
+      <span class="ruby-ivar">@label</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">unit_label</span>
+      <span class="ruby-ivar">@is_required</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">is_required</span> <span class="ruby-operator">||</span> <span class="ruby-keyword kw">false</span>
+      <span class="ruby-ivar">@is_multi</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">is_multi</span> <span class="ruby-operator">||</span> <span class="ruby-keyword kw">false</span>
+      <span class="ruby-ivar">@type</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">type</span> <span class="ruby-operator">||</span> <span class="ruby-value str">&quot;Stringfield&quot;</span>
+
+      <span class="ruby-ivar">@limits</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-identifier">field</span>.<span class="ruby-identifier">limits</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span>
+        <span class="ruby-ivar">@limits</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">LatrsLimit</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">l</span>.<span class="ruby-identifier">id</span>, <span class="ruby-keyword kw">self</span>)
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-ivar">@children</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-identifier">field</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">situ_offset</span> = <span class="ruby-identifier">offset</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@field_count</span>
+        <span class="ruby-ivar">@children</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">LatrsField</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">c</span>.<span class="ruby-identifier">id</span>, 
+                                           <span class="ruby-identifier">situ_offset</span>,
+                                           <span class="ruby-keyword kw">self</span>)
+        <span class="ruby-ivar">@field_count</span> <span class="ruby-operator">+=</span> <span class="ruby-ivar">@children</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">field_count</span>
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-ivar">@inlineChildren</span> = <span class="ruby-ivar">@children</span>.<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">display</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;i&quot;</span> }.<span class="ruby-identifier">compact</span>
+      <span class="ruby-ivar">@blockChildren</span> = <span class="ruby-ivar">@children</span>.<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">display</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;l&quot;</span> }.<span class="ruby-identifier">compact</span>
     <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

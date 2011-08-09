@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File app/controllers/manage/limits_controller.rb, line 41</span>
+  <pre><span class="ruby-comment cmt"># File app/controllers/manage/limits_controller.rb, line 44</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">after_create_save</span>(<span class="ruby-identifier">record</span>)
     <span class="ruby-identifier">curr_pos</span> = <span class="ruby-constant">Limit</span>.<span class="ruby-identifier">maximum</span>(<span class="ruby-value str">&quot;position&quot;</span>, <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;field_id = #{record.field_id}&quot;</span>)
     <span class="ruby-identifier">curr_pos</span> <span class="ruby-operator">||=</span> <span class="ruby-value">0</span>

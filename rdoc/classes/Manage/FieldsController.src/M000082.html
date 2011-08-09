@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File app/controllers/manage/fields_controller.rb, line 155</span>
+  <pre><span class="ruby-comment cmt"># File app/controllers/manage/fields_controller.rb, line 158</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">conditions_for_collection</span>
     <span class="ruby-keyword kw">if</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-identifier">:nested</span>] <span class="ruby-keyword kw">or</span> (<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:nested</span>] <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:parent_model</span>] <span class="ruby-operator">!=</span> <span class="ruby-value str">&quot;Field&quot;</span>))
       [<span class="ruby-value str">'fields.parent_id IS NULL'</span>]
