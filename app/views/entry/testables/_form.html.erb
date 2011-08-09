@@ -53,7 +53,7 @@
 			              afterUpdateElement: function (obj) {
 	                                new Ajax.Request('/health_info/migrate/' + obj.value,
 	                                                 {method:'get',
-	                                                  onSuccess: function (){
+	                                                  onComplete: function (){
 	                                                    new Ajax.Request('/entry/testables/similar/' + obj.value);
 	                                                    patientInfo(obj.value);
 

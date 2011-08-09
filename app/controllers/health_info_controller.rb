@@ -31,7 +31,7 @@ class HealthInfoController < ApplicationController
         return
       end
     rescue
-        redirect_to :action => "auto_complete_for_patient_rn", :controller => "entry/testables", :pid => params[:id]
+      redirect_to :action => "auto_complete_for_patient_rn", :controller => "entry/testables", :pid => params[:id]
       logger.warn "Could not connect to HIS HealthInfo service"
     end
   end
@@ -42,7 +42,7 @@ class HealthInfoController < ApplicationController
       pnode = doc.find_first("patient[RN='#{params[:id]}']")
       if pnode.nil?
         logger.warn "Could not migrate patient from HIS HealthInfo"
-        render :status => 500, :text => 'Could not migrate patient from HIS HealthInfo'
+        render :status => 200, :text => 'Could not migrate patient from HIS HealthInfo'
         return
       end
       rn = pnode.find_first('RN').content
@@ -68,13 +68,13 @@ class HealthInfoController < ApplicationController
       else
         logger.warn "Could not migrate patient from HIS HealthInfo"
         logger.debug "our patient object: #{@patient.inspect}" if not @patient.nil?
-        render :status => 500, :text => 'Could not migrate patient from HIS HealthInfo'
+        render :status => 200, :text => 'Could not migrate patient from HIS HealthInfo'
         return
       end
     rescue
       logger.debug "our patient object: #{@patient.inspect}" if not @patient.nil?
       logger.warn "Could not connect to HIS HealthInfo"
-      render :status => 500, :text => 'Could not connect to HIS HealthInfo'
+      render :status => 200, :text => 'Could not connect to HIS HealthInfo'
       return
     end
     head :ok
@@ -82,7 +82,20 @@ class HealthInfoController < ApplicationController
 
 private
   def healthinfo_doc
-    doc = XML::Parser.string(Net::HTTP.get(URI.parse(@@rn_url + params[:id]))).parse() 
-    return doc
+    Net::HTTP.version_1_2
+    url = URI.parse(@@rn_url + params[:id])
+    request = Net::HTTP.new(url.host, url.port)
+    request.open_timeout = 2
+    request.read_timeout = 5
+    begin
+      request.start
+    rescue Exception
+      return nil
+    else
+      response = request.get(url.path).body
+      request.finish    
+      doc = XML::Parser.string(response).parse() 
+      return doc
+    end
   end
 end
