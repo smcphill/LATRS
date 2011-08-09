@@ -1,6 +1,11 @@
 require 'net/http'
 require 'uri'
 require 'xml'
+
+
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class HealthInfoController < ApplicationController
   layout false
   @@rn_url = HIS_RN_URL
@@ -36,6 +41,10 @@ class HealthInfoController < ApplicationController
     end
   end
 
+  # once a patient "record" has been selected, it doesn't 
+  # actually exist in the system yet. We need to migrate the data
+  # from the external source. In the event the patient record does
+  # already exist, its details will be updated from the external source
   def migrate
     begin
       doc = healthinfo_doc()
@@ -81,6 +90,8 @@ class HealthInfoController < ApplicationController
   end
 
 private
+  # make an xml object from our external source
+  # if we can't connect to the external source, return nil
   def healthinfo_doc
     Net::HTTP.version_1_2
     url = URI.parse(@@rn_url + params[:id])

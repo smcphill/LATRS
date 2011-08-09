@@ -1,3 +1,7 @@
+# Patients. Not much to say really; the registrion number +RN+ must be unique
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class Patient < ActiveRecord::Base
   GENDER = %w(m f u)
   validates_inclusion_of :gender, :in => GENDER

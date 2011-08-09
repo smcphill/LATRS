@@ -1,3 +1,7 @@
+# This is how we export data.
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class Manage::DataController < ApplicationController
   layout "manage", :except => [:export, :do_export]
 
@@ -31,6 +35,7 @@ class Manage::DataController < ApplicationController
 
   # export the last params[:days] worth of data, where time is taken
   # from midnight today. if no day is given, return all data
+  # returns an MS Excel-compatible spreadsheet, or XML
   def export
     start = Time.now.midnight
     if (not params[:all])
@@ -91,7 +96,12 @@ class Manage::DataController < ApplicationController
   end
 
   protected
-
+  
+  # create an +XML+ document from the data export conditions
+  # unfortunately the inbuilt +to_xml+ routine in Ruby isn't
+  # available to Arrays, only hashes. This means the +XML+ 
+  # we end up creating isn't the greatest.
+  #
   def to_xml(book,from,to)
     xml = Hash.new()
     xml['start-date'] = from

@@ -1,3 +1,7 @@
+# We +belong_to+ a #Template, and +has_many+ #Field s
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class Group < ActiveRecord::Base
   belongs_to :template
   has_many :fields, :source => :field, :order => "position"
@@ -6,14 +10,17 @@ class Group < ActiveRecord::Base
     "#{name}"
   end
 
+  # the default group cannot be edited
   def authorized_for_update? 
     return !self.is_default?
   end 
 
+  # the default group cannot be deleted
   def authorized_for_delete?
     return !self.is_default?
   end
 
+  # the default group is the one called +"_default"+
   def is_default?
     return self.name == '_default'
   end

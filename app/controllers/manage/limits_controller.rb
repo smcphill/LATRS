@@ -1,3 +1,6 @@
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class Manage::LimitsController < ApplicationController
   layout "manage"
   active_scaffold :limits do | config |

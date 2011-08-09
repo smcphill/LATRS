@@ -1,4 +1,8 @@
-
+# controller for dealing with tests in data entry
+# a lot of the heavy lifting is done by ActiveScaffold
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class Entry::TestablesController < ApplicationController
   layout "entry", :except => [:auto_complete_for_patient_rn, :similar]
   active_scaffold :testables do | config |
@@ -34,6 +38,10 @@ class Entry::TestablesController < ApplicationController
     config.columns[:subtests].association.reverse = :master
   end
 
+  # creating a new test result is a bit tricky, because
+  # there are nested associations. We need to build up
+  # placeholders for all the potential nested associations
+  # (fields, subtests, fields of subtests)
   def new
     if (FormManager.instance.hasForm(params[:tid]))
       @form = FormManager.instance.getForm(params[:tid])
@@ -50,6 +58,8 @@ class Entry::TestablesController < ApplicationController
     end
   end
 
+  # preview the test. this doesn't require the test to be active
+  # and disables all form elements
   def preview
     @form = FormManager.instance.previewForm(params[:id])
     @testable = Testable.new
@@ -63,6 +73,9 @@ class Entry::TestablesController < ApplicationController
     render :layout => 'preview'
   end
 
+  # before we actually create a new test, we need to rejig
+  # repeated items (multiple-valued fields) to get them into 
+  # a format that will work with nested associations
   def prep_create(items)
     items.each_pair do |key,item|
       transKey = Integer(items.keys.max {|a,b| Integer(a) <=> Integer(b) })
@@ -83,6 +96,9 @@ class Entry::TestablesController < ApplicationController
     return items
   end
 
+  # creating a new test result is a bit hairy. There are many places
+  # where this can go wrong (required fields, required fields in subtests)
+  # and also a fair bit of structural massaging that goes on
   def create
     if params[:testable][:patient_id][:rn].blank?
       params[:testable].delete(:patient_id)
@@ -133,6 +149,9 @@ class Entry::TestablesController < ApplicationController
     end
   end
 
+  # this should probably be in the patient controller. it's used to 
+  # provide an auto-complete list of patients already in the 
+  # system, as opposed to the HealthInfoController
   def auto_complete_for_patient_rn
     if params[:pid].nil?
       @p = nil
@@ -143,7 +162,9 @@ class Entry::TestablesController < ApplicationController
       render :action => 'autocomplete'
   end
 
-  # do we want the first or the last one?
+  # once we have a patient, we want to retrieve that patient's 
+  # most recent test and use its details for department, staff
+  # and times
   def similar
     @t = Testable.last :joins => :patient, 
                        :conditions => { 

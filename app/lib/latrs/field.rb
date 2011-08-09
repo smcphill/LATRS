@@ -1,5 +1,12 @@
 require File.dirname(__FILE__) + '/limit.rb'
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 module Latrs
+  # this is what a form field looks like.
+  # Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+  # Copyright:: Copyright (c) 2011 Steven McPhillips
+  # License::   See +license+ in root directory for license details
   class LatrsField
     attr_reader :name, :position, :label, :children, :is_required, :parent, :min, :max, :display, :is_multi, :limits, :type, :inlineChildren, :blockChildren
     attr_accessor :field_count, :offset
@@ -24,6 +31,9 @@ module Latrs
     @inlineChildren
     @blockChildren
 
+    # build a field object from our template
+    # this includes all the attributes and associated objects,
+    # like limits and subfields (children)
     def initialize(id, offset, parent_field = nil)
       field = Field.find(id)
 
@@ -61,6 +71,8 @@ module Latrs
       @blockChildren = @children.select {|c| c.display == "l" }.compact
     end
     
+    # poorly named routine; it's not a 'dbName' anymore, but rather
+    # a namespace-like definition of the field. Useful for subfields
     def dbName
       item = self
       dbNames = Array.new

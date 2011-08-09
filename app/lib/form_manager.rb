@@ -1,5 +1,13 @@
 require 'singleton'
 require File.dirname(__FILE__) + '/latrs/form.rb'
+# This class manages which forms can be created; only 
+# 'active' #Template s can be used for data entry, but 
+# any of them can be previewed. Whenever a template is 
+# saved, the FormManager creates a new copy of the 
+# corresponding Latrs::LatrsForm
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class FormManager
   include Singleton
   

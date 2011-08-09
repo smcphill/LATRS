@@ -1,3 +1,6 @@
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class Manage::FieldsController < ApplicationController
   before_filter :update_table_config
   before_filter :action_links_order

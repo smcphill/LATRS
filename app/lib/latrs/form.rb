@@ -1,5 +1,12 @@
 require File.dirname(__FILE__) + '/group.rb'
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 module Latrs
+  # encapsulates our template
+  # Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+  # Copyright:: Copyright (c) 2011 Steven McPhillips
+  # License::   See +license+ in root directory for license details
   class LatrsForm
     attr_reader :id, :colour, :name, :groups, :subtests, :nbr_fields
     attr_accessor :description
@@ -12,6 +19,8 @@ module Latrs
     @subtests
     @nbr_fields
 
+    # creates all the bits that make a form;
+    # field groups, subtests etc
     def initialize(id, parent_form = nil)
       template = Template.find(id)
       @id = id

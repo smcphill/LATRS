@@ -1,13 +1,21 @@
+# Retrieves records as defined by the report search
+# (either a "built" / live search, or a "core" / precompiled one)
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class ReportController < ApplicationController
   layout "report", :except => [:custom, :core]
 
+  # display the report homepage. retrieves a list
+  # of "core" / precompiled report conditions
+  # from the ReportManager
   def index
     # need to find a list of available core reports
     report_ids = ReportManager.instance.reports.keys
     @reports = report_ids.collect {|r| [ReportManager.instance.reports.fetch(r)[:name], r]}    
   end
 
-
+  # run a "core" report, as defined by the ReportManager
   def core
     if not ReportManager.instance.reports.has_key?(params[:id])
       flash[:error] = "Report not found"
@@ -39,6 +47,8 @@ class ReportController < ApplicationController
 
   end
 
+  # run a "live" / built report, details available
+  # in +session['as:report/testables']+ 
   def custom
     scaf_sess = session['as:report/testables']
 
@@ -70,10 +80,14 @@ class ReportController < ApplicationController
     end
   end
 
+  # simple routine to prettify the +SQL+ used to retrieve tests. it's not 
+  # perfect...
   def pretty_rule(rule)
     rule.gsub(/( ?from | ?where | ?and | ?FROM | ?WHERE | ?AND )/, '<br/>\1')    
   end
 
+  # this behemoth takes all the report data and builds a Hash in a format
+  # (mostly) useful to the report view
   def generate_report(tests)
     test_ids = tests.collect{|t|t.id}.uniq
 

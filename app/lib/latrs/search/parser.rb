@@ -1,28 +1,34 @@
 module Latrs  
+  # Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+  # Copyright:: Copyright (c) 2011 Steven McPhillips
+  # License::   See +license+ in root directory for license details
   module Search
     # parse the fielded search to get our report struct
+    # Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+    # Copyright:: Copyright (c) 2011 Steven McPhillips
+    # License::   See +license+ in root directory for license details
     class Parser
       @args
+      # strip out the useless stuff:
+      #  - (key[:from].blank? and key[:to].blank?)  if kind_of?(Hash)
+      #  - value.blank?
       def initialize(args)
-        # now strip out the useless stuff:
-        #  - (key[:from].blank? and key[:to].blank?)  if kind_of?(Hash)
-        #  - value.blank?
         args.delete_if {|key,val| val.empty? }
         args.delete_if {|key,val| val.kind_of?(Hash) and (val[:from].nil? or val[:from].empty?) and (val[:to].nil? or val[:to].empty?) }
         @args = args
       end
       
+      # we have a few special conditions here:
+      #  - time_in is a hash, with datetimes
+      #  - time_taken is the difference between time_in and time_out, in minutes
+      #  - staff and department are joins on staff.id, department.id to [table].name
+      #  - tnames is the 'name' part for either tvals or tnumvals, or just on its own
+      #  - tvals is the "value" part of a field.
+      #  - tnumvals is like tvals, but only has numbers
       def parse
         exprs = Array.new
         has_tnames = @args.has_key?(:tnames)
         @args.each_pair do |key,val|
-          # we have a few special conditions here:
-          #  - time_in is a hash, with datetimes
-          #  - time_taken is the difference between time_in and time_out, in minutes
-          #  - staff and department are joins on staff.id, department.id to [table].name
-          #  - tnames is the 'name' part for either tvals or tnumvals, or just on its own
-          #  - tvals is the "value" part of a field.
-          #  - tnumvals is like tvals, but only has numbers
           
           expr = nil
           case key.to_s
@@ -114,6 +120,7 @@ module Latrs
         end
       end
       
+      # helper routine to create a Latrs::Report::AtomExpr
       def make_name(name, val, op)
         opt = parse_opt(op, val)
         if opt.kind_of?(Array)
@@ -125,6 +132,7 @@ module Latrs
         end
       end
       
+      # helper routine to build a set of Latrs::Report::AtomExpr fellows
       def make_exprs(name,val)
         exprs = Array.new
         if not val[:to].nil? and not val[:to].empty? and not val[:from].nil? and not val[:from].empty?
@@ -148,6 +156,7 @@ module Latrs
         return exprs
       end
       
+      # convert ActiveScaffold operators to sql ones
       def parse_opt(op, val)
         val = val.to_s
         op = op.to_s

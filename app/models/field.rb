@@ -1,3 +1,8 @@
+# A form Field belongs to a #Group or a parent #Field if it is a subfield
+# It can have children #Field s as well, and #Limit s
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class Field < ActiveRecord::Base
   DISP = %w(i l)
 
@@ -12,6 +17,10 @@ class Field < ActiveRecord::Base
     "#{name}"
   end
   
+  # Creating fields can be time consuming. This is a deep copy
+  # routine to take the pain out of things. The only difference
+  # will be the resulting +field_id+, and the name (which will have 
+  # "(copy)" appended to it
   def deep_copy(src)
     field = Field.find(src)
     name = field.name
@@ -42,6 +51,9 @@ class Field < ActiveRecord::Base
     return self.id
   end
 
+  # we use this to determine if a field can be moved into 
+  # another group. returns true if there is more than one group
+  # (ie another one to move to), *and* we aren't a subfield
   def authorized_for_move?
     if (self.group_id?)
       return (Group.count(:conditions => ["template_id = ?", 

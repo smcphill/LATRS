@@ -1,3 +1,9 @@
+# provides the interface to build your own report. a lot of the heavy
+# lifting is done by ActiveScaffold
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
+
 class Report::TestablesController < ApplicationController
   layout "report"
 

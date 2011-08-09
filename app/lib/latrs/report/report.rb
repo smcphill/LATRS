@@ -1,9 +1,20 @@
 module Latrs
+  # our home-grown reporting module. this is an attempt
+  # to build a manageable query structure around SQL
+  # that can be easily parsed / walked. This makes
+  # going from a pseudo natural language to a 
+  # specific set of rules much easier
+  # Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+  # Copyright:: Copyright (c) 2011 Steven McPhillips
+  # License::   See +license+ in root directory for license details
   module Report
     
+    # 'abstract' superclass. only there so we can
+    # say all sort of expressions are the same
     class Expr
     end
     
+    # corresponds to a +WHERE+ clause in +SQL+
     class ClauseExpr < Latrs::Report::Expr
       @ops
       @exprs
@@ -26,6 +37,8 @@ module Latrs
       end
     end
     
+    # corresponds to a comparitor used in an +SQL WHERE+ clause
+    # eg: "name = 'Steven'", or "patient_id is null".
     class AtomExpr < Latrs::Report::Expr
       @field
       @value
@@ -38,6 +51,7 @@ module Latrs
         @op = op
       end
 
+      # provides the sql
       def to_s
         if not @value.empty?
           if @value.match(/\A[+-]?\d+\.?\d*\Z/).nil?
@@ -49,7 +63,10 @@ module Latrs
         end
       end
     end
-
+    
+    # a helper class to deal with datetimes - 
+    # we don't really want to play around with
+    # the value, field or operator with these
     class TimeExpr < Latrs::Report::AtomExpr
       def to_s
         "#{@field} #{@op} #{@value}"

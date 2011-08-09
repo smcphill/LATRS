@@ -1,3 +1,8 @@
+# controller for dealing with patients in data entry
+# a lot of the heavy lifting is done by ActiveScaffold
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class Entry::PatientsController < ApplicationController
   layout "entry", :except => [:rn]
   active_scaffold :patients do | config |
@@ -30,7 +35,8 @@ class Entry::PatientsController < ApplicationController
     config.columns[:testables].associated_limit = 100
 
   end
-  
+
+  # find a patient by RN. This is used for some AJAXy goodness
   def rn
     if (params[:id].nil?)
       render :text => "<p>Enter the patient's RN to retrieve details</p>"

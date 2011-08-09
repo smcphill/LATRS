@@ -1,3 +1,8 @@
+# This is the model for the test-specific data as defined
+# by the corresponding template.
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class Testableitem < ActiveRecord::Base
   belongs_to :testable
   #  validates_numericality_of :value, :if => Proc.new {|i| i.datatype == "Numericfield" }

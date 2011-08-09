@@ -1,3 +1,6 @@
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class Template < ActiveRecord::Base
   after_create :set_defaults
   after_update :set_activity
@@ -20,6 +23,8 @@ class Template < ActiveRecord::Base
     "#{name}"
   end
 
+  # templates can only be activated when data can be stored for it. 
+  # this means templates with no fields cannot be activated
   def validate_active_status
     if (is_active and fields.count() == 0)
       errors.add(:fields, ": active forms require at least one data field.")

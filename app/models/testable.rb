@@ -1,3 +1,7 @@
+# This is the model for our test results.
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class Testable < ActiveRecord::Base
   belongs_to :staff
   belongs_to :patient
@@ -26,27 +30,34 @@ class Testable < ActiveRecord::Base
     #{datatype}
   end
 
+  # all the data stored in this test
   def tvals
     testableitems.collect {|t| t.value }
   end
 
+  # all the data stored in this test, to be 
+  # played with numerically
   def tnumvals
     testableitems.collect {|t| t.value }
   end
 
-
+  # name of all the data stored in this test
   def tnames
     testableitems.collect {|t| t.name }
   end
 
+  # pretty format of +time_in+ 
   def time_in_str
     "#{time_in.strftime(FULLTIME).gsub(/ 0(\d\D)/, ' \1')}"
   end
 
+  # pretty format of +time_out+ 
   def time_out_str
     "#{time_out.strftime(FULLTIME).gsub(/ 0(\d\D)/, ' \1')}"
   end
 
+  # how long did this test take to process. +time_out - time_in+
+  # outputs something like 'X hours, Y minutes, Z seconds'
   def time_taken
     time_spent = time_out.to_datetime - time_in.to_datetime
     hours, minutes, seconds, fracs = Date.day_fraction_to_time(time_spent.to_f)

@@ -1,6 +1,13 @@
+# Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
+# Copyright:: Copyright (c) 2011 Steven McPhillips
+# License::   See +license+ in root directory for license details
 class Session < ActiveRecord::Base
 
-  # invoke with: ./script/runner -e development "Session.sweep();"
+  # invoke with: +./script/runner -e [development|test|production] "Session.sweep();"+
+  # +time_ago+ can be [0-9][mhd], where m = minutes, h = hours and d = days.
+  # this will determine how old a session has to be for it to be destroyed.
+  # the default is 1 day. however, all sessions created more than a week ago will
+  # always be destroyed
   def self.sweep(time_ago = nil)
     time = case time_ago
            when /^(\d+)m$/ then Time.now - $1.to_i.minute
