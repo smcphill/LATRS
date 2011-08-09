@@ -6,11 +6,11 @@
   <p>
     This report was created on <strong><%= Time.now.strftime(FULLTIME); %></strong>, using the following conditions:
   </p>
-  <blockquote>
-    <%= @report_data[:rule] %>
-  </blockquote>
   <p>
     <strong><%= @report_data[:tests] %></strong> matching tests were found.
   </p>
 </div>
 <%= render :partial => 'report', :layout => false, :locals => {:report_data => @report_data} %>
+<blockquote>
+  <%= @report_data[:rule] %>
+</blockquote>

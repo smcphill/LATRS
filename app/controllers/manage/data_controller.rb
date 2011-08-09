@@ -11,7 +11,9 @@ class Manage::DataController < ApplicationController
                             'department.name',
                             'staff.name',
                             'patient.name',
-                            'patient.rn'
+                            'patient.rn',
+                            'patient.age',
+                            'patient.gender'
                             ]);
 
   PATIENT_COLS = Array.new(['id',
