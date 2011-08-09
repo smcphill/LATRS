@@ -15,7 +15,7 @@ in the export, or request a full export.
     </dd>
     <dt><%= label_tag("time", "Time period:") %>
     <dd>
-      <%= select_tag("time", options_for_select(1..31), :class=>'days') %>
+      <%= select_tag("time", options_for_select(1..52), :class=>'days') %>
       <%= select_tag("type", options_for_select(%w{days weeks}), :class=>'days') %>
     </dd>
     <dt><%= label_tag("all", "Full export:") %>
