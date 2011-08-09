@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>preview (Entry::TestablesController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/entry/testables_controller.rb, line 60</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">preview</span>
+    <span class="ruby-ivar">@form</span> = <span class="ruby-constant">FormManager</span>.<span class="ruby-identifier">instance</span>.<span class="ruby-identifier">previewForm</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>])
+    <span class="ruby-ivar">@testable</span> = <span class="ruby-constant">Testable</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-ivar">@testable</span>.<span class="ruby-identifier">datatype</span> = <span class="ruby-ivar">@form</span>.<span class="ruby-identifier">name</span>      
+    <span class="ruby-ivar">@form</span>.<span class="ruby-identifier">nbr_fields</span>.<span class="ruby-identifier">times</span> { <span class="ruby-ivar">@testable</span>.<span class="ruby-identifier">testableitems</span>.<span class="ruby-identifier">build</span> }
+    <span class="ruby-ivar">@form</span>.<span class="ruby-identifier">subtests</span>.<span class="ruby-identifier">count</span>.<span class="ruby-identifier">times</span> { <span class="ruby-ivar">@testable</span>.<span class="ruby-identifier">subtests</span>.<span class="ruby-identifier">build</span> }
+    <span class="ruby-ivar">@testable</span>.<span class="ruby-identifier">subtests</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">s</span>,<span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+      <span class="ruby-ivar">@form</span>.<span class="ruby-identifier">subtests</span>[<span class="ruby-identifier">i</span>].<span class="ruby-identifier">nbr_fields</span>.<span class="ruby-identifier">times</span> {<span class="ruby-identifier">s</span>.<span class="ruby-identifier">testableitems</span>.<span class="ruby-identifier">build</span>}
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-ivar">@form</span>.<span class="ruby-identifier">description</span> = <span class="ruby-node">&quot;&lt;span style='color:red'&gt;This is a &lt;b&gt;preview&lt;/b&gt; of the form&lt;/span&gt;&lt;br/&gt;#{@form.description}&quot;</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-identifier">:layout</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'preview'</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

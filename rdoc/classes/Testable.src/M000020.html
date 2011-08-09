@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>add_lost_subtests (Testable)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/models/testable.rb, line 69</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_lost_subtests</span>(<span class="ruby-identifier">subs</span>)
+    <span class="ruby-comment cmt"># first off, make sure we have enough subtests</span>
+    <span class="ruby-keyword kw">while</span> (<span class="ruby-identifier">subs</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">subtests</span>.<span class="ruby-identifier">length</span>) <span class="ruby-keyword kw">do</span>
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">subtests</span>.<span class="ruby-identifier">build</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">newsubs</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">subs</span>.<span class="ruby-identifier">length</span>,<span class="ruby-keyword kw">nil</span>)
+
+    <span class="ruby-comment cmt">#now, find a workable sort ordering</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">subtests</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">sub</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">sub</span>.<span class="ruby-identifier">datatype</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-identifier">pos</span> = <span class="ruby-identifier">newsubs</span>.<span class="ruby-identifier">index</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">nil?</span>}        
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">pos</span> = <span class="ruby-identifier">subs</span>.<span class="ruby-identifier">index</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">sub</span>.<span class="ruby-identifier">datatype</span>}
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">newsubs</span>[<span class="ruby-identifier">pos</span>] = <span class="ruby-keyword kw">true</span>
+      <span class="ruby-identifier">sub</span>[<span class="ruby-identifier">:pos</span>] = <span class="ruby-identifier">pos</span>
+    <span class="ruby-keyword kw">end</span>
+    
+    <span class="ruby-comment cmt">#and do the sort</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">subtests</span>.<span class="ruby-identifier">sort!</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">a</span>,<span class="ruby-identifier">b</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>[<span class="ruby-identifier">:pos</span>] <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">b</span>[<span class="ruby-identifier">:pos</span>]}
+
+    <span class="ruby-comment cmt">#finally, build the testableitems for our empty subtests</span>
+    <span class="ruby-comment cmt"># have a look at your new controller method... some of this stuff is repeated and should live in the model</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">subtests</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">sub</span>, <span class="ruby-identifier">index</span> <span class="ruby-operator">|</span>
+      <span class="ruby-identifier">item_count</span> = <span class="ruby-identifier">subs</span>[<span class="ruby-identifier">index</span>].<span class="ruby-identifier">nbr_fields</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">sub</span>.<span class="ruby-identifier">testableitems</span>.<span class="ruby-identifier">length</span>
+      <span class="ruby-identifier">item_count</span>.<span class="ruby-identifier">times</span> {<span class="ruby-identifier">sub</span>.<span class="ruby-identifier">testableitems</span>.<span class="ruby-identifier">build</span>}
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

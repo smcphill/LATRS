@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>field_input (Entry::TestablesHelper)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/helpers/entry/testables_helper.rb, line 42</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">field_input</span>(<span class="ruby-identifier">field</span>, <span class="ruby-identifier">builder</span>)
+    <span class="ruby-identifier">input</span> = <span class="ruby-value str">&quot;&quot;</span>
+    <span class="ruby-identifier">opts</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">hopts</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">limits</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+      <span class="ruby-comment cmt"># set up options: multi-select, include blank</span>
+      <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">:include_blank</span>] = <span class="ruby-keyword kw">true</span> <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">is_required</span> <span class="ruby-keyword kw">and</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">is_multi</span>
+      <span class="ruby-identifier">default_limit</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">limits</span>.<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span> <span class="ruby-identifier">l</span>.<span class="ruby-identifier">is_default</span> }.<span class="ruby-identifier">first</span>
+      <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">:selected</span>] = <span class="ruby-identifier">default_limit</span>.<span class="ruby-identifier">name</span> <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">default_limit</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">hopts</span>[<span class="ruby-identifier">:multiple</span>] = <span class="ruby-keyword kw">true</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">is_multi</span>
+      <span class="ruby-identifier">input</span> = <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">select</span>(<span class="ruby-identifier">:value</span>,
+                     <span class="ruby-identifier">field</span>.<span class="ruby-identifier">limits</span>.<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span> [ <span class="ruby-identifier">l</span>.<span class="ruby-identifier">name</span>, <span class="ruby-identifier">l</span>.<span class="ruby-identifier">name</span>] }, 
+                     <span class="ruby-identifier">opts</span>,
+                     <span class="ruby-identifier">hopts</span>)
+      <span class="ruby-identifier">id</span> = <span class="ruby-identifier">input</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp re">/id=&quot;(.+?)&quot;/</span>)[<span class="ruby-value">0</span>][<span class="ruby-value">4</span><span class="ruby-operator">..</span><span class="ruby-value">-2</span>]
+      <span class="ruby-identifier">hash_var</span> = <span class="ruby-identifier">id</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;s&quot;</span>
+      <span class="ruby-identifier">hash_vals</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">limits</span>.<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;'#{l.name}':'#{l.position}'&quot;</span> }
+      <span class="ruby-identifier">input</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">javascript_tag</span> <span class="ruby-keyword kw">do</span>
+        <span class="ruby-node">&quot;var #{hash_var} = new Hash({#{hash_vals.join(',')}});\n&quot;</span> <span class="ruby-operator">+</span>
+          <span class="ruby-node">&quot;$('#{id}').observe('change', function(event,obj) {caller = this;displayChildren(event,obj,caller);});\n&quot;</span> <span class="ruby-operator">+</span> 
+          <span class="ruby-node">&quot;function hidefields#{field.object_id.to_s.gsub(/-/,'_')}() {Event.simulate($('#{id}'), 'change');}&quot;</span>;
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">else</span>      
+      <span class="ruby-identifier">input</span> = <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">text_field</span>(<span class="ruby-identifier">:value</span>, 
+                                 <span class="ruby-identifier">:class</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'short'</span>)
+      <span class="ruby-identifier">input</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">javascript_tag</span> <span class="ruby-keyword kw">do</span>
+        <span class="ruby-node">&quot;function hidefields#{field.object_id.to_s.gsub(/-/,'_')}() {}&quot;</span>;
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">input</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">hidden_field</span>(<span class="ruby-identifier">:name</span>, <span class="ruby-identifier">:value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">dbName</span>)
+    <span class="ruby-identifier">input</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">hidden_field</span>(<span class="ruby-identifier">:label</span>, <span class="ruby-identifier">:value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">label</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">label</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">input</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">hidden_field</span>(<span class="ruby-identifier">:datatype</span>, <span class="ruby-identifier">:value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">type</span>)
+    <span class="ruby-identifier">input</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">hidden_field</span>(<span class="ruby-identifier">:required</span>, <span class="ruby-identifier">:value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">is_required</span>.<span class="ruby-identifier">to_s</span>)
+    <span class="ruby-identifier">input</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">hidden_field</span>(<span class="ruby-identifier">:max</span>, <span class="ruby-identifier">:value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">max</span>, <span class="ruby-identifier">:disabled</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">max</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">input</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">hidden_field</span>(<span class="ruby-identifier">:min</span>, <span class="ruby-identifier">:value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">min</span>, <span class="ruby-identifier">:disabled</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">field</span>.<span class="ruby-identifier">min</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-node">&quot;#{input} #{field.label}&quot;</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

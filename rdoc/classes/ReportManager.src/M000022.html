@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>malaria_strain (ReportManager)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/lib/report_manager.rb, line 19</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">malaria_strain</span>
+    <span class="ruby-identifier">malaria</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">malaria</span>[<span class="ruby-identifier">:name</span>] = <span class="ruby-value str">&quot;Malaria: mixed strain&quot;</span>
+    <span class="ruby-identifier">numvalue</span> = <span class="ruby-node">&quot; AND #{DB_TNUMVALS_SEARCH} &gt;= 4&quot;</span>
+    <span class="ruby-identifier">malaria</span>[<span class="ruby-identifier">:desc</span>] = <span class="ruby-value str">&quot;Report on the number of Malaria tests with more than one 'P' strain (including PF), where the PF RBC Infection is &gt;= 4%\n&quot;</span>
+    <span class="ruby-identifier">malaria</span>[<span class="ruby-identifier">:sql</span>] = <span class="ruby-value str">&quot;SELECT testables.* \nFROM testables INNER JOIN testableitems ON testableitems.testable_id = testables.id INNER JOIN testableitems as ti2 ON ti2.testable_id = testables.id AND ti2.id != testableitems.id\nWHERE testableitems.name = \&quot;PF::RBC Infection\&quot;\nAND (ti2.name = 'PO' or ti2.name = 'PM' or ti2.name = 'PV')\n&quot;</span>
+    <span class="ruby-identifier">malaria</span>[<span class="ruby-identifier">:sql</span>] <span class="ruby-operator">+=</span> <span class="ruby-identifier">numvalue</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">malaria</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

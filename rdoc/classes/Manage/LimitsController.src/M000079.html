@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>after_update_save (Manage::LimitsController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/manage/limits_controller.rb, line 34</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">after_update_save</span>(<span class="ruby-identifier">record</span>)
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">record</span>.<span class="ruby-identifier">is_default</span>)
+      <span class="ruby-constant">Limit</span>.<span class="ruby-identifier">all</span>(<span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> 
+                [<span class="ruby-value str">&quot;field_id = ? AND id != ?&quot;</span>, <span class="ruby-identifier">record</span>.<span class="ruby-identifier">field_id</span>, <span class="ruby-identifier">record</span>.<span class="ruby-identifier">id</span>]).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">l</span>.<span class="ruby-identifier">is_default</span> = <span class="ruby-keyword kw">false</span>
+        <span class="ruby-identifier">l</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-keyword kw">end</span>      
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

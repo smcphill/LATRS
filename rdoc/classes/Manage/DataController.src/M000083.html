@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>export (Manage::DataController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/manage/data_controller.rb, line 39</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">export</span>
+    <span class="ruby-identifier">start</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">midnight</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-keyword kw">not</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:all</span>])
+      <span class="ruby-identifier">time</span> = <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:type</span>]
+             <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;days&quot;</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">start</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:time</span>].<span class="ruby-identifier">to_i</span>.<span class="ruby-identifier">day</span>
+             <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;weeks&quot;</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">start</span> <span class="ruby-operator">-</span> (<span class="ruby-value">7</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:time</span>].<span class="ruby-identifier">to_i</span>).<span class="ruby-identifier">day</span>
+             <span class="ruby-keyword kw">else</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">at</span>(<span class="ruby-value">0</span>)
+             <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">time</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">at</span>(<span class="ruby-value">0</span>)
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">book</span> = <span class="ruby-constant">Spreadsheet</span><span class="ruby-operator">::</span><span class="ruby-constant">Workbook</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">test_names</span> = <span class="ruby-constant">Testable</span>.<span class="ruby-identifier">all</span>(<span class="ruby-identifier">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;DISTINCT(datatype)&quot;</span>,
+                              <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value str">&quot;time_in &gt;= ? AND time_in &lt;= ?&quot;</span>, <span class="ruby-identifier">time</span>, <span class="ruby-identifier">start</span>]
+                              ).<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span><span class="ruby-identifier">t</span>.<span class="ruby-identifier">datatype</span>}
+    <span class="ruby-identifier">test_names</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">sheet</span> = <span class="ruby-identifier">book</span>.<span class="ruby-identifier">create_worksheet</span> <span class="ruby-identifier">:name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">t</span>
+      <span class="ruby-identifier">test_cols</span> = <span class="ruby-constant">Testableitem</span>.<span class="ruby-identifier">all</span>(<span class="ruby-identifier">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;DISTINCT(name), label&quot;</span>,
+                                   <span class="ruby-identifier">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:name</span>,
+                                   <span class="ruby-identifier">:joins</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:testable</span>,
+                                   <span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> {                                     
+                                     <span class="ruby-identifier">:testables</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-identifier">:datatype</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">t</span>}
+                                   }
+                                   ).<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span><span class="ruby-identifier">c</span>.<span class="ruby-identifier">label</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-value">? </span>[<span class="ruby-identifier">c</span>.<span class="ruby-identifier">name</span>] <span class="ruby-operator">:</span> [<span class="ruby-identifier">c</span>.<span class="ruby-identifier">name</span>,<span class="ruby-identifier">c</span>.<span class="ruby-identifier">label</span>]}
+      <span class="ruby-identifier">write_header</span>(<span class="ruby-identifier">sheet</span>, 
+                   <span class="ruby-constant">GENERAL_COLS</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">test_cols</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span><span class="ruby-identifier">c</span>[<span class="ruby-value">1</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-value">? </span><span class="ruby-identifier">c</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{c[0]} (#{c[1]})&quot;</span>})
+      <span class="ruby-constant">Testable</span>.<span class="ruby-identifier">all</span>(<span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value str">&quot;datatype = ? AND time_in &gt;= ? AND time_in &lt;= ?&quot;</span>, <span class="ruby-identifier">t</span>, <span class="ruby-identifier">time</span>, <span class="ruby-identifier">start</span>], 
+                   <span class="ruby-identifier">:include</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:testableitems</span>
+                   ).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">test</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">write_test</span>(<span class="ruby-identifier">sheet</span>, 
+                   <span class="ruby-identifier">test</span>, 
+                   <span class="ruby-constant">GENERAL_COLS</span>, 
+                   <span class="ruby-identifier">test_cols</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span><span class="ruby-identifier">c</span>[<span class="ruby-value">0</span>]})
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+    
+    <span class="ruby-comment cmt"># and now, the patient registry</span>
+    <span class="ruby-identifier">patient_sheet</span> = <span class="ruby-identifier">book</span>.<span class="ruby-identifier">create_worksheet</span> <span class="ruby-identifier">:name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Patient Registry&quot;</span>
+    <span class="ruby-identifier">write_header</span>(<span class="ruby-identifier">patient_sheet</span>, <span class="ruby-constant">PATIENT_COLS</span>)
+    <span class="ruby-constant">Patient</span>.<span class="ruby-identifier">all</span>().<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">patient</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">write_test</span>(<span class="ruby-identifier">patient_sheet</span>, <span class="ruby-identifier">patient</span>, <span class="ruby-constant">PATIENT_COLS</span>)
+    <span class="ruby-keyword kw">end</span>
+    
+    <span class="ruby-identifier">data</span> = <span class="ruby-constant">StringIO</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">book</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">data</span>
+    <span class="ruby-identifier">filename</span> = <span class="ruby-node">&quot;latrs-#{time.strftime(TIME_STR)}-TO-#{start.strftime(TIME_STR)}&quot;</span>
+
+    <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">send_data</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">string</span>, <span class="ruby-identifier">:type=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">&quot;application/excel&quot;</span>,
+                                           <span class="ruby-identifier">:disposition=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">'attachment'</span>,
+                                           <span class="ruby-identifier">:filename</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;#{filename}.xls&quot;</span>
+      }
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">xml</span> { 
+        <span class="ruby-identifier">render</span> <span class="ruby-identifier">:xml</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to_xml</span>(<span class="ruby-identifier">book</span>,<span class="ruby-identifier">time</span>,<span class="ruby-identifier">start</span>)
+      }
+    <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

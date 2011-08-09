@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>auto_complete_for_patient_rn (Entry::TestablesController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/entry/testables_controller.rb, line 152</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">auto_complete_for_patient_rn</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:pid</span>].<span class="ruby-identifier">nil?</span>
+      <span class="ruby-ivar">@p</span> = <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">pid</span> = <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:pid</span>].<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;%&quot;</span>
+      <span class="ruby-ivar">@p</span> = <span class="ruby-constant">Patient</span>.<span class="ruby-identifier">all</span>(<span class="ruby-identifier">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value str">&quot;lower(rn) like ?&quot;</span>, <span class="ruby-identifier">pid</span>])
+    <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'autocomplete'</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

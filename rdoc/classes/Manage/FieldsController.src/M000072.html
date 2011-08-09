@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>update_table_config (Manage::FieldsController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/manage/fields_controller.rb, line 132</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">update_table_config</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>]
+      <span class="ruby-identifier">field</span> = <span class="ruby-constant">Field</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>])
+      <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">field</span>.<span class="ruby-identifier">parent_id</span>
+        <span class="ruby-identifier">active_scaffold_config</span>.<span class="ruby-identifier">create</span>.<span class="ruby-identifier">columns</span>.<span class="ruby-identifier">exclude</span> <span class="ruby-identifier">:par_hi_lim</span>
+        <span class="ruby-identifier">active_scaffold_config</span>.<span class="ruby-identifier">update</span>.<span class="ruby-identifier">columns</span>.<span class="ruby-identifier">exclude</span> <span class="ruby-identifier">:par_hi_lim</span>
+        <span class="ruby-identifier">active_scaffold_config</span>.<span class="ruby-identifier">create</span>.<span class="ruby-identifier">columns</span>.<span class="ruby-identifier">exclude</span> <span class="ruby-identifier">:par_lo_lim</span>
+        <span class="ruby-identifier">active_scaffold_config</span>.<span class="ruby-identifier">update</span>.<span class="ruby-identifier">columns</span>.<span class="ruby-identifier">exclude</span> <span class="ruby-identifier">:par_lo_lim</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">active_scaffold_config</span>.<span class="ruby-identifier">create</span>.<span class="ruby-identifier">columns</span>.<span class="ruby-identifier">add</span> <span class="ruby-identifier">:par_hi_lim</span>
+        <span class="ruby-identifier">active_scaffold_config</span>.<span class="ruby-identifier">update</span>.<span class="ruby-identifier">columns</span>.<span class="ruby-identifier">add</span> <span class="ruby-identifier">:par_hi_lim</span>
+        <span class="ruby-identifier">active_scaffold_config</span>.<span class="ruby-identifier">create</span>.<span class="ruby-identifier">columns</span>.<span class="ruby-identifier">add</span> <span class="ruby-identifier">:par_lo_lim</span>
+        <span class="ruby-identifier">active_scaffold_config</span>.<span class="ruby-identifier">update</span>.<span class="ruby-identifier">columns</span>.<span class="ruby-identifier">add</span> <span class="ruby-identifier">:par_lo_lim</span>
+      <span class="ruby-keyword kw">end</span>
+      
+      <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">field</span>.<span class="ruby-identifier">limits</span>.<span class="ruby-identifier">any?</span>
+        <span class="ruby-identifier">active_scaffold_config</span>.<span class="ruby-identifier">create</span>.<span class="ruby-identifier">columns</span>.<span class="ruby-identifier">exclude</span> <span class="ruby-identifier">:is_multi</span>
+        <span class="ruby-identifier">active_scaffold_config</span>.<span class="ruby-identifier">update</span>.<span class="ruby-identifier">columns</span>.<span class="ruby-identifier">exclude</span> <span class="ruby-identifier">:is_multi</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">active_scaffold_config</span>.<span class="ruby-identifier">create</span>.<span class="ruby-identifier">columns</span>.<span class="ruby-identifier">add</span> <span class="ruby-identifier">:is_multi</span>
+        <span class="ruby-identifier">active_scaffold_config</span>.<span class="ruby-identifier">update</span>.<span class="ruby-identifier">columns</span>.<span class="ruby-identifier">add</span> <span class="ruby-identifier">:is_multi</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

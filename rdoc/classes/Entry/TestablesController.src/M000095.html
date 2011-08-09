@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>create (Entry::TestablesController)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/controllers/entry/testables_controller.rb, line 102</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:testable</span>][<span class="ruby-identifier">:patient_id</span>][<span class="ruby-identifier">:rn</span>].<span class="ruby-identifier">blank?</span>
+      <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:testable</span>].<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">:patient_id</span>)
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">save_params</span> = <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:testable</span>].<span class="ruby-identifier">dup</span>
+    <span class="ruby-identifier">save_params</span>[<span class="ruby-identifier">:testableitems_attributes</span>] = <span class="ruby-identifier">prep_create</span>(<span class="ruby-identifier">save_params</span>[<span class="ruby-identifier">:testableitems_attributes</span>])
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">save_params</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">:subtests_attributes</span>)
+      <span class="ruby-identifier">save_params</span>[<span class="ruby-identifier">:subtests_attributes</span>].<span class="ruby-identifier">each_pair</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>,<span class="ruby-identifier">subtest</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">subtest</span>[<span class="ruby-identifier">:saveme</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;false&quot;</span>
+        <span class="ruby-identifier">subtest</span>[<span class="ruby-identifier">:testableitems_attributes</span>] = <span class="ruby-identifier">prep_create</span>(<span class="ruby-identifier">subtest</span>[<span class="ruby-identifier">:testableitems_attributes</span>])
+        <span class="ruby-identifier">subtest</span>[<span class="ruby-identifier">:time_in</span>] = <span class="ruby-identifier">save_params</span>[<span class="ruby-identifier">:time_in</span>]
+        <span class="ruby-identifier">subtest</span>[<span class="ruby-identifier">:time_out</span>] = <span class="ruby-identifier">save_params</span>[<span class="ruby-identifier">:time_out</span>]
+        <span class="ruby-identifier">subtest</span>[<span class="ruby-identifier">:staff_id</span>] = <span class="ruby-identifier">save_params</span>[<span class="ruby-identifier">:staff_id</span>]
+        <span class="ruby-identifier">subtest</span>[<span class="ruby-identifier">:patient_id</span>] = <span class="ruby-identifier">save_params</span>[<span class="ruby-identifier">:patient_id</span>]
+        <span class="ruby-identifier">subtest</span>[<span class="ruby-identifier">:department_id</span>] = <span class="ruby-identifier">save_params</span>[<span class="ruby-identifier">:department_id</span>]
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt"># i don't know why, but our nested patient info isn't triggering the correct</span>
+    <span class="ruby-comment cmt"># association. i have something like params[:testable][:patient_id][:rn], but</span>
+    <span class="ruby-comment cmt"># this is getting ignored, and the first patient in the db is being used.</span>
+    <span class="ruby-comment cmt"># let's fix this. we already know that the RN is (mostly) correct, but it</span>
+    <span class="ruby-comment cmt"># isn't a required field anyway...</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">save_params</span>[<span class="ruby-identifier">:patient_id</span>] <span class="ruby-keyword kw">and</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">save_params</span>[<span class="ruby-identifier">:patient_id</span>][<span class="ruby-identifier">:rn</span>].<span class="ruby-identifier">blank?</span>)
+      <span class="ruby-identifier">patient</span> = <span class="ruby-constant">Patient</span>.<span class="ruby-identifier">find_by_rn</span>(<span class="ruby-identifier">save_params</span>[<span class="ruby-identifier">:patient_id</span>][<span class="ruby-identifier">:rn</span>])
+      <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">patient</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-identifier">save_params</span>[<span class="ruby-identifier">:patient_id</span>] = <span class="ruby-identifier">patient</span>.<span class="ruby-identifier">id</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">save_params</span>[<span class="ruby-identifier">:patient_id</span>] = <span class="ruby-keyword kw">nil</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-ivar">@testable</span> = <span class="ruby-constant">Testable</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">save_params</span>)
+    <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@testable</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:notice</span>] = <span class="ruby-value str">&quot;Data entry complete&quot;</span>
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'index'</span>, <span class="ruby-identifier">:controller</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'/entry'</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-ivar">@form</span> <span class="ruby-operator">||=</span><span class="ruby-constant">YAML</span><span class="ruby-operator">::</span><span class="ruby-identifier">load</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:form</span>])
+      <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-identifier">:error</span>] = <span class="ruby-ivar">@testable</span>.<span class="ruby-identifier">errors</span>
+      <span class="ruby-ivar">@testable</span> = <span class="ruby-constant">Testable</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:testable</span>])
+      <span class="ruby-keyword kw">begin</span>
+        <span class="ruby-identifier">patient</span> = <span class="ruby-constant">Patient</span>.<span class="ruby-identifier">find_by_rn</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:testable</span>][<span class="ruby-identifier">:patient_id</span>][<span class="ruby-identifier">:rn</span>])
+        <span class="ruby-ivar">@testable</span>.<span class="ruby-identifier">patient</span> = <span class="ruby-identifier">patient</span>
+      <span class="ruby-keyword kw">rescue</span>
+        <span class="ruby-ivar">@testable</span>.<span class="ruby-identifier">patient</span> = <span class="ruby-keyword kw">nil</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-ivar">@testable</span>.<span class="ruby-identifier">add_lost_subtests</span>(<span class="ruby-ivar">@form</span>.<span class="ruby-identifier">subtests</span>)
+
+      <span class="ruby-identifier">render</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'new'</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

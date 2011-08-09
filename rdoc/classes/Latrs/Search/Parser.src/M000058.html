@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>parse (Latrs::Search::Parser)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/lib/latrs/search/parser.rb, line 28</span>
+      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">parse</span>
+        <span class="ruby-identifier">exprs</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+        <span class="ruby-identifier">has_tnames</span> = <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">:tnames</span>)
+        <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">each_pair</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>,<span class="ruby-identifier">val</span><span class="ruby-operator">|</span>
+          
+          <span class="ruby-identifier">expr</span> = <span class="ruby-keyword kw">nil</span>
+          <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>
+          <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;time_in&quot;</span>
+            <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:from</span>].<span class="ruby-identifier">empty?</span> <span class="ruby-keyword kw">and</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:to</span>].<span class="ruby-identifier">empty?</span>
+              <span class="ruby-identifier">e1</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">AtomExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">key</span>, 
+                                               <span class="ruby-constant">Time</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">val</span>[<span class="ruby-identifier">:from</span>]).<span class="ruby-identifier">strftime</span>(<span class="ruby-value str">'%F %T'</span>), 
+                                               <span class="ruby-value str">'&gt;='</span>)
+              <span class="ruby-identifier">e2</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">AtomExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">key</span>, 
+                                               <span class="ruby-constant">Time</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">val</span>[<span class="ruby-identifier">:to</span>]).<span class="ruby-identifier">strftime</span>(<span class="ruby-value str">'%F %T'</span>), 
+                                               <span class="ruby-value str">'&lt;='</span>)
+              <span class="ruby-identifier">expr</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">ClauseExpr</span>.<span class="ruby-identifier">new</span>([<span class="ruby-value str">'AND'</span>], [<span class="ruby-identifier">e1</span>, <span class="ruby-identifier">e2</span>])
+            <span class="ruby-keyword kw">elsif</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:from</span>].<span class="ruby-identifier">empty?</span>
+              <span class="ruby-identifier">expr</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">AtomExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">key</span>, 
+                                                 <span class="ruby-constant">Time</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">val</span>[<span class="ruby-identifier">:from</span>]).<span class="ruby-identifier">strftime</span>(<span class="ruby-value str">'%F %T'</span>), 
+                                                 <span class="ruby-value str">'&gt;='</span>)
+            <span class="ruby-keyword kw">elsif</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:to</span>].<span class="ruby-identifier">empty?</span>
+              <span class="ruby-identifier">expr</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">AtomExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">key</span>, 
+                                                 <span class="ruby-constant">Time</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">val</span>[<span class="ruby-identifier">:to</span>]).<span class="ruby-identifier">strftime</span>(<span class="ruby-value str">'%F %T'</span>), 
+                                                 <span class="ruby-value str">'&lt;='</span>)
+            <span class="ruby-keyword kw">end</span>
+          <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;time_taken&quot;</span>
+            <span class="ruby-identifier">tkey</span> = <span class="ruby-constant">DB_TIME_TAKEN_SEARCH</span>
+            <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:from</span>].<span class="ruby-identifier">empty?</span> <span class="ruby-keyword kw">and</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:to</span>].<span class="ruby-identifier">empty?</span>
+              <span class="ruby-identifier">e1</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">TimeExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">tkey</span>, <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:from</span>], <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:opt</span>])
+              <span class="ruby-identifier">e2</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">TimeExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">tkey</span>, <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:to</span>], <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:opt</span>])
+              <span class="ruby-identifier">expr</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">ClauseExpr</span>.<span class="ruby-identifier">new</span>([<span class="ruby-value str">'AND'</span>], [<span class="ruby-identifier">e1</span>, <span class="ruby-identifier">e2</span>])
+            <span class="ruby-keyword kw">elsif</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:from</span>].<span class="ruby-identifier">empty?</span>
+              <span class="ruby-identifier">expr</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">TimeExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">tkey</span>, <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:from</span>], <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:opt</span>])
+            <span class="ruby-keyword kw">elsif</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:to</span>].<span class="ruby-identifier">empty?</span>
+              <span class="ruby-identifier">expr</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">TimeExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">tkey</span>, <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:to</span>], <span class="ruby-identifier">val</span>[<span class="ruby-identifier">:opt</span>])
+            <span class="ruby-keyword kw">end</span>
+          <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;tnames&quot;</span>
+            <span class="ruby-comment cmt"># do we have any values?</span>
+            <span class="ruby-comment cmt"># if tvals and tnumvals both missing, we're on our own</span>
+            <span class="ruby-comment cmt"># elsif tvals, check to and from</span>
+            <span class="ruby-comment cmt"># else, check tnumvals (to and from)</span>
+            <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">:tvals</span>) <span class="ruby-keyword kw">and</span> <span class="ruby-keyword kw">not</span> <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">:tnumvals</span>)
+              <span class="ruby-identifier">expr</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">AtomExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;testableitems.name&quot;</span>, <span class="ruby-identifier">val</span>, <span class="ruby-value str">&quot;like&quot;</span>)
+            <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">:tvals</span>)
+              <span class="ruby-comment cmt"># check to and from. if both, we'll have 3 exprs</span>
+              <span class="ruby-identifier">e1</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">AtomExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;testableitems.name&quot;</span>, <span class="ruby-identifier">val</span>, <span class="ruby-value str">&quot;like&quot;</span>)
+              <span class="ruby-identifier">es</span> = <span class="ruby-identifier">make_exprs</span>(<span class="ruby-value str">'testableitems.value'</span>, <span class="ruby-ivar">@args</span>[<span class="ruby-identifier">:tvals</span>])
+              <span class="ruby-identifier">es</span> = [<span class="ruby-identifier">e1</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">es</span> <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">e1</span>.<span class="ruby-identifier">nil?</span>
+            <span class="ruby-keyword kw">else</span>
+              <span class="ruby-comment cmt"># we have tnumvals. check to and from. if both, we'll have 3 exprs</span>
+              <span class="ruby-identifier">e1</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">AtomExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;testableitems.name&quot;</span>, <span class="ruby-identifier">val</span>, <span class="ruby-value str">&quot;like&quot;</span>)
+              <span class="ruby-identifier">es</span> = <span class="ruby-identifier">make_exprs</span>(<span class="ruby-constant">DB_TNUMVALS_SEARCH</span>, <span class="ruby-ivar">@args</span>[<span class="ruby-identifier">:tnumvals</span>])              
+              <span class="ruby-identifier">es</span> = [<span class="ruby-identifier">e1</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">es</span> <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">e1</span>.<span class="ruby-identifier">nil?</span>
+            <span class="ruby-keyword kw">end</span>
+            <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">expr</span>.<span class="ruby-identifier">nil?</span>
+              <span class="ruby-identifier">ops</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+              <span class="ruby-identifier">es</span>.<span class="ruby-identifier">reject</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">nil?</span>}
+              (<span class="ruby-identifier">es</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>).<span class="ruby-identifier">times</span> { <span class="ruby-identifier">ops</span>.<span class="ruby-identifier">push</span>(<span class="ruby-value str">'AND'</span>) }
+              <span class="ruby-identifier">expr</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">ClauseExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">ops</span>, <span class="ruby-identifier">es</span>)
+            <span class="ruby-keyword kw">end</span>
+          <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;tvals&quot;</span>, <span class="ruby-value str">&quot;tnumvals&quot;</span>
+            <span class="ruby-comment cmt"># if we have a field name, we can do nothing</span>
+            <span class="ruby-identifier">tkey</span> = <span class="ruby-value str">&quot;testableitems.value&quot;</span>
+            <span class="ruby-identifier">tkey</span> = <span class="ruby-constant">DB_TNUMVALS_SEARCH</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;tnumvals&quot;</span>
+            <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">has_tnames</span>
+              <span class="ruby-identifier">es</span> = <span class="ruby-identifier">make_exprs</span>(<span class="ruby-identifier">tkey</span>, <span class="ruby-identifier">val</span>)
+              <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">es</span>.<span class="ruby-identifier">nil?</span>
+                <span class="ruby-identifier">es</span>.<span class="ruby-identifier">reject</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">nil?</span>}
+                <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">es</span>.<span class="ruby-identifier">nil?</span>
+                  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">es</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+                    <span class="ruby-identifier">expr</span> = <span class="ruby-identifier">es</span>
+                  <span class="ruby-keyword kw">else</span>
+                    <span class="ruby-identifier">ops</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+                    (<span class="ruby-identifier">es</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>).<span class="ruby-identifier">times</span> { <span class="ruby-identifier">ops</span>.<span class="ruby-identifier">push</span>(<span class="ruby-value str">'AND'</span>) }
+                    <span class="ruby-identifier">expr</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">ClauseExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">ops</span>, <span class="ruby-identifier">es</span>)
+                  <span class="ruby-keyword kw">end</span>
+                <span class="ruby-keyword kw">end</span>
+              <span class="ruby-keyword kw">end</span>
+            <span class="ruby-keyword kw">end</span>
+          <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;staff&quot;</span>, <span class="ruby-value str">&quot;department&quot;</span>
+            <span class="ruby-identifier">expr</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">AtomExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;#{key}_id&quot;</span>, <span class="ruby-identifier">val</span>, <span class="ruby-value str">'='</span>)
+          <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;datatype&quot;</span>
+            <span class="ruby-identifier">expr</span> = <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">AtomExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;testables.#{key}&quot;</span>, <span class="ruby-identifier">val</span>, <span class="ruby-value str">'='</span>)
+          <span class="ruby-keyword kw">end</span>
+          <span class="ruby-identifier">exprs</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">expr</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">expr</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">exprs</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>)
+          <span class="ruby-identifier">ops</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+          (<span class="ruby-identifier">exprs</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>).<span class="ruby-identifier">times</span> { <span class="ruby-identifier">ops</span>.<span class="ruby-identifier">push</span>(<span class="ruby-value str">&quot;AND&quot;</span>) }
+          <span class="ruby-keyword kw">return</span> <span class="ruby-constant">Latrs</span><span class="ruby-operator">::</span><span class="ruby-constant">Report</span><span class="ruby-operator">::</span><span class="ruby-constant">ClauseExpr</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">ops</span>, <span class="ruby-identifier">exprs</span>).<span class="ruby-identifier">to_s</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">exprs</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">to_s</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

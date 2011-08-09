@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>deep_copy (Field)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File app/models/field.rb, line 24</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">deep_copy</span>(<span class="ruby-identifier">src</span>)
+    <span class="ruby-identifier">field</span> = <span class="ruby-constant">Field</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">src</span>)
+    <span class="ruby-identifier">name</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">name</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">name</span> <span class="ruby-operator">!~</span> <span class="ruby-regexp re">/\(copy\)\s*$/</span>)
+      <span class="ruby-identifier">name</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">&quot; (copy)&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">name</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">parent_id</span> <span class="ruby-value">? </span><span class="ruby-identifier">field</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">name</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">group_id</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">group_id</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">parent_id</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">parent_id</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">is_required</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">is_required</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">is_multi</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">is_multi</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">type</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">type</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">par_hi_lim</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">par_hi_lim</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">par_lo_lim</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">par_lo_lim</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">display_as</span> = <span class="ruby-identifier">field</span>.<span class="ruby-identifier">display_as</span>
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-identifier">field</span>.<span class="ruby-identifier">limits</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">newL</span> = <span class="ruby-identifier">l</span>.<span class="ruby-identifier">clone</span> <span class="ruby-identifier">:except</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:field_id</span>
+      <span class="ruby-identifier">newL</span>.<span class="ruby-identifier">field_id</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">id</span>
+      <span class="ruby-identifier">newL</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">field</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">newK</span> = <span class="ruby-constant">Field</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-identifier">newK</span>.<span class="ruby-identifier">deep_copy</span>(<span class="ruby-identifier">k</span>.<span class="ruby-identifier">id</span>)
+      <span class="ruby-identifier">newK</span>.<span class="ruby-identifier">parent_id</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">id</span>
+      <span class="ruby-identifier">newK</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">id</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
