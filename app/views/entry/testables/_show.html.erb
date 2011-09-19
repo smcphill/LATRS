@@ -5,7 +5,7 @@
 <div style="float:left;padding-left:20px">
 <%= render :partial => 'testableitems', :locals => {:test => @record} %>
 </div>
-<% if not params[:nested] %>
+<% if not params[:nested] and not @record.patient.nil? %>
   <div style="clear:both;padding-top:2em">
     <h3>Patient Details</h3>
     <span id="patient-loading"></span>
@@ -14,8 +14,8 @@
     <script type="text/javascript">
       patientInfo(<%= @record.patient.rn %>);
       document.observe('latrs:patientloaded', function(event) {
-	  $$('#patient-info .smalldescription').first().hide();
-	  $$('#patient-info .patient-history').first().hide();
+        $$('#patient-info .smalldescription').first().hide();
+        $$('#patient-info .patient-history').first().hide();
       });
     </script>
   </div>
