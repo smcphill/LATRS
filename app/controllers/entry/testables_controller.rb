@@ -121,13 +121,15 @@ class Entry::TestablesController < ApplicationController
     # this is getting ignored, and the first patient in the db is being used.
     # let's fix this. we already know that the RN is (mostly) correct, but it
     # isn't a required field anyway...
-    if (save_params[:patient_id] and not save_params[:patient_id][:rn].blank?)
+    if (save_params[:patient_id] and not save_params[:patient_id][:rn].blank? and not save_params[:patient_id][:rn].nil?)
       patient = Patient.find_by_rn(save_params[:patient_id][:rn])
       if not patient.nil?
         save_params[:patient_id] = patient.id
       else
         save_params[:patient_id] = nil
       end
+    else
+      save_params[:patient_id] = nil      
     end
     @testable = Testable.new(save_params)
     if @testable.save
