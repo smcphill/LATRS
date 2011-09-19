@@ -1,5 +1,9 @@
-<ul>
+<ul id="patient-select-list">
   <% @p.each do |x| %>
     <li><%= x.rn %></li>
   <% end %>
 </ul>
+<script type="text/javascript">
+  $$("#patient-select-list li").invoke('observe','click',function(item){patientInfo(item.text)});
+</script>
+
