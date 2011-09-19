@@ -1,7 +1,5 @@
-require 'net/http'
-require 'uri'
 require 'xml'
-
+require 'open-uri'
 
 # Author::    Steven McPhillips  (mailto:steven.mcphillips@gmail.com)
 # Copyright:: Copyright (c) 2011 Steven McPhillips
@@ -35,9 +33,9 @@ class HealthInfoController < ApplicationController
         logger.debug "No matching patients from HIS HealthInfo"
         return
       end
-    rescue
+    rescue Exception => exc
       redirect_to :action => "auto_complete_for_patient_rn", :controller => "entry/testables", :pid => params[:id]
-      logger.warn "Could not connect to HIS HealthInfo service"
+      logger.warn "Could not connect to HIS HealthInfo service: #{exc.message}"
     end
   end
 
@@ -93,20 +91,14 @@ private
   # make an xml object from our external source
   # if we can't connect to the external source, return nil
   def healthinfo_doc
-    Net::HTTP.version_1_2
-    url = URI.parse(@@rn_url + params[:id])
-    request = Net::HTTP.new(url.host, url.port)
-    request.open_timeout = 2
-    request.read_timeout = 5
     begin
-      request.start
+      timeout(3) do
+        return XML::Parser.string(open("#{@@rn_url}#{params[:id]}").read).parse() 
+      end
     rescue Exception
       return nil
-    else
-      response = request.get(url.path).body
-      request.finish    
-      doc = XML::Parser.string(response).parse() 
-      return doc
+    rescue Timeout::Error
+      return nil
     end
   end
 end
