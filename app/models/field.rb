@@ -13,6 +13,9 @@ class Field < ActiveRecord::Base
   belongs_to :parent, :class_name => "Field", :foreign_key => "parent_id"
   belongs_to :group, :class_name => "Group", :foreign_key => "group_id"
 
+  accepts_nested_attributes_for :limits, :allow_destroy => true
+  accepts_nested_attributes_for :children, :allow_destroy => true
+
   def to_label
     "#{name}"
   end

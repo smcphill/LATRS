@@ -63,8 +63,10 @@ ul.report.menu {width:65%}
  .description { display:block; max-width:400px; float:left; }
 
 /* actions */
-.form-footer a.delete { background-color: #F27785; color:black; }
-.form-footer a.delete:hover { color: #06C; }
+div.template-actions { float:right; width:190px;padding-left:20px;margin-right:10px;;margin-top:1em}
+.template-actions a.delete { background-color: #F27785; color:black; padding:10px;border-radius:5px}
+.template-actions a.export { background-color: #7FCF00; color:black; padding:10px;border-radius:5px}
+.template-actions a:hover { color: #06C; }
 
 /* show stuff */
 .colourCube { display:block;width:1.5em;height:1.5em;float:left; margin-right: 1em;border: 1px solid black}

@@ -54,6 +54,36 @@ class Manage::TemplatesController < ApplicationController
   def index
     redirect_to :controller => '/manage', :action => 'index'
   end
+  
+  def show_import    
+      render :action => :show_import, :layout => 'manage-import'
+  end
+
+  def do_import
+    data = params[:importfile]
+    if data.nil? or not data.original_filename[/.latrs$/] 
+      flash.now[:error] = "Bad file, try again" 
+      render :action => :show_import, :layout => 'manage-import'
+      return
+    end
+    begin
+      newt = Template.import(data.read)
+      data.delete
+      redirect_to :action => :show, :id => newt.id
+      return
+    rescue Exception => exc
+      flash.now[:error] = "Import failed: contact IT support.<br/> <xmp>#{exc.message.inspect}</xmp>"
+      render :action => :show_import, :layout => 'manage-import'
+      return
+    end
+  end
+
+  def export
+    send_data(Template.export(params[:id]), 
+              :type=>"application/json",
+              :disposition=>'attachment',
+              :filename => "export-#{params[:id]}.latrs")
+  end
 
   def render_field
     if (params[:column] == "colour" &&

@@ -5,14 +5,17 @@
 			  :id => params[:id]}, 
 			  :popup => true %> (opens in new window)
 </div>
-
-<%= render :partial => 'show_columns', :locals => {:columns => active_scaffold_config.show.columns} -%>
-
-<p class="form-footer">
-  <%= link_to as_(:close), main_path_to_return, :class => 'cancel' %>
+<div class="template-actions">
+  <%= link_to "Export", {:controller => 'manage/templates', :action => 'export', :id => @record.id}, :class => 'export' %>
   <% delete_link = active_scaffold_config.action_links[:delete] %>
   <%= render_action_link(delete_link, {:id => @record.id}, @record) if 
       !skip_action_link(delete_link) && @record.authorized_for?(:crud_type => 
       delete_link.crud_type, :action => delete_link.action) %>
   <%= loading_indicator_tag(:action => :create, :id => params[:id]) %>
+</div>
+<div class="cleared"></div>
+<%= render :partial => 'show_columns', :locals => {:columns => active_scaffold_config.show.columns} -%>
+
+<p class="form-footer">
+  <%= link_to as_(:close), main_path_to_return, :class => 'cancel' %>
 </p>

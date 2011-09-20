@@ -19,6 +19,8 @@ ActionController::Routing::Routes.draw do |map|
   # admin routes
   map.resources :manages
   map.namespace :manage do |manage|
+    manage.connect '/templates/show_import/', :controller => 'templates', :action => 'show_import'
+    manage.connect '/data/export/:days.:format', :controller => 'data', :action => 'export'
     manage.resources :patients, :active_scaffold => true
     manage.resources :departments, :active_scaffold => true
     manage.resources :staff, :active_scaffold => true
@@ -27,7 +29,6 @@ ActionController::Routing::Routes.draw do |map|
     manage.resources :groups, :active_scaffold => true, :active_scaffold_sortable => true
     manage.resources :limits, :active_scaffold => true, :active_scaffold_sortable => true
     manage.resources :links, :active_scaffold => true
-    manage.connect '/data/export/:days', :controller => 'data', :action => 'export'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

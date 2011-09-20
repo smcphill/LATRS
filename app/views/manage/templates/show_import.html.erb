@@ -1,0 +1,13 @@
+<div class="active-scaffold">
+  <div class="view">
+  <h2>Import Form</h2>
+  <% form_tag({:action => :do_import}, :multipart => true) do %>
+    <label for="importfile">Select File</label> : 
+    <%= file_field_tag 'importfile' %><br/>
+    <%= submit_tag "Upload" %><br/>
+  <% end %>
+  <p class="form-footer">
+    <%= link_to as_(:close), main_path_to_return, :class => 'cancel' %>
+  </p>
+  </div>
+</div>

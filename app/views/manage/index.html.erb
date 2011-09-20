@@ -11,6 +11,7 @@
       <h3>Forms</h3>
       <div class="content">
 	<%= link_to "Add New Form", {:action => 'new', :controller => '/manage/templates'} %>
+	<%= link_to "Import Form", {:action => 'show_import', :controller => '/manage/templates'} %>
 	<label>Manage Form: <%= select_tag "id", "<option></option>" + options_from_collection_for_select(@templates, "id", "name"), {:onchange => "jumpTo(this)"} %></label>
 	<p>
 	  Create a new form, or edit an existing one.

@@ -6,6 +6,8 @@ class Group < ActiveRecord::Base
   belongs_to :template
   has_many :fields, :source => :field, :order => "position"
 
+  accepts_nested_attributes_for :fields, :allow_destroy => true
+
   def to_label
     "#{name}"
   end

@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>LATRS | <%= controller.controller_name %>: <%= controller.action_name %></title>
+  <%= javascript_include_tag :defaults %>
+  <%= active_scaffold_includes %>
+  <%= stylesheet_link_tag 'latrs', :media => 'all' %>  
+</head>
+<body class="manage">
+<div id="header">
+  <h1><a href="<%= url_for :controller => '/manage' %>">LATRS: Administration portal</a></h1>
+  <div class="subhead">
+    <b>LA</b>boratory <b>T</b>est <b>R</b>esults <b>S</b>ystem
+    <%= render :partial => '/shared/devel' %>
+  </div>
+  <div class="date"><%= Time.now().strftime(STDTIME) %></div>
+</div>
+<div style="clear:both"></div>
+<div id="content">
+  <%= render :partial => "shared/notices" %>
+  <%= yield  %>
+</div>
+<div id="footer">
+  <div class="about">
+    LATRS has been developed by <a href="http://www.bordermedia.org">Bordermedia</a> for the 
+    <a href="http://www.maetaoclinic.org/">Mae Tao Clinic</a>. 
+  </div>
+  <ul class="nav">
+    <li><%= link_to "Home", :action=> 'index', :controller=> '/home' %></li>
+    <li><%= link_to "Data Entry", :action => 'index', :controller => '/entry' %></li>
+    <li><%= link_to "Reporting", :action => 'index', :controller => '/report' %></li>
+    <li><%= link_to "Documentation", :action=> 'index', :controller=> '/doc' %></li>
+  </ul>
+</div>
+</body>
+</html>
