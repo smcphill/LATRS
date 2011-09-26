@@ -9,3 +9,4 @@ gem "mongrel", :platforms => [:ruby, :mingw_18]
 gem "calendar_date_select"
 gem "builder"
 gem "spreadsheet", "~> 0.6.5.6"
+gem "json_pure"
